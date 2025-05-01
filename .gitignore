@@ -1,0 +1,15 @@
+
+# Frontend
+/frontend/node_modules/
+/frontend/dist/
+
+# Backend
+/backend/build/
+/backend/.gradle/
+/backend/out/
+/backend/.idea/
+/backend/target/
+
+# Common
+.DS_Store
+*.log
