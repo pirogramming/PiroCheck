@@ -1,0 +1,72 @@
+name: Deploy Frontend & Backend
+
+on:
+  push:
+    branches: [deploy]
+
+jobs:
+  frontend:
+    name: Deploy Frontend to S3
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build frontend
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Deploy to S3
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --delete
+        env:
+          AWS_S3_BUCKET: www.pirocheck.org
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          SOURCE_DIR: frontend/dist
+
+  backend:
+    name: Deploy Backend to EC2
+    needs: frontend
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build backend
+        run: |
+          cd backend
+          ./gradlew build --no-daemon
+
+      - name: Restore PEM file
+        run: |
+          echo "${{ secrets.EC2_SSH_KEY }}" | base64 -d > pirocheck.pem
+          chmod 400 pirocheck.pem
+
+      - name: Copy JAR to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i pirocheck.pem backend/build/libs/*.jar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app.jar
+
+      - name: Restart Spring Boot on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no -i pirocheck.pem ubuntu@${{ secrets.EC2_HOST }} 'bash ~/restart.sh'
