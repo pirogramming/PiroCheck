@@ -1,27 +1,18 @@
-name: Notify Discord on Push
+name: Notify Discord on PR
 
 on:
-  push:
+  pull_request:
+    types: [opened, synchronize]  # PR 생성 또는 커밋 추가 시
 
 jobs:
   notify-discord:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Get last commit info
-        id: commit
-        run: |
-          echo "msg=$(git log -1 --pretty=%s)" >> $GITHUB_OUTPUT
-          echo "sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-          echo "full_sha=$(git rev-parse HEAD)" >> $GITHUB_OUTPUT
-
       - name: Send Discord Notification
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "{\"content\": \"[\`${{ steps.commit.outputs.sha }}\`](https://github.com/${{ github.repository }}/commit/${{ steps.commit.outputs.full_sha }}) [Commit] **${{ steps.commit.outputs.msg }}** by @${{ github.actor }}\"}" \
+               -d "{\"content\": \"[PR #${{ github.event.pull_request.number }}](${{ github.event.pull_request.html_url }}) **${{ github.event.pull_request.title }}** by @${{ github.actor }}\"}" \
                "$DISCORD_WEBHOOK_URL"
