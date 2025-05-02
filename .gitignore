@@ -13,3 +13,4 @@
 # Common
 .DS_Store
 *.log
+.env
