@@ -70,3 +70,30 @@ jobs:
       - name: Restart Spring Boot on EC2
         run: |
           ssh -o StrictHostKeyChecking=no -i pirocheck.pem ubuntu@${{ secrets.EC2_HOST }} 'bash ~/restart.sh'
+      
+      
+      - name: Send Discord notification (Success)
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "embeds": [{
+                   "title": "🚀 Deploy 성공!",
+                   "description": "**Branch**: `${{ github.ref }}`\n**Commit**: `${{ github.sha }}`\n🟢 서비스가 정상적으로 배포되었습니다!",
+                   "color": 65353
+                 }]
+               }' ${{ secrets.DISCORD_WEBHOOK }}
+      
+      - name: Send Discord notification (Failure)
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d '{
+                 "embeds": [{
+                   "title": "❌ Deploy 실패!",
+                   "description": "**Branch**: `${{ github.ref }}`\n**Commit**: `${{ github.sha }}`\n🔴 배포 중 오류가 발생했습니다. 로그를 확인하세요.",
+                   "color": 16711680
+                 }]
+               }' ${{ secrets.DISCORD_WEBHOOK }}
