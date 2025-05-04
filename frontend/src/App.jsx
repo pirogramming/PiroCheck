@@ -2,10 +2,12 @@ import React from "react";
 import InputBlock from "./components/InputBlock";
 import InfoBlock from "./components/InfoBlock";
 import PageBtn from "./components/PageBtn";
+import Header from "./components/Header";
 
 function App() {
   return (
     <>
+      <Header />
       <div>
         <InputBlock />
         <InfoBlock />
