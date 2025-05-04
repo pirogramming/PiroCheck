@@ -7,7 +7,13 @@ function App() {
   return (
     <>
       <div>
-        <InputBlock />
+        <InputBlock
+          inputs={[
+            { type: "text", placeholder: "이름" },
+            { type: "password", placeholder: "비밀번호" },
+            { type: "text", placeholder: "출석코드를 입력하세요" },
+          ]}
+        />
         <InfoBlock />
         <PageBtn
           buttons={[

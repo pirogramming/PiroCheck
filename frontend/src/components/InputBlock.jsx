@@ -1,16 +1,17 @@
 import React from "react";
 import "./componentsCss/InfoBlock.css";
 
-const InputBlock = () => {
+const InputBlock = ({ inputs }) => {
   return (
     <div>
-      <input class="inputTag" type="text" placeholder="이름" />
-      <input class="inputTag" type="password" placeholder="비밀번호" />
-      <input
-        class="inputTag"
-        type="text"
-        placeholder="출석코드를 입력하세요."
-      />
+      {inputs.map((input, index) => (
+        <input
+          key={index}
+          class="inputTag"
+          type={input.type}
+          placeholder={input.placeholder}
+        />
+      ))}
     </div>
   );
 };
