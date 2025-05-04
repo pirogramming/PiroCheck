@@ -29,6 +29,21 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // REST API 사용을 위해 반드시 필요
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    // DTO에서 @Valid 사용 시 필요
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+    // PostgreSQL
+    runtimeOnly 'org.postgresql:postgresql'
+
+    // 환경변수 관리
+    implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.6'
 }
 
 tasks.named('test') {
