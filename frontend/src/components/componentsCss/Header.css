@@ -1,0 +1,27 @@
+.header-container {
+  background-color: var(--background-black);
+  color: var(--main-green);
+  font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--main-green);
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.icon-button svg {
+  color: var(--main-green);
+}
