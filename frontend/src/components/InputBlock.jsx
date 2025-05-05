@@ -1,15 +1,16 @@
 import React from "react";
 import "./componentsCss/InfoBlock.css";
 
-const InputBlock = ({ inputs }) => {
+const InputBlock = ({ inputs, onChange }) => {
   return (
-    <div>
+    <div className="inputBlock">
       {inputs.map((input, index) => (
         <input
           key={index}
-          class="inputTag"
+          className="inputTag"
           type={input.type}
           placeholder={input.placeholder}
+          onChange={(e) => onChange && onChange(index, e.target.value)}
         />
       ))}
     </div>

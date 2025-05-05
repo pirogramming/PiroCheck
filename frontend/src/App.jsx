@@ -5,6 +5,7 @@ import Home from "./Home";
 import Assignment from "./Assignment";
 import Deposit from "./Deposit";
 import Intro from "./Intro";
+import Admin from "./Admin";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/assignment" element={<Assignment />} />
         <Route path="/deposit" element={<Deposit />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </BrowserRouter>
   );
