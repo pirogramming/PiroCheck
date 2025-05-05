@@ -1,0 +1,21 @@
+.intro {
+  background-image: url("./assets/img/home.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pirocheck {
+  font-size: 1.25rem;
+  transform: scaleX(1.5);
+}
+.intro_container {
+  background-color: var(--background-black);
+  color: var(--main-green);
+  font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
