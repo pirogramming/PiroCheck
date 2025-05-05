@@ -7,9 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "attendence_code")
+@Table(name = "attendance_code")
 @Getter @Setter
-public class AttendenceCode {
+public class AttendanceCode {
     @Id
     private Long id;
 
