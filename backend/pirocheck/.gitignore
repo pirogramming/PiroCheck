@@ -5,6 +5,9 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+.idea
+.idea/
+
 ### STS ###
 .apt_generated
 .classpath
@@ -18,7 +21,6 @@ bin/
 !**/src/test/**/bin/
 
 ### IntelliJ IDEA ###
-.idea
 *.iws
 *.iml
 *.ipr
