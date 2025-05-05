@@ -3,6 +3,7 @@ import { useState } from "react";
 import InputBlock from "./components/InputBlock";
 import { useNavigate } from "react-router-dom";
 import styles from "./Login.module.css";
+import { loginUser } from "./api/user";
 
 const Login = () => {
   const [name, setName] = useState("");
@@ -18,14 +19,7 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch("/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({ name, password }),
-      });
+      const res = await loginUser({ name, password });
 
       if (!res.ok) {
         const data = await res.json();

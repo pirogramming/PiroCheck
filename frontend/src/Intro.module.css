@@ -1,12 +1,24 @@
 .intro {
-  background-image: url("./assets/img/home.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center;
+  width: 390px;
+  position: relative;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("./assets/img/logo.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  opacity: 0.5;
+  z-index: -1;
 }
 .pirocheck {
   font-size: 1.25rem;
@@ -16,6 +28,7 @@
   background-color: var(--background-black);
   color: var(--main-green);
   font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
-  padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: flex;
+  justify-content: center;
 }
