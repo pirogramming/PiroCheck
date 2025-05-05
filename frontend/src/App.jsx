@@ -6,6 +6,7 @@ import Assignment from "./Assignment";
 import Deposit from "./Deposit";
 import Intro from "./Intro";
 import Admin from "./Admin";
+import Attendance from "./Attendance";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/assignment" element={<Assignment />} />
+        <Route path="/attendance" element={<Attendance />} />
         <Route path="/deposit" element={<Deposit />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
