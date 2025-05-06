@@ -1,5 +1,6 @@
 package backend.pirocheck.attendence.repository;
 
+import backend.pirocheck.User.entity.User;
 import backend.pirocheck.attendence.entity.Attendance;
 import backend.pirocheck.attendence.entity.AttendanceCode;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,4 +15,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByUserId(Long userId);
     List<Attendance> findByUserIdAndDate(Long userId, LocalDate date);
     Optional<Attendance> findByUserIdAndDateAndOrder(Long userId, LocalDate date, int order);
+
+    // 출석 실패
+    int countByUserAndStatusFalse(User user);
 }
