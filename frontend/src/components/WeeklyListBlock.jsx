@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./componentsCss/WeeklyListBlock.css";
+import DailyOpenBlock from "./DailyOpenBlock";
 
 const WeeklyListBlock = ({ weeks }) => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -24,9 +25,12 @@ const WeeklyListBlock = ({ weeks }) => {
           {openIndex === index && (
             <div className="week-details">
               {week.details?.map((detail, i) => (
-                <div key={i} className="detail-item">
-                  {detail}
-                </div>
+                <DailyOpenBlock
+                key={i}
+                day={detail.day}
+                subject={detail.subject}
+                tasks={detail.tasks}
+              />
               ))}
             </div>
           )}
