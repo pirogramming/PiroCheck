@@ -1,11 +1,10 @@
-package backend.pirocheck.attendence.controller;
+package backend.pirocheck.Attendance.controller;
 
-import backend.pirocheck.attendence.dto.request.GetAttendanceByDateReq;
-import backend.pirocheck.attendence.dto.request.MarkAttendanceReq;
-import backend.pirocheck.attendence.dto.response.AttendanceSlotRes;
-import backend.pirocheck.attendence.dto.response.AttendanceStatusRes;
-import backend.pirocheck.attendence.entity.AttendanceCode;
-import backend.pirocheck.attendence.service.AttendanceService;
+import backend.pirocheck.Attendance.dto.request.MarkAttendanceReq;
+import backend.pirocheck.Attendance.dto.response.AttendanceSlotRes;
+import backend.pirocheck.Attendance.dto.response.AttendanceStatusRes;
+import backend.pirocheck.Attendance.entity.AttendanceCode;
+import backend.pirocheck.Attendance.service.AttendanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;

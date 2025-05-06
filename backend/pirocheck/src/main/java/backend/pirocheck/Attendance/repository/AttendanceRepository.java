@@ -1,8 +1,7 @@
-package backend.pirocheck.attendence.repository;
+package backend.pirocheck.Attendance.repository;
 
 import backend.pirocheck.User.entity.User;
-import backend.pirocheck.attendence.entity.Attendance;
-import backend.pirocheck.attendence.entity.AttendanceCode;
+import backend.pirocheck.Attendance.entity.Attendance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package backend.pirocheck.attendence.dto.response;
+package backend.pirocheck.Attendance.dto.response;
 
 import lombok.Getter;
 

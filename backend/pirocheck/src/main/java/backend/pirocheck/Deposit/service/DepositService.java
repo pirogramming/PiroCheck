@@ -5,7 +5,7 @@ import backend.pirocheck.Deposit.entity.Deposit;
 import backend.pirocheck.Deposit.repository.DepositRepository;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
-import backend.pirocheck.attendence.repository.AttendanceRepository;
+import backend.pirocheck.Attendance.repository.AttendanceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

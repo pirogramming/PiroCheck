@@ -1,14 +1,14 @@
-package backend.pirocheck.attendence.service;
+package backend.pirocheck.Attendance.service;
 
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
-import backend.pirocheck.attendence.dto.response.AttendanceSlotRes;
-import backend.pirocheck.attendence.dto.response.AttendanceStatusRes;
-import backend.pirocheck.attendence.entity.Attendance;
-import backend.pirocheck.attendence.entity.AttendanceCode;
-import backend.pirocheck.attendence.repository.AttendanceCodeRepository;
-import backend.pirocheck.attendence.repository.AttendanceRepository;
+import backend.pirocheck.Attendance.dto.response.AttendanceSlotRes;
+import backend.pirocheck.Attendance.dto.response.AttendanceStatusRes;
+import backend.pirocheck.Attendance.entity.Attendance;
+import backend.pirocheck.Attendance.entity.AttendanceCode;
+import backend.pirocheck.Attendance.repository.AttendanceCodeRepository;
+import backend.pirocheck.Attendance.repository.AttendanceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

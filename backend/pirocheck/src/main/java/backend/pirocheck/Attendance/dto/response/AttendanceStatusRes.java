@@ -1,6 +1,5 @@
-package backend.pirocheck.attendence.dto.response;
+package backend.pirocheck.Attendance.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

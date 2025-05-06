@@ -1,4 +1,4 @@
-package backend.pirocheck.attendence.entity;
+package backend.pirocheck.Attendance.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
