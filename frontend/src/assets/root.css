@@ -5,6 +5,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+
 :root {
   --main-green: #49ff24;
   --card-toggle-green: #2aff00;
@@ -24,4 +26,8 @@
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+.inter{
+  font-family: "Inter", sans-serif;
 }
