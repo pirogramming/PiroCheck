@@ -1,0 +1,17 @@
+.attendance_page {
+  background-color: "black";
+  height: "100vh";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+.submitBtn {
+  background-color: #ffffff;
+  opacity: 42%;
+  border-radius: 10px;
+  position: absolute;
+  top: 109px;
+  right: 63px;
+  padding: 7px;
+}
