@@ -7,6 +7,7 @@ import Deposit from "./Deposit";
 import Intro from "./Intro";
 import Admin from "./Admin";
 import Attendance from "./Attendance";
+
 function App() {
   return (
     <BrowserRouter>

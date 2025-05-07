@@ -7,4 +7,16 @@
   font-weight: 400;
   font-size: 16px;
   font-family: "Noto Sans KR", sans-serif;
+  border: 1px var(--background-black) solid;
+  padding: 10px;
+  margin-top: 11px;
+}
+.inputTag:focus {
+  border: 1px var(--main-green) solid;
+}
+.inputBlock {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

@@ -19,7 +19,7 @@
   --fill-gray: #d9d9d9;
   --warn-red: #ff5858;
   --text-white: #ffffff;
-  --border-gray: #c7c7c7;
+  --border-gray: rgba(204, 204, 204, 0.4);
 }
 .noto-sans-kr-context {
   font-family: "Noto Sans KR", sans-serif;
