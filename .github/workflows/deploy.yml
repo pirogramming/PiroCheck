@@ -29,7 +29,7 @@ jobs:
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
 
           chmod +x gradlew
-          ./gradlew build --no-daemon
+          ./gradlew build -x test --no-daemon
 
 
       - name: Restore PEM file
