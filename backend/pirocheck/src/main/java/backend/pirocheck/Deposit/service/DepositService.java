@@ -1,10 +1,13 @@
 package backend.pirocheck.Deposit.service;
 
+
 import backend.pirocheck.Deposit.dto.DepositResDto;
 import backend.pirocheck.Deposit.entity.Deposit;
 import backend.pirocheck.Deposit.repository.DepositRepository;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
+import backend.pirocheck.assignment.entity.AssignmentStatus;
+import backend.pirocheck.assignment.repository.AssignmentRepository;
 import backend.pirocheck.attendence.repository.AttendanceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
