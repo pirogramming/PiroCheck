@@ -31,3 +31,18 @@
 .inter{
   font-family: "Inter", sans-serif;
 }
+
+@font-face {
+  font-family: 'Akira Expanded';
+  src: url('../assets/fonts/Akira Expanded Demo.otf') format('truetype');
+}
+
+body{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  background-color: #000000;
+}
