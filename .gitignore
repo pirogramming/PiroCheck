@@ -15,3 +15,5 @@
 *.log
 .env
 *.pem
+.idea/
+
