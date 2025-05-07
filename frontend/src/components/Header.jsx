@@ -9,8 +9,8 @@ const Header = () => {
   const location = useLocation();
   const path = location.pathname;
 
-  let title = "ATTENDANCE CHECK";
-  if (path.includes('assignment')) title = "ASSIGNMENT CHECK";
+  let title = "ATTENDANCE\nCHECK";
+  if (path.includes('assignment')) title = "ASSIGNMENT\nCHECK";
   else if (path.includes('deposit')) title = "DEPOSIT";
 
   const showRightButton = !path.includes('deposit');
