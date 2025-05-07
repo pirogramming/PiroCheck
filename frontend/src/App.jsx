@@ -1,74 +1,26 @@
 import React from "react";
-import InputBlock from "./components/InputBlock";
-import InfoBlock from "./components/InfoBlock";
-import PageBtn from "./components/PageBtn";
-import Header from "./components/Header";
-import WeeklyListBlock from "./components/WeeklyListBlock";
-
-/*
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Login from "./Login";
+import Home from "./Home";
+import Assignment from "./Assignment";
+import Deposit from "./Deposit";
+import Intro from "./Intro";
+import Admin from "./Admin";
+import Attendance from "./Attendance";
 function App() {
   return (
-    <>
-      <Header />
-      <div>
-       
-        <InputBlock />
-        <InfoBlock />
-        <PageBtn
-          buttons={[
-            { label: "ASSIGNMENT CHECK", href: "/assignment" },
-            { label: "ATTENDANCE CHECK", href: "/attendance" },
-          ]}
-        />
-      </div>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Intro />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/assignment" element={<Assignment />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="/deposit" element={<Deposit />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
-*/
 
-function App() {
-  
-const weeks = [
-  {
-    label: "2주차  JS개론/웹개론",
-    details: [
-      {
-        day: "화",
-        subject: "Git HTML CSS",
-        tasks: [
-          { label: "제로초 인강", status: "done" },
-          { label: "깃허브 클론 코딩", status: "progress" },
-        ],
-      },
-      {
-        day: "목",
-        subject: "Git HTML CSS",
-        tasks: [
-          { label: "제로초 인강", status: "fail" },
-          { label: "깃허브 클론 코딩", status: "progress" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "3주차  JS개론/웹개론",
-    details: [
-      {
-        day: "화",
-        subject: "Git HTML CSS",
-        tasks: [],
-      },
-    ],
-  },
-];
-
-
-  return (
-    <div className="App" style={{ backgroundColor: "black", minHeight: "100vh", color: "white" }}>
-      <WeeklyListBlock weeks={weeks} />
-
-
-    </div>
-  );
-}
 export default App;
