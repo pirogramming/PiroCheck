@@ -7,8 +7,7 @@ on:
 jobs:
   backend:
     name: Deploy Backend to EC2
-    needs: frontend
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Checkout repository
@@ -20,18 +19,15 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Create .env file
+      - name: Create .env file& Build backend
         run: |
+          cd backend/pirocheck
           echo DB_HOST=${{ secrets.DB_HOST }} >> .env
           echo DB_PORT=${{ secrets.DB_PORT }} >> .env
           echo DB_NAME=${{ secrets.DB_NAME }} >> .env
           echo DB_USER=${{ secrets.DB_USER }} >> .env
           echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
-        working-directory: backend/pirocheck
 
-      - name: Build backend
-        run: |
-          cd backend/pirocheck
           chmod +x gradlew
           ./gradlew build --no-daemon
 
@@ -78,6 +74,7 @@ jobs:
 
   frontend:
     name: Deploy Frontend to S3
+    needs: backend
     runs-on: ubuntu-22.04
 
     steps:
