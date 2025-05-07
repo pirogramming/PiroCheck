@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "Cafe24Moyamoya-Regular-v1.0";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/Cafe24Moyamoya-Regular-v1.0.woff2")
+    format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+:root {
+  --main-green: #49ff24;
+  --card-toggle-green: #2aff00;
+  --card-detail-green: #2d791d;
+  --icon-top-green: #14ae5c;
+  --icon-detail-green: #14ae5c;
+  --icon-detail-yellow: #ffcd29;
+  --icon-detail-red: #ff2c2c;
+  --background-black: #000000;
+  --fill-gray: #d9d9d9;
+  --warn-red: #ff5858;
+  --text-white: #ffffff;
+  --border-gray: rgba(204, 204, 204, 0.4);
+}
+.noto-sans-kr-context {
+  font-family: "Noto Sans KR", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.inter{
+  font-family: "Inter", sans-serif;
+}
+
+@font-face {
+  font-family: 'Akira Expanded';
+  src: url('../assets/fonts/Akira Expanded Demo.otf') format('truetype');
+}
+
+body{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  background-color: #000000;
+}
