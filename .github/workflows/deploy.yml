@@ -55,9 +55,11 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+
       - name: Build backend
         run: |
           cd backend/pirocheck
+          chmod +x backend/pirocheck/gradlew
           ./gradlew build --no-daemon
 
       - name: Restore PEM file
