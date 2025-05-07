@@ -2,8 +2,6 @@ import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ArrowLeft, Wallet } from "lucide-react";
 import "./componentsCss/Header.css";
-import arrowIcon from "../assets/img/arrowicon.svg";
-import moneyIcon from "../assets/img/moneyicon.svg";
 const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -23,7 +21,12 @@ const Header = () => {
         onClick={() => navigate(-1)}
         aria-label="뒤로가기"
       >
-        <img src={arrowIcon} alt="Back" width={34} height={34} />
+        <img
+          src="/assets/img/arrowicon.svg"
+          alt="Back"
+          width={34}
+          height={34}
+        />
       </button>
       <h1 className="header-title">{title}</h1>
       {showRightButton ? (
@@ -32,10 +35,15 @@ const Header = () => {
           onClick={() => navigate("/deposit")}
           aria-label="보증금 페이지 이동"
         >
-          <img src={moneyIcon} alt="Deposit" width={30} height={30} />
+          <img
+            src="/assets/img/moneyicon.svg"
+            alt="Deposit"
+            width={30}
+            height={30}
+          />
         </button>
       ) : (
-        <div style={{ width: "30px" }} /> // 오른쪽 공백 유지
+        <div style={{ width: "30px" }} />
       )}
     </header>
   );
