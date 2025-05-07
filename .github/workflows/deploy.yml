@@ -21,7 +21,8 @@ jobs:
       - name: Install dependencies
         run: |
           cd frontend
-          npm ci
+          rm -rf node_modules package-lock.json
+          npm install --no-optional
 
       - name: Build frontend
         run: |
