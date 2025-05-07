@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ArrowLeft, Wallet } from "lucide-react";
 import "./componentsCss/Header.css";
 const Header = () => {
   const navigate = useNavigate();
