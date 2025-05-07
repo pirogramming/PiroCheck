@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import WeeklyListBlock from "./components/WeeklyListBlock";
 import Header from "./components/Header";
 import AssignmentInfoBlock from "./components/AssignmentInfoBlock";
@@ -29,7 +28,7 @@ const Assignment = () => {
           })),
         })),
       }));
-      
+
         setWeeks(formatted);
 
         // 형광 카드용 하이라이트 카드 추출 (가장 최근 주차 + 첫 요일)=>운영진용 페이지 만든 후 수정필요
