@@ -31,8 +31,8 @@ public class DepositService {
         int descentAttendance = failAttendanceCount * 10000;
 
         // 과제 실패
-        int failAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, SubmitStatus.FAIL); // 확인
-        int weakAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, SubmitStatus.WEAK); // 확인
+        int failAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.FAILURE); // 확인
+        int weakAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.INSUFFICIENT); // 확인
         int descentAssignment = failAssignmentCount * 10_000 + weakAssignmentCount * 5_000;
 
         // 방어권
