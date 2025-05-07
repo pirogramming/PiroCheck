@@ -5,11 +5,11 @@
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
+  font-family: 'Akira Expanded';
 }
 .pirocheck {
   margin-top: 43px;
   font-size: 1.25rem;
-  transform: scaleX(1.5);
   margin-bottom: 103px;
 }
 .home_container {
@@ -21,11 +21,12 @@
 .button {
   width: 309px;
   height: 81px;
-  border-radius: 14px;
+  border-radius: 8px;
   background-color: var(--border-gray);
   color: var(--text-white);
+  font-family: 'Akira Expanded';
   font-weight: 400;
-  font-size: 20px;
+  font-size: 16px;
   border: 1px var(--background-black) solid;
   padding: 15px;
   font-weight: bold;
@@ -34,8 +35,6 @@
 }
 .button p {
   text-align: start;
-  transform: scale(1.3, 0.9);
-  margin-left: 40px;
 }
 .button:hover {
   background-color: var(--card-toggle-green);

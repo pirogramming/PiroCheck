@@ -5,6 +5,8 @@
   font-weight: normal;
   font-style: normal;
 }
+
+
 :root {
   --main-green: #49ff24;
   --card-toggle-green: #2aff00;
@@ -24,4 +26,23 @@
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
+}
+
+.inter{
+  font-family: "Inter", sans-serif;
+}
+
+@font-face {
+  font-family: 'Akira Expanded';
+  src: url('../assets/fonts/Akira Expanded Demo.otf') format('truetype');
+}
+
+body{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  background-color: #000000;
 }
