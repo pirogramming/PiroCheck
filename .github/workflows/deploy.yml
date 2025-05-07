@@ -57,7 +57,7 @@ jobs:
 
       - name: Build backend
         run: |
-          cd backend
+          cd backend/pirocheck
           ./gradlew build --no-daemon
 
       - name: Restore PEM file
