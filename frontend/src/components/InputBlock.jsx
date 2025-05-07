@@ -1,5 +1,5 @@
 import React from "react";
-import "./componentsCss/InfoBlock.css";
+import "./componentsCss/InputBlock.css";
 
 const InputBlock = ({ inputs, onChange }) => {
   return (
