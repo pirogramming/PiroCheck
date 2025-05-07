@@ -3,18 +3,18 @@
   flex-direction: column;
   gap: 12px;
   font-family: "Inter", sans-serif;
-  width: 371px;
-
+  width: 309px;
 }
 
-.weekly-item{
-  background-color: #045E07;
+.weekly-item {
+  background-color: #045e07;
+  border-radius: 8px;
 }
 
 .weekly-button {
   background-color: #575757;
   color: white;
-  border: 1px solid  rgba(217, 217, 217, 0.4);
+  border: 1px solid rgba(217, 217, 217, 0.4);
   border-radius: 8px;
   padding: 12px 20px;
   font-size: 15px;
@@ -26,12 +26,12 @@
   cursor: pointer;
 }
 
-.weekly-button:hover{
-  border: 1px solid var(--card-toggle-green)
+.weekly-button:hover {
+  border: 1px solid var(--card-toggle-green);
 }
 
-.weekly-button.active{
-  background-color: #045E07;
+.weekly-button.active {
+  background-color: #045e07;
   border: none;
 }
 
@@ -51,13 +51,12 @@
   border-radius: 0 0 12px 12px;
   color: white;
   font-size: 16px;
-  
 }
 
 .detail-item {
   margin-top: 6px;
 }
 
-.daily-open-block-wrapper{
-  background-color:#045E07;
+.daily-open-block-wrapper {
+  background-color: #045e07;
 }
