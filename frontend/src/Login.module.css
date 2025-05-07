@@ -7,13 +7,13 @@
 }
 .pirocheck {
   font-size: 1.25rem;
-  transform: scaleX(1.5);
+  transform: scaleX(1.1);
   margin-bottom: 65px;
 }
 .login_container {
   background-color: var(--background-black);
   color: var(--main-green);
-  font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
+  font-family: 'Akira Expanded'; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .button {
