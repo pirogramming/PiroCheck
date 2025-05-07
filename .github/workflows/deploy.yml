@@ -22,7 +22,8 @@ jobs:
         run: |
           cd frontend
           rm -rf node_modules package-lock.json
-          npm install --no-optional
+          npm install
+          npm install --save-dev vite rollup
 
       - name: Build frontend
         run: |
