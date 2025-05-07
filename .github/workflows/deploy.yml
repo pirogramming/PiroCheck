@@ -54,13 +54,22 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
-
+          
+      - name: Create .env file
+        run: |
+          echo DB_HOST=${{ secrets.DB_HOST }} >> .env
+          echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+          echo DB_NAME=${{ secrets.DB_NAME }} >> .env
+          echo DB_USER=${{ secrets.DB_USER }} >> .env
+          echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+        working-directory: backend/pirocheck
 
       - name: Build backend
         run: |
           cd backend/pirocheck
           chmod +x gradlew
           ./gradlew build --no-daemon
+
 
       - name: Restore PEM file
         run: |
