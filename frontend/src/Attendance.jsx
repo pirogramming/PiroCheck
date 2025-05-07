@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Header from "./components/Header";
 import InputBlock from "./components/InputBlock";
+import AttendanceWeekInfo from "./components/AttendanceWeekInfo";
 import styles from "./Attendance.module.css";
 
 const Attendance = () => {
@@ -36,7 +37,24 @@ const Attendance = () => {
           Submit
         </button>
       )}
-      <div className={styles.attend_img_container}></div>
+      <div className={styles.attend_img_container}>
+        <div className={styles.boom_icon}>
+          <img src="img/tabler--boom.png" />
+        </div>
+        <div className={styles.boom_icon}>
+          <img src="img/tabler--boom.png" />
+        </div>
+        <div className={styles.boom_icon}>
+          <img src="img/tabler--boom.png" />
+        </div>
+      </div>
+      <div className={styles.attend_week_container}>
+        <AttendanceWeekInfo week={1} />
+        <AttendanceWeekInfo week={2} />
+        <AttendanceWeekInfo week={3} />
+        <AttendanceWeekInfo week={4} />
+        <AttendanceWeekInfo week={5} />
+      </div>
     </div>
   );
 };
