@@ -39,7 +39,7 @@ jobs:
 
       - name: Copy JAR to EC2
         run: |
-          scp -o StrictHostKeyChecking=no -i pirocheck.pem backend/build/libs/*.jar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app.jar
+          scp -o StrictHostKeyChecking=no -i pirocheck.pem backend/pirocheck/build/libs/*.jar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app.jar
 
       - name: Restart Spring Boot on EC2
         run: |
