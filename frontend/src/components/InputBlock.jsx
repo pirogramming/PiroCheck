@@ -10,7 +10,7 @@ const InputBlock = ({ inputs, onChange, values }) => {
           className="inputTag"
           type={input.type}
           placeholder={input.placeholder}
-          value={values[index] || ""}
+          value={values?.[index] || ""}
           onChange={(e) => onChange && onChange(index, e.target.value)}
         />
       ))}
