@@ -39,13 +39,13 @@ const Attendance = () => {
       )}
       <div className={styles.attend_img_container}>
         <div className={styles.boom_icon}>
-          <img src="assets/img/tabler--boom.png" />
+          <img src="/assets/img/tabler--boom.png" />
         </div>
         <div className={styles.boom_icon}>
-          <img src="assets/img/tabler--boom.png" />
+          <img src="/assets/img/tabler--boom.png" />
         </div>
         <div className={styles.boom_icon}>
-          <img src="assets/img/tabler--boom.png" />
+          <img src="/assets/img/tabler--boom.png" />
         </div>
       </div>
       <div className={styles.attend_week_container}>
