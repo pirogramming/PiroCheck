@@ -7,7 +7,6 @@ const DailyOpenBlock = ({ day, subject, tasks }) => {
   const toggleOpen = () => {
     setOpen(!open);
   };
-  
 
   return (
     <div className="daily-open-block">

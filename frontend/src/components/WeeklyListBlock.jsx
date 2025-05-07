@@ -23,6 +23,7 @@ const WeeklyListBlock = ({ weeks }) => {
             </span>
           </button>
           {openIndex === index && (
+            
             <div className="week-details">
               {week.details?.map((detail, i) => (
                 <DailyOpenBlock
