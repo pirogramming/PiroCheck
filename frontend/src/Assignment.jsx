@@ -2,6 +2,8 @@ import React from "react";
 import WeeklyListBlock from "./components/WeeklyListBlock";
 import Header from "./components/Header";
 import AssignmentInfoBlock from "./components/AssignmentInfoBlock";
+import styles from "./Assignment.module.css";
+
 const Assignment = () => {
   const weeks = [
     {
@@ -37,22 +39,19 @@ const Assignment = () => {
     },
   ];
 
-//Assignment-Info-Block(형광 초록색카드 더미데이터)
+  //Assignment-Info-Block(형광 초록색카드 더미데이터)
   const cardData = {
     weekLabel: "3주차",
     day: "화",
-    tasks: [
-      { label: "Django girls 과제" },
-      { label: "Django girls 과제" },
-    ],
+    tasks: [{ label: "Django girls 과제" }, { label: "Django girls 과제" }],
   };
 
   return (
-    
-    <div className="assignment-page" style={{ backgroundColor: "black", minHeight: "100vh", color: "white" }}>
-
-      <Header/>
-      <AssignmentInfoBlock {...cardData} />
+    <div className={styles.assignment_page}>
+      <Header />
+      <div className={styles.info}>
+        <AssignmentInfoBlock {...cardData} />
+      </div>
 
       <WeeklyListBlock weeks={weeks} />
     </div>
