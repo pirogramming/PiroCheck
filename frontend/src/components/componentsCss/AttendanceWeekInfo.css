@@ -1,0 +1,16 @@
+.eachWeekInfo {
+  width: 270px;
+  padding: 14px;
+  border-radius: 20px;
+  background-color: #6e6e6e;
+  border: 1px solid #d9d9d9;
+  margin-block: 20px;
+  display: flex;
+  align-items: center;
+}
+.weekInfo {
+  font-weight: 600;
+  font-size: 15px;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+}
