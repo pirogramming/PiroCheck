@@ -81,7 +81,7 @@ do
       *)    app_path=$APP_HOME$link ;;
     esac
 done
-
+ 
 # This is normally unused
 # shellcheck disable=SC2034
 APP_BASE_NAME=${0##*/}
