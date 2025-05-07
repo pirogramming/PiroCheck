@@ -1,4 +1,4 @@
-const mapStatus = (status) => {
+export const mapStatus = (status) => {
   switch (status) {
     case "SUCCESS":
       return "done";
