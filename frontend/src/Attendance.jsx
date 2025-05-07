@@ -36,7 +36,17 @@ const Attendance = () => {
           Submit
         </button>
       )}
-      <div className={styles.attend_img_container}></div>
+      <div className={styles.attend_img_container}>
+        <div className={styles.boom_icon}>
+          <img src="img/tabler--boom.png" />
+        </div>
+        <div className={styles.boom_icon}>
+          <img src="img/tabler--boom.png" />
+        </div>
+        <div className={styles.boom_icon}>
+          <img src="img/tabler--boom.png" />
+        </div>
+      </div>
     </div>
   );
 };
