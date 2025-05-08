@@ -20,7 +20,7 @@ public class DepositService {
     private final DepositRepository depositRepository;
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
-    private final AssignmentRepository assignmentRepository;  // 확인
+    private final AssignmentRepository assignmentRepository;
 
     @Transactional
     public DepositResDto getDeposit(Long userId) {
@@ -31,12 +31,12 @@ public class DepositService {
 
         // 출석 실패
         int failAttendanceCount = attendanceRepository.countByUserAndStatusFalse(user);
-        int descentAttendance = failAttendanceCount * 10000;
+        int descentAttendance = failAttendanceCount * 10_000;
 
         // 과제 실패
-        int failAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.FAILURE); // 확인
-        int weakAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.INSUFFICIENT); // 확인
-        int descentAssignment = failAssignmentCount * 10_000 + weakAssignmentCount * 5_000;
+        int failAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.FAILURE);
+        int weakAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.INSUFFICIENT);
+        int descentAssignment = failAssignmentCount * 20_000 + weakAssignmentCount * 10_000;
 
         // 방어권
         int ascentDefence = deposit.getAscentDefence();
