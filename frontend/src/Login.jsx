@@ -71,6 +71,7 @@ const Login = () => {
               placeholder: "비밀번호",
             },
           ]}
+          values={[name, password]} // InputBlock props 수정에 따라 추가
           onChange={handleChange}
         />
         <div className={styles.errorWrapper}>

@@ -27,7 +27,7 @@
 .intro_container {
   background-color: var(--background-black);
   color: var(--main-green);
-  font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
+  font-family: 'Akira Expanded';
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;
