@@ -8,6 +8,11 @@ import axios from "axios";
 const Attendance = () => {
   const [attendanceCode, setAttendanceCode] = useState([""]);
   const [attendanceData, setAttendanceData] = useState([]);
+  const [todayStatuses, setTodayStatuses] = useState([
+    "not_started",
+    "not_started",
+    "not_started",
+  ]);
 
   const getSubImage = (count) => {
     switch (count) {
@@ -19,6 +24,18 @@ const Attendance = () => {
         return "/assets/img/one_coin_yellow.png";
       default:
         return "/assets/img/three_out_red.png";
+    }
+  };
+
+  // 세션별 상단 이미지 handling
+  const getBoomImage = (status) => {
+    switch (status) {
+      case "success":
+        return "/assets/img/boom-fill-green.png";
+      case "fail":
+        return "/assets/img/boom-fill-red.png";
+      default:
+        return "/assets/img/tabler--boom.png";
     }
   };
 
@@ -64,26 +81,57 @@ const Attendance = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchAttendance = async () => {
-      try {
-        const user = JSON.parse(localStorage.getItem("user"));
-        const userId = user?.id;
+  const fetchAttendance = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.id;
+      if (!userId) return;
 
-        if (!userId) return;
+      // 유저 전체 출석 데이터 불러오기
+      const res = await axios.get(`/api/attendance/user`, {
+        params: { userId },
+      });
+      const rawData = res.data.data;
+      const weekly = processWeeklyAttendance(rawData);
+      setAttendanceData(weekly);
+    } catch (error) {
+      console.error("출석 정보 가져오기 실패:", error);
+    }
+  };
 
-        const res = await axios.get(`/api/attendance/user`, {
-          params: { userId },
-        });
+  // 세션별 출석체크(총 3번) 진행 정보 불러오기
+  const fetchTodayAttendance = async () => {
+    try {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const userId = user?.id;
+      if (!userId) return;
 
-        const rawData = res.data.data;
-        const weekly = processWeeklyAttendance(rawData);
-        setAttendanceData(weekly);
-      } catch (error) {
-        console.error("출석 정보 가져오기 실패:", error);
+      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const res = await axios.get(`/api/attendance/user/date`, {
+        params: { userId, date: today },
+      });
+
+      const slots = res.data.data?.[0]?.slots || [];
+
+      const statuses = slots.map((slot) => {
+        if (slot.status === true) return "success";
+        else return "fail";
+      });
+
+      // 출석체크 진행안된 것 처리
+      while (statuses.length < 3) {
+        statuses.push("not_started");
       }
-    };
+
+      setTodayStatuses(statuses);
+    } catch (error) {
+      console.error("오늘 출석 정보 가져오기 실패:", error);
+    }
+  };
+
+  useEffect(() => {
     fetchAttendance();
+    fetchTodayAttendance();
   }, []);
 
   const handleChange = (index, value) => {
@@ -100,7 +148,7 @@ const Attendance = () => {
       const userId = user?.id;
       if (!userId) return;
 
-      // 출석체크 서버에 반영
+      // 유저가 입력한 출석 코드 서버에 전달(서버에서 출석코드 체크)
       const res = await axios.post("/api/attendance/mark", {
         userId,
         code: attendanceCode[0],
@@ -109,6 +157,7 @@ const Attendance = () => {
       if (res.data.success) {
         alert("출석이 성공적으로 처리되었습니다!");
         fetchAttendance(); // 서버 출석체크 전달 후 UI 반영
+        fetchTodayAttendance(); // 세션별 상단 이미지 UI 반영
       } else {
         alert(res.data.message);
       }
@@ -137,15 +186,11 @@ const Attendance = () => {
         </button>
       )}
       <div className={styles.attend_img_container}>
-        <div className={styles.boom_icon}>
-          <img src="/assets/img/tabler--boom.png" />
-        </div>
-        <div className={styles.boom_icon}>
-          <img src="/assets/img/tabler--boom.png" />
-        </div>
-        <div className={styles.boom_icon}>
-          <img src="/assets/img/tabler--boom.png" />
-        </div>
+        {todayStatuses.map((status, idx) => (
+          <div className={styles.boom_icon} key={idx}>
+            <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
+          </div>
+        ))}
       </div>
       <div className={styles.attend_week_container}>
         {attendanceData.map(({ week, classes }) => (
