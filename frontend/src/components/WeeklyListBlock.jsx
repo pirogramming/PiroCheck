@@ -12,7 +12,7 @@ const WeeklyListBlock = ({ weeks }) => {
   return (
     <div className="weekly-list">
       {weeks.map((week, index) => (
-        <div key={index} className="weekly-item">
+        <div key={`week-${index}`} className="weekly-item">
           <button
             className={`weekly-button ${openIndex === index ? "active" : ""}`}
             onClick={() => toggleOpen(index)}
@@ -27,10 +27,10 @@ const WeeklyListBlock = ({ weeks }) => {
             <div className="week-details">
               {week.details?.map((detail, i) => (
                 <DailyOpenBlock
-                key={i}
-                day={detail.day}
-                subject={detail.subject}
-                tasks={detail.tasks}
+                  key={`day-${i}`}
+                  day={detail.day}
+                  subject={detail.subject}
+                  tasks={detail.tasks}
               />
               ))}
             </div>

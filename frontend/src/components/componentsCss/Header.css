@@ -4,15 +4,21 @@
   font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
   display: flex;
   align-items: center;
+  width: 390px;
   justify-content: space-between;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin: 10px;
 }
 
 .header-title {
-  font-size: 1.25rem;
+  font-size: 18px;
   font-weight: bold;
   color: var(--main-green);
+  white-space: pre-line;
+  align-items: center;
+  text-align: center;
+  font-family: "Akira Expanded";
 }
 
 .icon-button {
