@@ -90,6 +90,7 @@ const Attendance = () => {
       // 유저 전체 출석 데이터 불러오기
       const res = await axios.get(`/api/attendance/user`, {
         params: { userId },
+        withCredentials: true, // 세션 기반 인증 요청처리
       });
       const rawData = res.data.data;
       const weekly = processWeeklyAttendance(rawData);
@@ -109,6 +110,7 @@ const Attendance = () => {
       const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
       const res = await axios.get(`/api/attendance/user/date`, {
         params: { userId, date: today },
+        withCredentials: true, // 세션 기반 인증 요청처리
       });
 
       const slots = res.data.data?.[0]?.slots || [];
@@ -149,10 +151,16 @@ const Attendance = () => {
       if (!userId) return;
 
       // 유저가 입력한 출석 코드 서버에 전달(서버에서 출석코드 체크)
-      const res = await axios.post("/api/attendance/mark", {
-        userId,
-        code: attendanceCode[0],
-      });
+      const res = await axios.post(
+        "/api/attendance/mark",
+        {
+          userId,
+          code: attendanceCode[0],
+        },
+        {
+          withCredentials: true, // 세션 기반 인증 요청처리
+        }
+      );
 
       if (res.data.success) {
         alert("출석이 성공적으로 처리되었습니다!");
