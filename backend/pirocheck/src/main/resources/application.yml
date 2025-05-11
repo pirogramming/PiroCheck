@@ -12,3 +12,12 @@ spring:
       hibernate:
         format_sql: true
     open-in-view: false
+server:
+  servlet:
+    session:
+      cookie:
+        http-only: true     # 세션 쿠키를 HttpOnly로 설정 (JS에서 접근 불가)
+        secure: false       # HTTPS 전용 전송 (Https -> true로 바꿔야 함)
+        same-site: Lax      # CSRF 방지
+      timeout: 30m          # 세션 타임아웃 30분 (30 minutes)
+  address: 0.0.0.0

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    // InvalidLoginException (로그인 실패)
     @ExceptionHandler(InvalidLoginException.class)
     public ResponseEntity<ApiResponse<?>> handleInvalidLoginException(InvalidLoginException e) {
         return ResponseEntity
