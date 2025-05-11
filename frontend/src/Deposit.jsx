@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 const Deposit = () => {
   const [deposit, setDeposit] = useState(null);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.id;
@@ -12,7 +13,9 @@ const Deposit = () => {
     if (!userId) return;
 
     axios
-      .get(`/api/deposit/${userId}`)
+      .get(`/api/deposit/${userId}`, {
+        withCredentials: true, // 세션 쿠키 포함
+      })
       .then((res) => setDeposit(res.data))
       .catch((err) => {
         alert("보증금 정보를 불러오지 못했습니다.");
