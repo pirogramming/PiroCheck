@@ -1,4 +1,4 @@
-package backend.pirocheck.User.config;
+package backend.pirocheck.config;
 
 import backend.pirocheck.User.filter.SessionCheckFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

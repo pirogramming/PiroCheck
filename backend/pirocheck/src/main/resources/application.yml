@@ -20,3 +20,4 @@ server:
         secure: false       # HTTPS 전용 전송 (Https -> true로 바꿔야 함)
         same-site: Lax      # CSRF 방지
       timeout: 30m          # 세션 타임아웃 30분 (30 minutes)
+  address: 0.0.0.0
