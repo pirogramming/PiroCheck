@@ -3,7 +3,7 @@ import Header from "./components/Header";
 import InputBlock from "./components/InputBlock";
 import AttendanceWeekInfo from "./components/AttendanceWeekInfo";
 import styles from "./Attendance.module.css";
-import axios from "axios";
+import api from "./api/api";
 
 const Attendance = () => {
   const [attendanceCode, setAttendanceCode] = useState([""]);
@@ -88,7 +88,7 @@ const Attendance = () => {
       if (!userId) return;
 
       // 유저 전체 출석 데이터 불러오기
-      const res = await axios.get(`/api/attendance/user`, {
+      const res = await api.get(`/attendance/user`, {
         params: { userId },
         withCredentials: true, // 세션 기반 인증 요청처리
       });
@@ -108,7 +108,7 @@ const Attendance = () => {
       if (!userId) return;
 
       const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-      const res = await axios.get(`/api/attendance/user/date`, {
+      const res = await api.get(`/attendance/user/date`, {
         params: { userId, date: today },
         withCredentials: true, // 세션 기반 인증 요청처리
       });
@@ -151,8 +151,10 @@ const Attendance = () => {
       if (!userId) return;
 
       // 유저가 입력한 출석 코드 서버에 전달(서버에서 출석코드 체크)
+
       const res = await axios.post(
         "/api/attendance/mark",
+
         {
           userId,
           code: attendanceCode[0],

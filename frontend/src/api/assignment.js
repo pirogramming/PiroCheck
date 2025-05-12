@@ -1,8 +1,6 @@
-import axios from "axios";
+import api from "./api";
 
 export const fetchAssignmentsByUser = async (userId) => {
-  const res = await axios.get(`/api/assignment/grouped/${userId}`, {
-    withCredentials: true
-  });
+  const res = await api.get(`/assignment/grouped/${userId}`);
   return res.data;
 };

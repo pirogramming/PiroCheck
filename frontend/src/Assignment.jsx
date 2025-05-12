@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import AssignmentInfoBlock from "./components/AssignmentInfoBlock";
 import styles from "./Assignment.module.css";
 import { mapStatus } from "./utils/AssignmentStatus.js";
+import { fetchAssignmentsByUser } from "./api/assignment.js";
 
 const Assignment = () => {
   const [weeks, setWeeks] = useState([]);
@@ -16,18 +17,18 @@ const Assignment = () => {
     if (!userId) return;
 
     fetchAssignmentsByUser(userId)
-    .then((weekData) => {
-      const formatted = weekData.map((weekItem) => ({
-        label: `${weekItem.week}주차 ${weekItem.title}`,
-        details: weekItem.days.map((dayItem) => ({
-          day: dayItem.day,
-          subject: weekItem.title,
-          tasks: dayItem.details.map((task) => ({
-            label: task.assignmentName,
-            status: mapStatus(task.status),
+      .then((weekData) => {
+        const formatted = weekData.map((weekItem) => ({
+          label: `${weekItem.week}주차 ${weekItem.title}`,
+          details: weekItem.days.map((dayItem) => ({
+            day: dayItem.day,
+            subject: weekItem.title,
+            tasks: dayItem.details.map((task) => ({
+              label: task.assignmentName,
+              status: mapStatus(task.status),
+            })),
           })),
-        })),
-      }));
+        }));
 
         setWeeks(formatted);
 
@@ -63,4 +64,3 @@ const Assignment = () => {
 };
 
 export default Assignment;
-
