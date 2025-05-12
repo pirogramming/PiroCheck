@@ -1,5 +1,5 @@
 export const loginUser = async ({ name, password }) => {
-  const res = await fetch("http://www.pirocheck.org/api/login", {
+  const res = await fetch("http://api.pirocheck.org/api/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
