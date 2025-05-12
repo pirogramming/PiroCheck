@@ -48,9 +48,9 @@ jobs:
           "fuser -k 8080/tcp || true && nohup java -jar pirocheck-0.0.1-SNAPSHOT.jar > log.txt 2>&1 &"
 
     
-      - name: Restart Spring Boot on EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no -i pirocheck.pem ubuntu@${{ secrets.EC2_HOST }} 'bash ~/restart.sh'
+   #   - name: Restart Spring Boot on EC2
+   #     run: |
+     #     ssh -o StrictHostKeyChecking=no -i pirocheck.pem ubuntu@${{ secrets.EC2_HOST }} 'bash ~/restart.sh'
       
       
       - name: Send Discord notification (Success)
