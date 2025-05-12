@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Header from "./components/Header";
-import InputBlock from "./components/InputBlock";
-import AttendanceWeekInfo from "./components/AttendanceWeekInfo";
+import Header from "../components/Header";
+import InputBlock from "../components/InputBlock";
+import AttendanceWeekInfo from "../components/AttendanceWeekInfo";
 import styles from "./Attendance.module.css";
-import api from "./api/api";
+import api from "../api/api";
 
 const Attendance = () => {
   const [attendanceCode, setAttendanceCode] = useState([""]);

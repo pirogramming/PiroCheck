@@ -1,8 +1,8 @@
-import Header from "./components/Header";
+import Header from "../components/Header";
 import styles from "./Deposit.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import api from "./api/api";
+import api from "../api/api";
 
 const Deposit = () => {
   const [deposit, setDeposit] = useState(null);
