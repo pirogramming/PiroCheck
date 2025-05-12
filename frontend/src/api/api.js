@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://api.pirocheck.org/api",
+  baseURL: "http://api.pirocheck.org:8080/api",
   withCredentials: true,
 });
 
