@@ -2,11 +2,11 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
 import Home from "./Home";
-import Assignment from "./Assignment";
-import Deposit from "./Deposit";
+import Assignment from "./pages/generation/Assignment";
+import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
-import Admin from "./Admin";
-import Attendance from "./Attendance";
+import Admin from "./pages/admin/Admin";
+import Attendance from "./pages/generation/Attendance";
 
 function App() {
   return (

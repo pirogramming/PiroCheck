@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import WeeklyListBlock from "./components/WeeklyListBlock";
-import Header from "./components/Header";
-import AssignmentInfoBlock from "./components/AssignmentInfoBlock";
+import WeeklyListBlock from "../../components/WeeklyListBlock";
+import Header from "../../components/Header";
+import AssignmentInfoBlock from "../../components/AssignmentInfoBlock";
 import styles from "./Assignment.module.css";
-import { mapStatus } from "./utils/AssignmentStatus.js";
-import { fetchAssignmentsByUser } from "./api/assignment.js";
+import { mapStatus } from "../../utils/AssignmentStatus.js";
+import { fetchAssignmentsByUser } from "../../api/assignment.js";
 
 const Assignment = () => {
   const [weeks, setWeeks] = useState([]);
