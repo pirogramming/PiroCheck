@@ -1,4 +1,4 @@
 const AttendanceCode = () => {
-  return <p>수강생 관리</p>;
+  return <p>출석코드 생성</p>;
 };
 export default AttendanceCode;
