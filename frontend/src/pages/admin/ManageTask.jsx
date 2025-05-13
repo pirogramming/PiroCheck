@@ -1,4 +1,4 @@
 const MagageTask = () => {
-  return <p>수강생 관리</p>;
+  return <p>과제 관리</p>;
 };
 export default MagageTask;

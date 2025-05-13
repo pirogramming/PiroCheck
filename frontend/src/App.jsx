@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./Login";
-import Home from "./Home";
+import Home from "./pages/admin/Home";
 import Assignment from "./pages/generation/Assignment";
 import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
