@@ -6,6 +6,9 @@ import Assignment from "./pages/generation/Assignment";
 import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
 import Admin from "./pages/admin/Admin";
+import MagageStudent from "./pages/admin/MagageStudent";
+import MagageTask from "./pages/admin/MagageTask";
+import AttendanceCode from "./pages/admin/AttendanceCode";
 import Attendance from "./pages/generation/Attendance";
 
 function App() {
@@ -19,6 +22,9 @@ function App() {
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/deposit" element={<Deposit />} />
         <Route path="/admin" element={<Admin />} />
+        <Route path="/magagestudent" element={<MagageStudent />} />
+        <Route path="/magagetask" element={<MagageTask />} />
+        <Route path="/attendancecode" element={<AttendanceCode />} />
       </Routes>
     </BrowserRouter>
   );
