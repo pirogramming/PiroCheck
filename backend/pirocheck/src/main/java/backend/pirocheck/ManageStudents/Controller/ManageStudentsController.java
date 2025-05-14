@@ -1,13 +1,10 @@
 package backend.pirocheck.ManageStudents.Controller;
 
+import backend.pirocheck.ManageStudents.dto.response.ManageStudentDetailResDto;
 import backend.pirocheck.ManageStudents.dto.response.ManageStudentsListResDto;
 import backend.pirocheck.ManageStudents.service.ManageStudentsService;
-import backend.pirocheck.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +15,15 @@ public class ManageStudentsController {
 
     private final ManageStudentsService manageStudentsService;
 
-    @GetMapping
+    // 수강생 리스트 조회
+    @GetMapping("")
     public List<ManageStudentsListResDto> getStudents(@RequestParam(required = false) String name) {
-        return manageStudentsService.searchStudents(name);
+        return manageStudentsService.searchMembers(name);
     }
 
+    // 수강생 상세 조회
+    @GetMapping("/{studentId}")
+    public ManageStudentDetailResDto getStudentDetail(@PathVariable Long studentId) {
+        return manageStudentsService.getMemberDetail(studentId);
+    }
 }
