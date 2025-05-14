@@ -1,6 +1,6 @@
 package backend.pirocheck.ManageStudents.Controller;
 
-import backend.pirocheck.ManageStudents.dto.request.ShieldUpdateReqDto;
+import backend.pirocheck.ManageStudents.dto.request.DefenceUpdateReqDto;
 import backend.pirocheck.ManageStudents.dto.response.ManageStudentDetailResDto;
 import backend.pirocheck.ManageStudents.dto.response.ManageStudentsListResDto;
 import backend.pirocheck.ManageStudents.service.ManageStudentsService;
@@ -29,9 +29,9 @@ public class ManageStudentsController {
     }
 
     // 방어권 업데이트
-    @PatchMapping("/{studentId}/shield")
-    public void updateShield(@PathVariable Long studentId, @RequestBody ShieldUpdateReqDto req) {
-        manageStudentsService.updateShield(studentId, req.getShield());
+    @PatchMapping("/{studentId}/defence")
+    public void updateDefence(@PathVariable Long studentId, @RequestBody DefenceUpdateReqDto req) {
+        manageStudentsService.updateDefence(studentId, req.getDefence());
     }
 
 }

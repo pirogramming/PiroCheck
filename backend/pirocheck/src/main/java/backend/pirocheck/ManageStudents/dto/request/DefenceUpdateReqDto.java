@@ -6,6 +6,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ShieldUpdateReqDto {
-    private int shield;
+public class DefenceUpdateReqDto {
+    private int defence;
 }
