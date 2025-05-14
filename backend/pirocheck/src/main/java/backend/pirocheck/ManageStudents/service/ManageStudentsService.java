@@ -68,6 +68,23 @@ public class ManageStudentsService {
                 .shield(deposit.getAscentDefence())
                 .assignmentTitles(assignmentTitles)
                 .build();
+    }
+
+    // 방어권 업데이트
+    public void updateShield(Long studentId, int shield) {
+        User user = userRepository.findById(studentId)
+                .orElseThrow(() -> new RuntimeException("해당 수강생의 보증금 정보가 없습니다."));
+        Deposit deposit = depositRepository.findByUser(user);
+
+        // 업데이트
+        deposit.updateAmounts(
+                deposit.getDescentAssignment(),
+                deposit.getDescentAssignment(),
+                shield  // 수정한 방어권
+        );
+
+        // 저장
+        depositRepository.save(deposit);
 
     }
 }
