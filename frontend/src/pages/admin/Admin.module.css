@@ -28,10 +28,12 @@
   font-weight: 400;
   font-size: 16px;
   border: none;
-  padding: 15px;
+  padding: 29px 103px;
   font-weight: bold;
   margin-bottom: 26px;
   z-index: 1;
+  display: flex;
+  justify-content: center;
 }
 .button p {
   text-align: start;
@@ -43,6 +45,6 @@
 .home img {
   position: relative;
   opacity: 0.8;
-  bottom: -2%;
+  bottom: 11%;
   z-index: 0;
 }
