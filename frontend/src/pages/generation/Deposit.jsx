@@ -1,6 +1,5 @@
 import Header from "../../components/Header";
 import styles from "./Deposit.module.css";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import api from "../../api/api";
 
