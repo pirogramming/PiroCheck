@@ -1,0 +1,28 @@
+.num_wrapper {
+  width: 73px;
+  height: 101px;
+  background-color: #575757;
+  border-radius: 21px;
+  border: 1px solid #a6a6a6;
+}
+.num_container {
+  margin-top: 130px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+.attendancecode_wraper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.createbutton {
+  width: 60px;
+  height: 42px;
+  background-color: #575757;
+  border-radius: 21px;
+  margin-top: 60px;
+  border: 1px solid #a6a6a6;
+  color: white;
+}
