@@ -15,6 +15,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<AttendanceCode />} />
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
@@ -24,7 +25,6 @@ function App() {
         <Route path="/admin" element={<Admin />} />
         <Route path="/magagestudent" element={<MagageStudent />} />
         <Route path="/magagetask" element={<ManageTask />} />
-        <Route path="/attendancecode" element={<AttendanceCode />} />
       </Routes>
     </BrowserRouter>
   );
