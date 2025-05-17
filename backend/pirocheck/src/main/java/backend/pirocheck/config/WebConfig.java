@@ -13,6 +13,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://pirocheck.org") // 프론트 배포 URL
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP 메서드
                 .allowCredentials(true); // 세션 쿠키 주고받기 허용
-                .allowedHeaders("*")
+                .allowedHeaders("*");
     }
 }
