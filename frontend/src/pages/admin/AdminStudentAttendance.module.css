@@ -1,0 +1,47 @@
+.container {
+  padding: 24px;
+  font-family: "Pretendard", sans-serif;
+  background-color: #fdfdfd;
+}
+
+.header {
+  margin-bottom: 32px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 16px;
+}
+
+.header h2 {
+  font-size: 24px;
+  margin-bottom: 4px;
+}
+
+.header p {
+  font-size: 14px;
+  color: #777;
+}
+
+.attendanceSection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.buttonWrapper {
+  margin-top: 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.saveButton {
+  background-color: #1e88e5;
+  color: white;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.saveButton:hover {
+  background-color: #1565c0;
+}
