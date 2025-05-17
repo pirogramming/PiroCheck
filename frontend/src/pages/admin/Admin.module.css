@@ -1,0 +1,50 @@
+.home {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow: hidden;
+  font-family: "Akira Expanded";
+}
+.pirocheck {
+  margin-top: 84px;
+  font-size: 1.25rem;
+  margin-bottom: 103px;
+}
+.home_container {
+  background-color: var(--background-black);
+  color: var(--main-green);
+  font-family: "Cafe24Moyamoya-Regular-v1.0", sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+.button {
+  width: 309px;
+  height: 81px;
+  border-radius: 8px;
+  background-color: var(--border-gray);
+  color: var(--text-white);
+  font-family: "Akira Expanded";
+  font-weight: 400;
+  font-size: 16px;
+  border: none;
+  padding: 29px 103px;
+  font-weight: bold;
+  margin-bottom: 26px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+}
+.button p {
+  text-align: start;
+}
+.button:hover {
+  background-color: var(--card-toggle-green);
+  color: var(--text-white);
+}
+.home img {
+  position: relative;
+  opacity: 0.8;
+  bottom: 11%;
+  z-index: 0;
+}
