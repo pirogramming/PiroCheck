@@ -1,6 +1,6 @@
 import React from "react";
-// import "./componentsCss/AdminWeeklyAttendanceList.css";
-import "./componentsCss/AttendanceWeekInfo.css";
+import "./componentsCss/AdminWeeklyAttendanceList.css";
+//import "./componentsCss/AttendanceWeekInfo.css";
 
 const AdminWeeklyAttendanceList = ({ attendanceData, onSelectWeek }) => {
   return (

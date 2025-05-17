@@ -11,7 +11,7 @@ const AdminStudentAttendance = () => {
   const [studentInfo, setStudentInfo] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-
+/*
   useEffect(() => {
     // 1. 학생 정보 가져오기
     api.get(`/admin/users/${studentId}`).then((res) => {
@@ -30,6 +30,24 @@ const AdminStudentAttendance = () => {
         setAttendanceData(processed);
       });
   }, [studentId]);
+  */
+
+// 더미데이터 임시!!
+  useEffect(() => {
+
+    setStudentInfo({ name: "김피로" });
+
+    const mockAttendance = Array.from({ length: 5 }, (_, weekIdx) => ({
+      week: weekIdx + 1,
+      classes: [
+        { status: "SUCCESS", date: "2025-06-24" },
+        { status: "INSUFFICIENT", date: "2025-06-26" },
+        { status: "EMPTY", date: "2025-06-28" },
+      ],
+    }));
+
+    setAttendanceData(mockAttendance);
+  }, []);
 
   // 날짜 기반 주차-회차 구조로 변환
   const processWeeklyAttendance = (rawData) => {
