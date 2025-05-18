@@ -1,8 +1,10 @@
 package backend.pirocheck.Assignment.controller;
 
 import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentItemCreateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
+import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.service.AssignmentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -98,13 +100,14 @@ public class AssignmentController {
             }
     )
     @PostMapping("/admin/users/{userId}/assignments/{assignmentId}/submission")
-    public String submissionAssignment(
+    public AssignmentStatus submissionAssignment(
             @Parameter(description = "사용자 ID", example = "1")
             @PathVariable Long userId,
             @Parameter(description = "과제 ID", example = "1")
-            @PathVariable Long assignmentId
+            @PathVariable Long assignmentId,
+            @RequestBody AssignmentItemCreateReq req
     ) {
-        return null;
+        return assignmentService.createAssignmentItem(userId, assignmentId, req);
     }
 
     // 사용자별 과제 제출 여부 수정 API

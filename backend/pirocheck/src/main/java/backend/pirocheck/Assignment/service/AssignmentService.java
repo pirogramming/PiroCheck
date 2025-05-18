@@ -1,14 +1,18 @@
 package backend.pirocheck.Assignment.service;
 
 import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentItemCreateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentDayRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentDetailRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
 import backend.pirocheck.Assignment.entity.Assignment;
 import backend.pirocheck.Assignment.entity.AssignmentItem;
+import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Assignment.repository.AssignmentRepository;
+import backend.pirocheck.User.entity.User;
+import backend.pirocheck.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +29,7 @@ public class AssignmentService {
 
     private final AssignmentItemRepository assignmentItemRepository;
     private final AssignmentRepository assignmentRepository;
+    private final UserRepository userRepository;
 
     public List<AssignmentWeekRes> search(Long userId) {
 
@@ -78,11 +83,13 @@ public class AssignmentService {
         return assignment.getAssignmentName();
     }
 
+    // 과제 삭제
     public String deleteAssignment(Long assignmentId) {
         assignmentRepository.deleteById(assignmentId);
-        return "Assignment deleted successfully";
+        return "과제가 성공적으로 삭제되었습니다.";
     }
 
+    // 과제 수정
     public String updateAssignment(Long assignmentId, AssignmentUpdateReq req) {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
@@ -91,5 +98,24 @@ public class AssignmentService {
         assignmentRepository.save(assignment);
 
         return assignment.getAssignmentName();
+    }
+
+    // 과제 채점 결과 저장
+    public AssignmentStatus createAssignmentItem(Long assignmentId, Long userId, AssignmentItemCreateReq req) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 사용자가 없습니다."));
+
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
+
+        AssignmentItem assignmentItem = AssignmentItem.create(
+                user,
+                assignment,
+                req.getStatus()
+        );
+
+        assignmentItemRepository.save(assignmentItem);
+
+        return assignmentItem.getSubmitted();
     }
 }
