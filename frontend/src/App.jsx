@@ -6,7 +6,7 @@ import Assignment from "./pages/generation/Assignment";
 import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
 import Admin from "./pages/admin/Admin";
-import MagageStudent from "./pages/admin/ManageStudent.jsx";
+import ManageStudent from "./pages/admin/ManageStudent.jsx";
 import ManageTask from "./pages/admin/ManageTask.jsx";
 import AttendanceCode from "./pages/admin/AttendanceCode";
 import Attendance from "./pages/generation/Attendance";
@@ -23,7 +23,7 @@ function App() {
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/deposit" element={<Deposit />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/magagestudent" element={<MagageStudent />} />
+        <Route path="/managestudent" element={<ManageStudent />} />
         <Route path="/magagetask" element={<ManageTask />} />
         <Route path="/attendancecode" element={<AttendanceCode />} />
         <Route path="/admin/attendance/:studentId" element={<AdminStudentAttendance />} />
