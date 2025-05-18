@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import InputBlock from "../../components/InputBlock";
 import style from "./ManageStudent.module.css";
 
-const MagageStudent = () => {
+const ManageStudent = () => {
   const [studentName, setStudentName] = useState([""]);
 
   const handleChange = (index, value) => {
@@ -28,4 +28,4 @@ const MagageStudent = () => {
     </div>
   );
 };
-export default MagageStudent;
+export default ManageStudent;
