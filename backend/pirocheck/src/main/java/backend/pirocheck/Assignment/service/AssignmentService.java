@@ -42,6 +42,7 @@ public class AssignmentService {
 
         for (Map.Entry<Long, List<AssignmentItem>> entry : weekGroup.entrySet()) {
             Long week = entry.getKey();
+            String subject = String.valueOf(entry.getKey());
             List<AssignmentItem> assignmentList = entry.getValue();
 
             // day를 기준으로 그룹핑
@@ -64,7 +65,7 @@ public class AssignmentService {
                 assignmentDayResList.add(new AssignmentDayRes(day, assignmentDetailResList));
             }
 
-            assignmentResponses.add(new AssignmentWeekRes(week, assignmentDayResList));
+            assignmentResponses.add(new AssignmentWeekRes(week, subject, assignmentDayResList));
         }
 
         return assignmentResponses;
@@ -73,6 +74,7 @@ public class AssignmentService {
     public String createAssignment(AssignmentCreateReq assignmentCreateReq) {
 
         Assignment assignment = Assignment.create(
+                assignmentCreateReq.getSubject(),
                 assignmentCreateReq.getAssignmentName(),
                 assignmentCreateReq.getWeek(),
                 assignmentCreateReq.getDay(),
@@ -94,7 +96,7 @@ public class AssignmentService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
 
-        assignment.update(req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
+        assignment.update(req.getSubject(), req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
         assignmentRepository.save(assignment);
 
         return assignment.getAssignmentName();

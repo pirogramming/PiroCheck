@@ -19,6 +19,9 @@ public class Assignment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 전체 주제
+    private String subject;
+
     // 과제명
     private String assignmentName;
 
@@ -43,8 +46,9 @@ public class Assignment {
     }
 
     // 관리자가 생성
-    public static Assignment create(String assignmentName, Long week, String day, Long orderNumber) {
+    public static Assignment create(String subject, String assignmentName, Long week, String day, Long orderNumber) {
         return Assignment.builder()
+                .subject(subject)
                 .assignmentName(assignmentName)
                 .week(week)
                 .day(day)
@@ -53,7 +57,8 @@ public class Assignment {
     }
 
     // 과제 내용 업데이트
-    public void update(String assignmentName, Long week, String day, Long orderNumber) {
+    public void update(String subject, String assignmentName, Long week, String day, Long orderNumber) {
+        this.subject = subject;
         this.assignmentName = assignmentName;
         this.week = week;
         this.day = day;

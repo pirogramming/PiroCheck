@@ -10,6 +10,10 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AssignmentUpdateReq {
 
+    @Schema(description = "과제 주제", example = "Git/HTML/CSS")
+    @NotNull(message = "과제 주제는 필수입니다.")
+    private String subject;
+
     @Schema(description = "과제명", example = "제로초 인강")
     @NotNull(message = "과제명은 필수입니다.")
     private String assignmentName;
