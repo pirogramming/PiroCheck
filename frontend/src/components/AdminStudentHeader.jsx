@@ -21,7 +21,7 @@ const AdminStudentHeader = ({ studentName = "default", onBack }) => {
 
       <button
         className="icon-button"
-        onClick={() => navigate(`/admin/deposit/${studentId}`)}
+        onClick={() => navigate(`/admin/managestudent`)}
       >
         👥
       </button>
