@@ -3,6 +3,7 @@ package backend.pirocheck.Attendance.service;
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
+import backend.pirocheck.Attendance.dto.response.AttendanceMarkResponse;
 import backend.pirocheck.Attendance.dto.response.AttendanceSlotRes;
 import backend.pirocheck.Attendance.dto.response.AttendanceStatusRes;
 import backend.pirocheck.Attendance.entity.Attendance;
@@ -43,6 +44,11 @@ public class AttendanceService {
 
         // 오늘 생성된 출석코드 개수 = 현재까지 생성된 차시 수 + 1 (MAX=3)
         int currentOrder = attendanceCodeRepository.countByDate(today) + 1;
+        
+        // 하루 최대 3회 출석 체크만 허용
+        if (currentOrder > 3) {
+            throw new IllegalStateException("하루에 최대 3회까지만 출석 체크를 진행할 수 있습니다.");
+        }
 
         // 1. 출석 코드 생성
         String code = String.valueOf(ThreadLocalRandom.current().nextInt(1000, 10000));
@@ -119,25 +125,38 @@ public class AttendanceService {
 
     // 출석처리 함수
     @Transactional
-    public String markAttendance(Long userId, String inputCode) {
-        // 1. 출석코드 일치 비교
-        Optional<AttendanceCode> validCodeOpt = attendanceCodeRepository.findByCodeAndDate(inputCode, LocalDate.now());
-
+    public AttendanceMarkResponse markAttendance(Long userId, String inputCode) {
+        // 오늘 날짜
+        LocalDate today = LocalDate.now();
+        
+        // 현재 활성화된 출석 코드가 있는지 확인
+        List<AttendanceCode> activeCodes = attendanceCodeRepository.findByDateAndIsExpiredFalse(today);
+        
+        // 활성화된 출석 코드가 없는 경우
+        if (activeCodes.isEmpty()) {
+            return AttendanceMarkResponse.noActiveSession();
+        }
+        
+        // 입력한 출석 코드와 일치하는 코드가 있는지 확인
+        Optional<AttendanceCode> validCodeOpt = attendanceCodeRepository.findByCodeAndDate(inputCode, today);
+        
+        // 입력한 출석 코드가 존재하지 않는 경우
         if (validCodeOpt.isEmpty()) {
-            return "출석 코드가 존재하지 않습니다. 현재 출석 체크가 진행중이 아닙니다";
+            return AttendanceMarkResponse.invalidCode();
         }
 
         AttendanceCode code = validCodeOpt.get();
         
+        // 입력한 출석 코드가 만료된 경우
         if (code.isExpired()) {
-            return "출석 코드가 만료되었습니다";
+            return AttendanceMarkResponse.codeExpired();
         }
 
         // 2. 해당 유저의 출석 레코드 조회
         Optional<Attendance> attendanceOpt = attendanceRepository.findByUserIdAndDateAndOrder(userId, code.getDate(), code.getOrder());
 
         if (attendanceOpt.isEmpty()) {
-            return "출석 정보를 찾을 수 없습니다";
+            return AttendanceMarkResponse.error("출석 정보를 찾을 수 없습니다");
         }
 
         // 3. 출석 처리
@@ -145,13 +164,13 @@ public class AttendanceService {
         
         // 이미 출석한 경우
         if (attendance.isStatus()) {
-            return "이미 출석처리가 완료되었습니다";
+            return AttendanceMarkResponse.alreadyMarked();
         }
         
         attendance.setStatus(true);
         attendanceRepository.save(attendance);
 
-        return "출석이 성공적으로 처리되었습니다";
+        return AttendanceMarkResponse.success();
     }
 
     // 유저의 전체 출석 현황을 조회하는 함수

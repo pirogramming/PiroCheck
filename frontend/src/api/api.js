@@ -2,9 +2,10 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "http://api.pirocheck.org:8080/api",
+
   // 수정 필요한지 재검 필요함
   // "http://api.pirocheck.org:8080/api"
-  // 기존: "http://api.:8080/api"
+
   withCredentials: true,
 });
 
