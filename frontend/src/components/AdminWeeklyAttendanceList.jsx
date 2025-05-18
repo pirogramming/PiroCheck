@@ -10,7 +10,7 @@ const AdminWeeklyAttendanceList = ({ attendanceData, onSelectWeek }) => {
           <p className="weekInfo">{week}주차</p>
           <div className="coin_img_container">
             {classes.map((cls, idx) => (
-              <img key={idx} src={cls.image} alt={`status-${idx}`} />
+              <img key={idx} src={cls.image}  />
             ))}
           </div>
         </div>
