@@ -4,3 +4,44 @@
   flex-direction: column;
   align-items: center;
 }
+.student_list {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+.under_header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.student_button {
+  background-color: #333;
+  color: white;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #39ff14;
+  text-align: left;
+  font-size: 16px;
+  width: 100%;
+}
+.pagination {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+.pagination button {
+  background-color: #111;
+  color: #39ff14;
+  padding: 8px 12px;
+  border: 1px solid #39ff14;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
