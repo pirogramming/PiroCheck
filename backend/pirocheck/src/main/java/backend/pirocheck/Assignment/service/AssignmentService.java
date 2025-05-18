@@ -1,6 +1,7 @@
 package backend.pirocheck.Assignment.service;
 
-import backend.pirocheck.Assignment.dto.request.AssignmentReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentDayRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentDetailRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
@@ -64,15 +65,30 @@ public class AssignmentService {
         return assignmentResponses;
     }
 
-    public String create(AssignmentReq assignmentReq) {
+    public String createAssignment(AssignmentCreateReq assignmentCreateReq) {
 
         Assignment assignment = Assignment.create(
-                assignmentReq.getAssignmentName(),
-                assignmentReq.getWeek(),
-                assignmentReq.getDay(),
-                assignmentReq.getOrderNumber());
+                assignmentCreateReq.getAssignmentName(),
+                assignmentCreateReq.getWeek(),
+                assignmentCreateReq.getDay(),
+                assignmentCreateReq.getOrderNumber());
 
         assignment = assignmentRepository.save(assignment);
+
+        return assignment.getAssignmentName();
+    }
+
+    public String deleteAssignment(Long assignmentId) {
+        assignmentRepository.deleteById(assignmentId);
+        return "Assignment deleted successfully";
+    }
+
+    public String updateAssignment(Long assignmentId, AssignmentUpdateReq req) {
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
+
+        assignment.update(req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
+        assignmentRepository.save(assignment);
 
         return assignment.getAssignmentName();
     }

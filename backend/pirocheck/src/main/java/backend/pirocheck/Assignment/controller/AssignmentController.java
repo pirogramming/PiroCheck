@@ -1,6 +1,7 @@
 package backend.pirocheck.Assignment.controller;
 
-import backend.pirocheck.Assignment.dto.request.AssignmentReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
 import backend.pirocheck.Assignment.service.AssignmentService;
 import lombok.RequiredArgsConstructor;
@@ -24,20 +25,25 @@ public class AssignmentController {
 
     // 과제 생성 API
     @PostMapping("/admin/assignment/signup")
-    public String signupAssignment(@RequestBody AssignmentReq assignmentReq) {
-        return assignmentService.create(assignmentReq);
+    public String signupAssignment(@RequestBody AssignmentCreateReq assignmentCreateReq) {
+        return assignmentService.createAssignment(assignmentCreateReq);
     }
 
     // 과제 삭제 API
-    @DeleteMapping("/admin/assignment/delete")
-    public String deleteAssignment(@RequestBody AssignmentReq assignmentReq) {
-        return null;
+    @DeleteMapping("/admin/assignment/{assignmentId}")
+    public String deleteAssignment(
+            @PathVariable Long assignmentId
+    ) {
+        return assignmentService.deleteAssignment(assignmentId);
     }
 
     // 과제 수정 API
-    @PatchMapping("/admin/assignment/update")
-    public String updateAssignment(@RequestBody AssignmentReq assignmentReq) {
-        return null;
+    @PutMapping("/admin/assignment/{assignmentId}")
+    public String updateAssignment(
+            @PathVariable("assignmentId") Long assignmentId,
+            @RequestBody AssignmentUpdateReq assignmentUpdateReq
+    ) {
+        return assignmentService.updateAssignment(assignmentId, assignmentUpdateReq);
     }
 
     // 사용자별 과제 제출 여부 생성 API
@@ -47,7 +53,7 @@ public class AssignmentController {
     }
 
     // 사용자별 과제 제출 여부 수정 API
-    @PatchMapping("/api/users/{userId}/assignments/{assignmentId}/submission")
+    @PutMapping("/api/users/{userId}/assignments/{assignmentId}/submission")
     public String updateSubmission(@PathVariable Long userId, @PathVariable Long assignmentId) {
         return null;
     }

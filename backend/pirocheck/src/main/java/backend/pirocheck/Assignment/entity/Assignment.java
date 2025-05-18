@@ -49,4 +49,12 @@ public class Assignment {
                 .orderNumber(orderNumber)
                 .build();
     }
+
+    // 과제 내용 업데이트
+    public void update(String assignmentName, Long week, String day, Long orderNumber) {
+        this.assignmentName = assignmentName;
+        this.week = week;
+        this.day = day;
+        this.orderNumber = orderNumber;
+    }
 }

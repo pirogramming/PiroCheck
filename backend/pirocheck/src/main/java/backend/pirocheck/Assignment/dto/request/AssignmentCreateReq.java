@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class AssignmentReq {
+public class AssignmentCreateReq {
 
     private String assignmentName;
     private Long week;
