@@ -1,4 +1,4 @@
-package backend.pirocheck.assignment.dto.response;
+package backend.pirocheck.Assignment.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
