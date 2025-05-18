@@ -1,4 +1,11 @@
-const MagageTask = () => {
-  return <p>과제 관리</p>;
+import Header from "../../components/Header";
+import style from "./ManageTask.module.css";
+
+const ManageTask = () => {
+  return (
+    <div className={style.managetask_wrapper}>
+      <Header />
+    </div>
+  );
 };
-export default MagageTask;
+export default ManageTask;
