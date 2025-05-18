@@ -56,7 +56,7 @@ const AdminStudentAttendance = () => {
       const d = new Date(dateStr);
       const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
       return Math.floor(diffDays / 7) + 1;
-    };
+    }; 
 
     const weekSlotMap = new Map();
     const dateMap = new Map(); // 추가: 날짜 저장
