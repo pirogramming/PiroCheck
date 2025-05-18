@@ -26,6 +26,8 @@
   min-width: 250px;
   margin-right: 8px;
   font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
 }
 .edit_icon {
   width: 20px;
@@ -53,11 +55,13 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  align-items: center;
 }
 .modal_header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 }
 .close_button {
   background: none;
@@ -65,6 +69,11 @@
   color: white;
   font-size: 20px;
   cursor: pointer;
+  position: absolute;
+  left: 130px;
+}
+.modal_body {
+  width: 90%;
 }
 .modal_body label {
   margin-block: 10px;

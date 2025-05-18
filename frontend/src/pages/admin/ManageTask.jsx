@@ -4,9 +4,9 @@ import style from "./ManageTask.module.css";
 import TaskModal from "../../components/TaskModal";
 
 const weekData = [
-  { week: "1주차", title: "", tasks: [] },
-  { week: "2주차", title: "JS개론/웹개론", tasks: [] },
-  { week: "3주차", title: "JS개론/웹개론", tasks: [] },
+  { week: "1주차", title: "Comming soon~", tasks: [] },
+  { week: "2주차", title: "Comming soon~", tasks: [] },
+  { week: "3주차", title: "Comming soon~", tasks: [] },
   { week: "4주차", title: "Comming soon~", tasks: [] },
   { week: "5주차", title: "Comming soon~", tasks: [] },
 ];
@@ -29,7 +29,7 @@ const ManageTask = () => {
         {weekData.map((week, index) => (
           <div key={index} className={style.week_block}>
             <button className={style.week_button}>
-              {week.week} {week.title && ` ${week.title}`}
+              {week.week} {week.title && `  ${week.title}`}
             </button>
             <img
               src="/assets/img/edit.png"
