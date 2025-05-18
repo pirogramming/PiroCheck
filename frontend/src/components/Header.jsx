@@ -10,8 +10,12 @@ const Header = () => {
   if (path.includes("assignment")) title = "ASSIGNMENT\nCHECK";
   else if (path.includes("deposit")) title = "DEPOSIT";
   else if (path.includes("attendance")) title = "ATTENDANCE\nCHECK";
+  else if (path.includes("managestudent")) title = "수강생 관리";
+  else if (path.includes("magagetask")) title = "과제 관리";
+  else if (path.includes("attendancecode")) title = "출석코드 생성";
 
-  const showRightButton = !path.includes("deposit");
+  const showRightDeposit = !path.includes("deposit");
+  const showRightMagageStudent = path.includes("attendancecode");
 
   return (
     <header className="header-container">
@@ -28,7 +32,7 @@ const Header = () => {
         />
       </button>
       <h1 className="header-title">{title}</h1>
-      {showRightButton ? (
+      {showRightDeposit ? (
         <button
           className="icon-button"
           onClick={() => navigate("/deposit")}
@@ -44,6 +48,20 @@ const Header = () => {
       ) : (
         <div style={{ width: "30px" }} />
       )}
+      {showRightMagageStudent ? (
+        <button
+          className="icon-button"
+          onClick={() => navigate("/managestudent")}
+          aria-label="수강생 관리 페이지 이동"
+        >
+          <img
+            src="/assets/img/managestudent.svg"
+            alt="MagageStudent"
+            width={30}
+            height={30}
+          />
+        </button>
+      ) : null}
     </header>
   );
 };
