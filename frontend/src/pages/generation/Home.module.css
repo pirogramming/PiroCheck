@@ -5,10 +5,10 @@
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
-  font-family: 'Akira Expanded';
+  font-family: "Akira Expanded";
 }
 .pirocheck {
-  margin-top: 43px;
+  margin-top: 84px;
   font-size: 1.25rem;
   margin-bottom: 103px;
 }
@@ -24,10 +24,10 @@
   border-radius: 8px;
   background-color: var(--border-gray);
   color: var(--text-white);
-  font-family: 'Akira Expanded';
+  font-family: "Akira Expanded";
   font-weight: 400;
   font-size: 16px;
-  border: 1px var(--background-black) solid;
+  border: none;
   padding: 15px;
   font-weight: bold;
   margin-bottom: 26px;
@@ -43,6 +43,6 @@
 .home img {
   position: relative;
   opacity: 0.8;
-  top: -92px;
+  bottom: -2%;
   z-index: 0;
 }

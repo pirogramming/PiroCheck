@@ -2,13 +2,11 @@ package backend.pirocheck.Deposit.entity;
 
 import backend.pirocheck.User.entity.User;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -35,6 +33,14 @@ public class Deposit {
 
         int calculateAmount = 120000 - descentAssignment - descentAttendance + ascentDefence;
         this.amount = Math.min(calculateAmount, 120000);  // 12만원 넘어가지 않도록
+    }
+
+    // 방어권 업데이트
+    public void updateDefence(int newAscentDefence) {
+        this.ascentDefence = newAscentDefence;
+        int calculateAmount = 120000 - this.descentAssignment - this.descentAttendance + newAscentDefence;
+        this.amount = Math.min(calculateAmount, 120000);
+
     }
 
 }
