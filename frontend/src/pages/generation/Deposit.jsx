@@ -1,18 +1,20 @@
-import Header from "./components/Header";
+import Header from "../../components/Header";
 import styles from "./Deposit.module.css";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import api from "../../api/api";
 
 const Deposit = () => {
   const [deposit, setDeposit] = useState(null);
+
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
     const userId = user?.id;
 
     if (!userId) return;
 
-    axios
-      .get(`/api/deposit/${userId}`)
+    api
+      .get(`/deposit/${userId}`)
       .then((res) => setDeposit(res.data))
       .catch((err) => {
         alert("보증금 정보를 불러오지 못했습니다.");
