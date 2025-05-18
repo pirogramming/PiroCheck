@@ -8,6 +8,19 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
 
   useEffect(() => {
     const fetchSlots = async () => {
+      /*
+           {
+      //  개발용 더미 데이터
+      const dummySlots = [
+        { id: 1, status: true },
+        { id: 2, status: false },
+        { id: 3, status: true },
+      ];
+      setSlots(dummySlots);
+      setModified(Array(dummySlots.length).fill(false));
+      return;
+    }
+      */
       try {
         const res = await api.get("/attendance/user/date", {
           params: { userId: studentId, date },
@@ -74,11 +87,11 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
         {slots.map((slot, idx) => (
           <div key={slot.id} className="slot-row">
             <span>{idx + 1}차 출석</span>
-            <input
-              type="checkbox"
-              checked={slot.status}
-              onChange={() => handleToggle(idx)}
-            />
+            <select value={slot.status} onChange={(e) => handleChange(idx, e.target.value)}>
+              <option value="SUCCESS">성공</option>
+              <option value="FAILURE">실패</option>
+            </select>
+
             <button
               className="save-btn"
               onClick={() => handleSave(idx)}
