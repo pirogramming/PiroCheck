@@ -4,3 +4,103 @@
   flex-direction: column;
   align-items: center;
 }
+.week_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.week_block {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+  width: 100%;
+  justify-content: center;
+}
+.week_button {
+  background-color: #444;
+  color: white;
+  padding: 14px 16px;
+  border: none;
+  border-radius: 8px;
+  min-width: 250px;
+  margin-right: 8px;
+  font-size: 16px;
+  display: flex;
+  justify-content: flex-start;
+}
+.edit_icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.modal_overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal {
+  background-color: #333;
+  border: 1px solid #4fff24;
+  border-radius: 12px;
+  padding: 20px;
+  width: 300px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.modal_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+.close_button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  left: 130px;
+}
+.modal_body {
+  width: 90%;
+}
+.modal_body label {
+  margin-block: 10px;
+  display: block;
+}
+.modal_body input {
+  width: 100%;
+  padding: 6px;
+  margin-bottom: 8px;
+  background-color: #555;
+  border: none;
+  border-radius: 4px;
+  color: white;
+}
+.add_button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: white;
+  cursor: pointer;
+}
+.save_button {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #666;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: not-allowed;
+}
