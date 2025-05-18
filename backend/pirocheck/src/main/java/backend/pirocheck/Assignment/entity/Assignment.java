@@ -1,5 +1,6 @@
 package backend.pirocheck.Assignment.entity;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Builder(access = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
+@Tag(name = "과제 관리", description = "과제 관련 API")
 public class Assignment {
 
     @Id
