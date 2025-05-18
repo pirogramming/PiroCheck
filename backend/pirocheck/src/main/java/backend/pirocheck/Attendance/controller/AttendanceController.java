@@ -2,93 +2,88 @@ package backend.pirocheck.Attendance.controller;
 
 import backend.pirocheck.Attendance.dto.request.MarkAttendanceReq;
 import backend.pirocheck.Attendance.dto.response.ApiResponse;
-import backend.pirocheck.Attendance.dto.response.AttendanceCodeResponse;
+import backend.pirocheck.Attendance.dto.response.AttendanceMarkResponse;
 import backend.pirocheck.Attendance.dto.response.AttendanceSlotRes;
 import backend.pirocheck.Attendance.dto.response.AttendanceStatusRes;
-import backend.pirocheck.Attendance.entity.AttendanceCode;
 import backend.pirocheck.Attendance.service.AttendanceService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/attendance")
+@Tag(name = "출석관리", description = "학생용 출석 관련 API")
 public class AttendanceController {
 
     private final AttendanceService attendanceService;
 
     // 특정 유저의 출석 정보
+    @Operation(summary = "사용자 출석 정보 조회", description = "특정 사용자의 전체 출석 정보를 조회합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "잘못된 요청"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "사용자를 찾을 수 없음")
+    })
     @GetMapping("/user")
-    public ApiResponse<List<AttendanceStatusRes>> getAttendanceByUserId(@RequestParam Long userId) {
+    public ApiResponse<List<AttendanceStatusRes>> getAttendanceByUserId(
+            @Parameter(description = "사용자 ID", required = true)
+            @RequestParam Long userId) {
         return ApiResponse.success(attendanceService.findByUserId(userId));
     }
     
     // 특정 유저의 특정 일자 출석 정보
+    @Operation(summary = "특정 날짜 출석 정보 조회", description = "특정 사용자의 특정 날짜 출석 정보를 조회합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "조회 성공"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "잘못된 요청"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "404", description = "사용자 또는 날짜 정보를 찾을 수 없음")
+    })
     @GetMapping("/user/date")
     public ApiResponse<List<AttendanceSlotRes>> getAttendanceByUserIdAndDate(
+            @Parameter(description = "사용자 ID", required = true)
             @RequestParam Long userId,
+            @Parameter(description = "조회할 날짜 (YYYY-MM-DD)", required = true)
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         return ApiResponse.success(attendanceService.findByUserIdAndDate(userId, date));
     }
 
-    // 출석체크 시작
-    @PostMapping("/start")
-    public ApiResponse<AttendanceCodeResponse> postAttendance() {
-        AttendanceCode code = attendanceService.generateCodeAndCreateAttendances();
-        return ApiResponse.success(AttendanceCodeResponse.from(code));
-    }
-    
-    // 현재 활성화된 출석코드 조회
-    @GetMapping("/active-code")
-    public ApiResponse<AttendanceCodeResponse> getActiveCode() {
-        Optional<AttendanceCode> codeOpt = attendanceService.getActiveAttendanceCode();
-        
-        if (codeOpt.isEmpty()) {
-            return ApiResponse.error("현재 활성화된 출석코드가 없습니다");
-        }
-        
-        return ApiResponse.success(AttendanceCodeResponse.from(codeOpt.get()));
-    }
-
     // 출석코드 비교
+    @Operation(summary = "출석 체크", description = "출석 코드를 입력하여 출석을 체크합니다.")
+    @ApiResponses({
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "출석 성공 또는 이미 출석 완료"),
+        @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "잘못된 출석 코드 또는 출석 체크 진행중이 아님")
+    })
     @PostMapping("/mark")
-    public ApiResponse<Void> markAttendance(@RequestBody MarkAttendanceReq req) {
-        String result = attendanceService.markAttendance(req.getUserId(), req.getCode());
+    public ApiResponse<AttendanceMarkResponse> markAttendance(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "출석 체크 요청", required = true, 
+                content = @Content(schema = @Schema(implementation = MarkAttendanceReq.class)))
+            @RequestBody MarkAttendanceReq req) {
+        AttendanceMarkResponse response = attendanceService.markAttendance(req.getUserId(), req.getCode());
         
-        if (result.equals("출석이 성공적으로 처리되었습니다")) {
-            return ApiResponse.success(result, null);
-        } else {
-            return ApiResponse.error(result);
-        }
-    }
-
-    // 출석체크 종료 (코드 직접 전달)
-    @PutMapping("/expire")
-    public ApiResponse<Void> expireAttendance(@RequestParam String code) {
-        String result = attendanceService.exprireAttendanceCode(code);
+        // statusCode가 SUCCESS 또는 ALREADY_MARKED인 경우 성공으로 처리
+        boolean isSuccess = "SUCCESS".equals(response.getStatusCode()) || 
+                           "ALREADY_MARKED".equals(response.getStatusCode());
         
-        if (result.equals("출석 코드가 성공적으로 만료되었습니다")) {
-            return ApiResponse.success(result, null);
+        if (isSuccess) {
+            return ApiResponse.success(response);
         } else {
-            return ApiResponse.error(result);
-        }
-    }
-    
-    // 출석체크 종료 (가장 최근 활성화된 코드 자동 만료)
-    @PutMapping("/expire-latest")
-    public ApiResponse<Void> expireLatestAttendance() {
-        String result = attendanceService.expireLatestAttendanceCode();
-        
-        if (result.equals("출석 코드가 성공적으로 만료되었습니다")) {
-            return ApiResponse.success(result, null);
-        } else {
-            return ApiResponse.error(result);
+            // 그 외의 경우 (NO_ACTIVE_SESSION, CODE_EXPIRED, ERROR)는 오류로 처리
+            return ApiResponse.<AttendanceMarkResponse>builder()
+                    .success(false)
+                    .message(response.getMessage())
+                    .data(response)
+                    .build();
         }
     }
 }

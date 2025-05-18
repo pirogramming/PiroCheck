@@ -1,0 +1,55 @@
+.daily-card {
+  background-color: #1d471d;
+  padding: 20px;
+  border-radius: 20px;
+  color: white;
+  width: 300px;
+  margin: 24px auto;
+  font-family: "Pretendard";
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.slot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-btn {
+  background-color: #666;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.save-btn:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.submit-btn {
+  margin-top: 16px;
+  width: 100%;
+  background-color: white;
+  color: #1d471d;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
