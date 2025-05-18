@@ -24,7 +24,7 @@ function App() {
         <Route path="/deposit" element={<Deposit />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/managestudent" element={<ManageStudent />} />
-        <Route path="/magagetask" element={<ManageTask />} />
+        <Route path="/managetask" element={<ManageTask />} />
         <Route path="/attendancecode" element={<AttendanceCode />} />
         <Route path="/admin/attendance/:studentId" element={<AdminStudentAttendance />} />
       </Routes>
