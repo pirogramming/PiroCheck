@@ -3,6 +3,7 @@ package backend.pirocheck.Assignment.dto.request;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,7 +20,7 @@ public class AssignmentCreateReq {
     private String assignmentName;
 
     @Schema(description = "주차", example = "1")
-    @NotBlank(message = "주차를 입력해주세요.")
+    @Positive
     private Long week;
 
     @Schema(description = "요일", example = "화")

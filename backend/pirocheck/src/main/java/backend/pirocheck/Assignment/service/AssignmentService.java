@@ -41,9 +41,10 @@ public class AssignmentService {
         List<AssignmentWeekRes> assignmentResponses = new ArrayList<>();
 
         for (Map.Entry<Long, List<AssignmentItem>> entry : weekGroup.entrySet()) {
-            Long week = entry.getKey();
-            String subject = String.valueOf(entry.getKey());
-            List<AssignmentItem> assignmentList = entry.getValue();
+            Long week = entry.getKey(); // 주차 정보
+            List<AssignmentItem> assignmentList = entry.getValue(); // 주차에 해당하는 days의 list
+
+            String subject = assignmentList.get(0).getAssignment().getSubject();
 
             // day를 기준으로 그룹핑
             Map<String, List<AssignmentItem>> dayGroup = assignmentList.stream()
