@@ -17,7 +17,8 @@ const Header = () => {
   const showRightDeposit =
     !path.includes("deposit") &&
     !path.includes("managestudent") &&
-    !path.includes("managetask"); // 수강생 관리, 과제 관리 페이지 추가
+    !path.includes("managetask") &&
+    !path.includes("attendancecode");
 
   const showRightMagageStudent = path.includes("attendancecode");
 
