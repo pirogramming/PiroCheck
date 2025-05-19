@@ -19,10 +19,12 @@ const AttendanceCode = () => {
     }
   };
 
-  // 출석코드 만료
+  // 출석코드 만료 (직접 코드 전달 방식)
   const expireCode = async () => {
     try {
-      const res = await api.put("admin/attendance/expire-latest");
+      const res = await api.put("admin/attendance/expire", null, {
+        params: { code },
+      });
       alert(res.data.message || "출석코드가 만료되었습니다");
       setCode("");
     } catch (error) {
