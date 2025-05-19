@@ -83,6 +83,20 @@ public class AssignmentService {
 
         assignment = assignmentRepository.save(assignment);
 
+        // 전체 유저에게 과제 자동 할당
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+
+            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.INSUFFICIENT);
+
+            assignment.addAssignmentItem(item);
+            user.addAssignmentItem(item);
+
+//            assignmentItemRepository.save(item);
+// Cascade 설정이 되어있으므로 assignment = assignmentRepository.save(assignment); 이 코드를 실행할 때 연관된 AssignmentItem도 함께 저장 됨
+        }
+
         return assignment.getAssignmentName();
     }
 

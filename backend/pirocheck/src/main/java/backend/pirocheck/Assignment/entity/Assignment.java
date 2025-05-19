@@ -37,6 +37,7 @@ public class Assignment {
     // AssignmentItem 입장에서 "assignment" 필드의 외래 키를 가진 주인
     // assignment를 참조하는 assignmentitem 컬랙션을 가짐
     @OneToMany(mappedBy = "assignment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<AssignmentItem> assignments = new ArrayList<>();
 
     // 연관관계 편의 메서드 (양방향 시 자주 사용)
