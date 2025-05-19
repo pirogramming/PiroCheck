@@ -9,7 +9,7 @@ const AttendanceCode = () => {
   // 출석코드 생성
   const generateCode = async () => {
     try {
-      const res = await api.post("/attendance/start");
+      const res = await api.post("admin/attendance/start");
       const newCode = res.data.data.code;
       setCode(newCode);
     } catch (error) {
@@ -22,7 +22,7 @@ const AttendanceCode = () => {
   // 출석코드 만료
   const expireCode = async () => {
     try {
-      const res = await api.put("/attendance/expire-latest");
+      const res = await api.put("admin/attendance/expire-latest");
       alert(res.data.message || "출석코드가 만료되었습니다");
       setCode("");
     } catch (error) {
