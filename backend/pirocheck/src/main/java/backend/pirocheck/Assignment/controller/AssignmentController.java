@@ -2,6 +2,7 @@ package backend.pirocheck.Assignment.controller;
 
 import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentItemCreateReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentItemUpdateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
 import backend.pirocheck.Assignment.entity.AssignmentStatus;
@@ -119,13 +120,14 @@ public class AssignmentController {
             }
     )
     @PutMapping("/admin/users/{userId}/assignments/{assignmentId}/submission")
-    public String updateSubmission(
+    public AssignmentStatus updateSubmission(
             @Parameter(description = "사용자 ID", example = "1")
             @PathVariable Long userId,
             @Parameter(description = "과제 ID", example = "1")
-            @PathVariable Long assignmentId
+            @PathVariable Long assignmentId,
+            @RequestBody AssignmentItemUpdateReq req
     ) {
-        return null;
+        return assignmentService.updateAssignmentItem(userId, assignmentId, req);
     }
 
 }
