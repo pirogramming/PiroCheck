@@ -15,7 +15,7 @@ const Admin = () => {
         </button>
         <button
           className={styles.button}
-          onClick={() => navigate("/magagetask")}
+          onClick={() => navigate("/managetask")}
         >
           <p>과제 관리</p>
         </button>

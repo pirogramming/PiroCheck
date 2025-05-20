@@ -21,10 +21,13 @@
   color: white;
   padding: 15px;
   border-radius: 8px;
-  border: 1px solid #39ff14;
+  border: 1px solid var(--fill-gray);
   text-align: left;
   font-size: 16px;
   width: 100%;
+}
+.student_button:hover {
+  border: 1px solid #39ff14;
 }
 .pagination {
   margin-top: 60px;

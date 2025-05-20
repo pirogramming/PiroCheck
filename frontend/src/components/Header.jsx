@@ -11,10 +11,15 @@ const Header = () => {
   else if (path.includes("deposit")) title = "DEPOSIT";
   else if (path.includes("attendance")) title = "ATTENDANCE\nCHECK";
   else if (path.includes("managestudent")) title = "수강생 관리";
-  else if (path.includes("magagetask")) title = "과제 관리";
+  else if (path.includes("managetask")) title = "과제 관리";
   else if (path.includes("attendancecode")) title = "출석코드 생성";
 
-  const showRightDeposit = !path.includes("deposit");
+  const showRightDeposit =
+    !path.includes("deposit") &&
+    !path.includes("managestudent") &&
+    !path.includes("managetask") &&
+    !path.includes("attendancecode");
+
   const showRightMagageStudent = path.includes("attendancecode");
 
   return (
