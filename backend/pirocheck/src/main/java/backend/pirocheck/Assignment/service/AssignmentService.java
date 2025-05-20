@@ -2,6 +2,7 @@ package backend.pirocheck.Assignment.service;
 
 import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentItemCreateReq;
+import backend.pirocheck.Assignment.dto.request.AssignmentItemUpdateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentDayRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentDetailRes;
@@ -136,6 +137,24 @@ public class AssignmentService {
         );
 
         assignmentItemRepository.save(assignmentItem);
+
+        return assignmentItem.getSubmitted();
+    }
+
+    // 과제 채점 결과 수정
+    public AssignmentStatus updateAssignmentItem(Long userId, Long assignmentId, AssignmentItemUpdateReq req) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 사용자가 없습니다."));
+
+        Assignment assignment = assignmentRepository.findById(assignmentId)
+                .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
+
+        AssignmentItem assignmentItem = assignmentItemRepository.findByUserAndAssignment(user, assignment)
+                .orElseThrow(() -> new IllegalArgumentException("해당 유저의 과제 채점 결과가 없습니다."));
+
+        assignmentItem.update(req.getStatus()); // 상태 업데이트
+
+        assignmentItemRepository.save(assignmentItem); // 상태 저장
 
         return assignmentItem.getSubmitted();
     }
