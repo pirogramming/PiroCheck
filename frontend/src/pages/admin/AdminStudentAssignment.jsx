@@ -5,6 +5,7 @@ import WeeklyOpenBlock from "../../components/WeeklyOpenBlock";
 import AssignmentInfoBlock from "../../components/AssignmentInfoBlock";
 import api from "../../api/api";
 import styles from "./AdminStudentAssignment.module.css";
+import { submitAssignmentStatus, updateAssignmentStatus } from "../../api/assignment";
 
 const AdminStudentAssignment = () => {
   const { studentId, week } = useParams();
@@ -14,7 +15,7 @@ const AdminStudentAssignment = () => {
   const [selectedWeekLabel, setSelectedWeekLabel] = useState(null);
 
   useEffect(() => {
-    api.get(`/admin/users/${studentId}`).then((res) => {
+    api.get(`/admin/users/${userId}`).then((res) => {
       setStudentInfo(res.data.data);
     });
 
@@ -62,13 +63,33 @@ const AdminStudentAssignment = () => {
     task.modified = true;
     setWeeks(updated);
   };
-
+/*
   const handleSave = async (taskId, status) => {
     await api.put("/admin/assignment/status", {
       assignmentId: taskId,
       status,
     });
   };
+*/
+const handleSave = async (taskId, status) => {
+  const userId = parseInt(studentId); // 문자열일 수 있으니 숫자로 변환
+
+  try {
+    // PUT 요청 시도 (기존 과제 수정)
+    await updateAssignmentStatus(userId, taskId, status);
+    alert("과제 상태가 수정되었습니다.");
+  } catch (err) {
+    console.warn("PUT 실패, POST 시도");
+    try {
+      // 없으면 POST 요청 (새 과제 등록)
+      await submitAssignmentStatus(userId, taskId, status);
+      alert("과제 상태가 등록되었습니다.");
+    } catch (err) {
+      alert("상태 저장 실패");
+      console.error(err);
+    }
+  }
+};
 
   return (
     <div className={styles.container}>
