@@ -50,9 +50,7 @@ const Header = () => {
             height={30}
           />
         </button>
-      ) : (
-        <div style={{ width: "30px" }} />
-      )}
+      ) : null}
       {showRightMagageStudent ? (
         <button
           className="icon-button"

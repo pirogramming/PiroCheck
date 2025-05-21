@@ -12,15 +12,31 @@ import ManageTask from "./pages/admin/ManageTask.jsx";
 import AttendanceCode from "./pages/admin/AttendanceCode";
 import Attendance from "./pages/generation/Attendance";
 import AdminStudentAttendance from "./pages/admin/AdminStudentAttendance";
+<<<<<<< HEAD
+import AdminStudentAssignment from "./pages/admin/AdminStudentAssignment.jsx";
+=======
 import RequireAuth from "./components/RequireAuth";
 import RequireAdmin from "./components/RequireAdmin";
 
+>>>>>>> 08242a5045ea08b68c40b107cc871f8b3c3446eb
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
+<<<<<<< HEAD
+        <Route path="/home" element={<Home />} />
+        <Route path="/assignment" element={<Assignment />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="/deposit" element={<Deposit />} />
+        <Route path="/admin" element={<Admin />} />
+        <Route path="/magagestudent" element={<MagageStudent />} />
+        <Route path="/magagetask" element={<ManageTask />} />
+        <Route path="/attendancecode" element={<AttendanceCode />} />
+        <Route path="/admin/attendance/:studentId" element={<AdminStudentAttendance />} />
+        <Route path="/admin/managestudent/:studentId" element={<AdminStudentAssignment />} />
+=======
         <Route
           path="/home"
           element={
@@ -101,6 +117,7 @@ function App() {
             </RequireAdmin>
           }
         />
+>>>>>>> 08242a5045ea08b68c40b107cc871f8b3c3446eb
       </Routes>
     </BrowserRouter>
   );
