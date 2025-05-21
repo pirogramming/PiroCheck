@@ -6,12 +6,13 @@ import { getStudentDetail } from "../../api/students";
 
 const DetailManageStudent = () => {
   const { studentId } = useParams();
+  const numericId = Number(studentId);
   const [student, setStudent] = useState(null);
 
   useEffect(() => {
     const fetchStudent = async () => {
       try {
-        const data = await getStudentDetail(studentId);
+        const data = await getStudentDetail(numericId);
         setStudent(data);
       } catch (err) {
         console.error("학생 상세 정보 불러오기 실패:", err);
@@ -19,9 +20,12 @@ const DetailManageStudent = () => {
     };
 
     fetchStudent();
-  }, [studentId]);
+  }, [numericId]);
 
   if (!student) return <div>loading...</div>;
+
+  console.log("studentId from URL:", studentId);
+  console.log("numericId:", numericId);
 
   return (
     <div className={style.managestudent_wrapper}>
