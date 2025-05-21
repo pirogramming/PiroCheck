@@ -44,6 +44,13 @@ const DetailManageStudent = () => {
             </p>
           </div>
         </div>
+        <button
+          key={student.id || index}
+          className={style.attendance_btn}
+          onClick={() => navigate(`/admin/attendance/${student.id}`)}
+        >
+          출석 관리 <span>&gt;</span>
+        </button>
         <div className={style.assignment_list}>
           {student.assignmentTitles.map((title, idx) => (
             <button key={idx} className={style.assignment_button}>
