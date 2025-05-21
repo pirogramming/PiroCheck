@@ -19,9 +19,7 @@ const AttendanceCode = () => {
         console.log("기존 출석코드 자동 만료됨");
       } catch (error) {
         if (error.response?.status !== 404) {
-          alert(
-            "초기화 중 오류: " + (error.response?.data?.message || "서버 오류")
-          );
+          return;
         }
       }
     };
