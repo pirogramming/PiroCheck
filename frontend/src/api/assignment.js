@@ -14,3 +14,18 @@ export const fetchAssignmentsByUser = async (userId) => {
     throw err;
   }
 };
+
+
+export const submitAssignmentStatus = async (userId, assignmentId, status) => {
+  return api.post(`/api/admin/users/${userId}/assignments/${assignmentId}/submission`, {
+    assignmentId,
+    userId,
+    status,
+  });
+};
+
+export const updateAssignmentStatus = async (userId, assignmentId, status) => {
+  return api.put(`/api/admin/users/${userId}/assignments/${assignmentId}/submission`, {
+    status,
+  });
+};
