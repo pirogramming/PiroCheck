@@ -45,7 +45,6 @@ const DetailManageStudent = () => {
           </div>
         </div>
         <button
-          key={student.id || index}
           className={style.attendance_btn}
           onClick={() => navigate(`/admin/attendance/${student.id}`)}
         >
