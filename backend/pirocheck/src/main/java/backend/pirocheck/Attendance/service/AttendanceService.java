@@ -6,6 +6,7 @@ import backend.pirocheck.User.repository.UserRepository;
 import backend.pirocheck.Attendance.dto.response.AttendanceMarkResponse;
 import backend.pirocheck.Attendance.dto.response.AttendanceSlotRes;
 import backend.pirocheck.Attendance.dto.response.AttendanceStatusRes;
+import backend.pirocheck.Attendance.dto.response.UserAttendanceStatusRes;
 import backend.pirocheck.Attendance.entity.Attendance;
 import backend.pirocheck.Attendance.entity.AttendanceCode;
 import backend.pirocheck.Attendance.repository.AttendanceCodeRepository;
@@ -104,7 +105,7 @@ public class AttendanceService {
 
     // 출석코드 만료처리 함수
     @Transactional
-    public String exprireAttendanceCode(String code) {
+    public String expireAttendanceCode(String code) {
         Optional<AttendanceCode> codeOpt = attendanceCodeRepository.findByCodeAndDate(code, LocalDate.now());
 
         if (codeOpt.isEmpty()) {
@@ -206,6 +207,44 @@ public class AttendanceService {
         return attendances.stream()
                 .map(a -> new AttendanceSlotRes(a.getOrder(), a.isStatus()))
                 .sorted(Comparator.comparingInt(AttendanceSlotRes::getOrder))
+                .toList();
+    }
+    
+    // 관리자가 유저의 출석 상태를 변경하는 함수
+    @Transactional
+    public boolean updateAttendanceStatus(Long attendanceId, boolean status) {
+        Optional<Attendance> attendanceOpt = attendanceRepository.findById(attendanceId);
+        
+        if (attendanceOpt.isEmpty()) {
+            return false;
+        }
+        
+        // 출석 상태 변경
+        Attendance attendance = attendanceOpt.get();
+        attendance.setStatus(status);
+        attendanceRepository.save(attendance);
+        return true;
+    }
+
+    // 특정 날짜와 차수의 모든 학생 출석 현황 조회
+    public List<UserAttendanceStatusRes> findAllByDateAndOrder(LocalDate date, int order) {
+        // 해당 날짜와 차수에 대한 모든 출석 기록 조회
+        List<Attendance> attendances = attendanceRepository.findByDateAndOrder(date, order);
+        
+        // 사용자별로 DTO 변환
+        return attendances.stream()
+                .map(attendance -> {
+                    User user = attendance.getUser();
+                    return UserAttendanceStatusRes.builder()
+                            .userId(user.getId())
+                            .username(user.getName())
+                            .date(attendance.getDate())
+                            .order(attendance.getOrder())
+                            .status(attendance.isStatus())
+                            .attendanceId(attendance.getId())  // 출석 기록 ID 추가
+                            .build();
+                })
+                .sorted(Comparator.comparing(UserAttendanceStatusRes::getUsername))
                 .toList();
     }
 }

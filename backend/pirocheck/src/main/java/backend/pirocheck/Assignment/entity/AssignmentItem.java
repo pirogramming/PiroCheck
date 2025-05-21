@@ -35,4 +35,10 @@ public class AssignmentItem {
                 .submitted(submitted)
                 .build();
     }
+
+    public void update(AssignmentStatus submitted) {
+
+        this.submitted = submitted;
+
+    }
 }

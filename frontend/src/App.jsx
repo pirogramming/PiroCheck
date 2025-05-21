@@ -6,6 +6,7 @@ import Assignment from "./pages/generation/Assignment";
 import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
 import Admin from "./pages/admin/Admin";
+import DetailManageStudent from "./pages/admin/DetailManageStudent.jsx";
 import ManageStudent from "./pages/admin/ManageStudent.jsx";
 import ManageTask from "./pages/admin/ManageTask.jsx";
 import AttendanceCode from "./pages/admin/AttendanceCode";
@@ -65,6 +66,14 @@ function App() {
           element={
             <RequireAdmin>
               <ManageStudent />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/managestudent/detail/:studentId"
+          element={
+            <RequireAdmin>
+              <DetailManageStudent />
             </RequireAdmin>
           }
         />
