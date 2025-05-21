@@ -11,7 +11,7 @@ import ManageTask from "./pages/admin/ManageTask.jsx";
 import AttendanceCode from "./pages/admin/AttendanceCode";
 import Attendance from "./pages/generation/Attendance";
 import AdminStudentAttendance from "./pages/admin/AdminStudentAttendance";
-
+import AdminStudentAssignment from "./pages/admin/AdminStudentAssignment.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -27,6 +27,7 @@ function App() {
         <Route path="/magagetask" element={<ManageTask />} />
         <Route path="/attendancecode" element={<AttendanceCode />} />
         <Route path="/admin/attendance/:studentId" element={<AdminStudentAttendance />} />
+        <Route path="/admin/managestudent/:studentId" element={<AdminStudentAssignment />} />
       </Routes>
     </BrowserRouter>
   );
