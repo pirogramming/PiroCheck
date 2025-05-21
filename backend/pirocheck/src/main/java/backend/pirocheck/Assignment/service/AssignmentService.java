@@ -12,10 +12,10 @@ import backend.pirocheck.Assignment.entity.AssignmentItem;
 import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Assignment.repository.AssignmentRepository;
+import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j // 로그를 찍기위해 사용
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -87,7 +86,7 @@ public class AssignmentService {
         assignment = assignmentRepository.save(assignment);
 
         // 전체 유저에게 과제 자동 할당
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findByRole(Role.MEMBER);
 
         for (User user : users) {
 
@@ -122,7 +121,6 @@ public class AssignmentService {
 
     // 과제 채점 결과 저장
     public AssignmentStatus createAssignmentItem(Long userId, Long assignmentId, AssignmentItemCreateReq req) {
-        log.info("userId 요청 값: {}", userId);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 사용자가 없습니다."));
