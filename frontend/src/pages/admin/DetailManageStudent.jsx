@@ -5,6 +5,14 @@ import Header from "../../components/Header";
 import style from "./DetailManageStudent.module.css";
 import { getStudentDetail } from "../../api/students";
 
+const weekData = [
+  { week: "1주차", title: "Git/HTML/CSS" },
+  { week: "2주차", title: "JavaScript/웹 개론" },
+  { week: "3주차", title: "Django CRUD/DB 개론" },
+  { week: "4주차", title: "Django ORM/Ajax" },
+  { week: "5주차", title: "배포/아이디어 기획" },
+];
+
 const DetailManageStudent = () => {
   const { studentId } = useParams();
   const numericId = Number(studentId);
@@ -49,9 +57,13 @@ const DetailManageStudent = () => {
           출석 관리 <span>&gt;</span>
         </button>
         <div className={style.assignment_list}>
-          {student.assignmentTitles.map((title, idx) => (
-            <button key={idx} className={style.assignment_button}>
-              {title}
+          {weekData.map((week, index) => (
+            <button
+              key={index}
+              className={style.assignment_button}
+              onClick={() => navigate(`/admin/assignment/${student.id}`)}
+            >
+              {week.week} {week.title && `  ${week.title}`}
             </button>
           ))}
         </div>

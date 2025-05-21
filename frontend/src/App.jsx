@@ -102,6 +102,14 @@ function App() {
             </RequireAdmin>
           }
         />
+        <Route
+          path="/admin/assignment/:studentId"
+          element={
+            <RequireAdmin>
+              <AdminStudentAssignment />
+            </RequireAdmin>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
