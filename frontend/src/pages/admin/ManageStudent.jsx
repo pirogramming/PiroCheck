@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getStudentsByName } from "../../api/students";
 import Header from "../../components/Header";
 import InputBlock from "../../components/InputBlock";
@@ -8,6 +9,7 @@ const ManageStudent = () => {
   const [studentName, setStudentName] = useState([""]);
   const [page, setPage] = useState(1);
   const [students, setStudents] = useState([]); // 서버 데이터 저장
+  const navigate = useNavigate();
 
   const studentsPerPage = 6;
 
@@ -54,7 +56,11 @@ const ManageStudent = () => {
         />
         <div className={style.student_list}>
           {paginatedStudents.map((student, index) => (
-            <button key={student.id || index} className={style.student_button}>
+            <button
+              key={student.id || index}
+              className={style.student_button}
+              onClick={() => navigate(`/managestudent/detail/${student.id}`)}
+            >
               {student.name} <span>&gt;</span>
             </button>
           ))}
