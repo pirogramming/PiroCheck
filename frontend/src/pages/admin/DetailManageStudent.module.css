@@ -10,14 +10,14 @@
   align-items: center;
 }
 .student_card {
+  /* height: 150px; */
   display: flex;
   background: #49ff24;
   flex-direction: column;
   border-radius: 9px;
   padding: 15px 20px;
   width: 300px;
-  height: 150px;
-  justify-content: space-around;
+  gap: 15px;
 }
 .student_name {
   font-size: 25px;
@@ -38,8 +38,31 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: #333;
   color: #49ff24;
-  padding: 15px;
-  text-align: left;
+  padding: 24px 15px;
+  margin-block: 30px;
+  font-size: 18px;
+}
+.assignment_list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.assignment_button {
+  width: 309px;
+  height: 47px;
+  border-radius: 14px;
+  background-color: var(--border-gray);
+  color: var(--text-white);
+  font-weight: 400;
+  font-size: 16px;
+  font-family: "Noto Sans KR", sans-serif;
+  border: 1px var(--background-black) solid;
+  padding: 10px;
+  margin-top: 11px;
+}
+.assignment_button:focus {
+  border: 1px var(--main-green) solid;
 }
