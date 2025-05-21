@@ -50,23 +50,27 @@ const DetailManageStudent = () => {
             보증금 방어권: <span>{student.defence}</span>
           </div>
         </div>
-        <button
-          className={style.attendance_btn}
-          onClick={() => navigate(`/admin/attendance/${student.id}`)}
-        >
-          출석 관리 <span>&gt;</span>
-        </button>
-        <div className={style.assignment_list}>
-          {weekData.map((week, index) => (
-            <button
-              key={index}
-              className={style.assignment_button}
-              onClick={() => navigate(`/admin/assignment/${student.id}`)}
-            >
-              {week.week} {week.title && `  ${week.title}`}
-            </button>
-          ))}
-        </div>
+        {student && (
+          <button
+            className={style.attendance_btn}
+            onClick={() => navigate(`/admin/attendance/${student.id}`)}
+          >
+            출석 관리 <span>&gt;</span>
+          </button>
+        )}
+        {student && (
+          <div className={style.assignment_list}>
+            {weekData.map((week, index) => (
+              <button
+                key={index}
+                className={style.assignment_button}
+                onClick={() => navigate(`/admin/assignment/${student.id}`)}
+              >
+                {week.week} {week.title && `  ${week.title}`}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
