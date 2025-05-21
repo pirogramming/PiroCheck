@@ -6,8 +6,8 @@ import backend.pirocheck.Deposit.entity.Deposit;
 import backend.pirocheck.Deposit.repository.DepositRepository;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
-import backend.pirocheck.assignment.entity.AssignmentStatus;
-import backend.pirocheck.assignment.repository.AssignmentRepository;
+import backend.pirocheck.Assignment.entity.AssignmentStatus;
+import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Attendance.repository.AttendanceRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class DepositService {
     private final DepositRepository depositRepository;
     private final UserRepository userRepository;
     private final AttendanceRepository attendanceRepository;
-    private final AssignmentRepository assignmentRepository;
+    private final AssignmentItemRepository assignmentItemRepository;
 
     @Transactional
     public DepositResDto getDeposit(Long userId) {
@@ -34,8 +34,8 @@ public class DepositService {
         int descentAttendance = failAttendanceCount * 10_000;
 
         // 과제 실패
-        int failAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.FAILURE);
-        int weakAssignmentCount = assignmentRepository.countByUserAndSubmitted(user, AssignmentStatus.INSUFFICIENT);
+        int failAssignmentCount = assignmentItemRepository.countByUserAndSubmitted(user, AssignmentStatus.FAILURE);
+        int weakAssignmentCount = assignmentItemRepository.countByUserAndSubmitted(user, AssignmentStatus.INSUFFICIENT);
         int descentAssignment = failAssignmentCount * 20_000 + weakAssignmentCount * 10_000;
 
         // 방어권

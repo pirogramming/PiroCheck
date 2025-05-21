@@ -1,5 +1,7 @@
 package backend.pirocheck.ManageStudents.service;
 
+import backend.pirocheck.Assignment.entity.AssignmentItem;
+import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Deposit.entity.Deposit;
 import backend.pirocheck.Deposit.repository.DepositRepository;
 import backend.pirocheck.ManageStudents.dto.response.ManageStudentDetailResDto;
@@ -7,8 +9,6 @@ import backend.pirocheck.ManageStudents.dto.response.ManageStudentsListResDto;
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
-import backend.pirocheck.assignment.entity.Assignment;
-import backend.pirocheck.assignment.repository.AssignmentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,17 +21,16 @@ public class ManageStudentsService {
 
     private final UserRepository userRepository;
     private final DepositRepository depositRepository;
-    private final AssignmentRepository assignmentRepository;
+    private final AssignmentItemRepository assignmentItemRepository;
 
     // 수강생 조회
     public List<ManageStudentsListResDto> searchMembers(String name) {
         List<User> users;
 
-        if(name == null || name.isBlank()) {
+        if (name == null || name.isBlank()) {
             // 검색어가 없으면 맴버 전체 조회
             users = userRepository.findByRole(Role.MEMBER);
-        }
-        else {
+        } else {
             // 이름 검색
             users = userRepository.findByNameContainingAndRole(name, Role.MEMBER);
         }
@@ -54,11 +53,11 @@ public class ManageStudentsService {
         }
 
         // Assignment 리스트 조회
-        List<Assignment> assignments = assignmentRepository.findByUserId(studentId);
+        List<AssignmentItem> assignments = assignmentItemRepository.findByUserId(studentId);
 
         // 과제 제목만 리스트로 변환
         List<String> assignmentTitles = assignments.stream()
-                .map(Assignment::getAssignmentName)
+                .map(assignment -> assignment.getAssignment().getAssignmentName())
                 .toList();
 
         // ManageStudentDetailResDto 조립

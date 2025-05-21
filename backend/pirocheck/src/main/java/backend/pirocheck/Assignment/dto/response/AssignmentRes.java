@@ -1,6 +1,6 @@
-package backend.pirocheck.assignment.dto.response;
+package backend.pirocheck.Assignment.dto.response;
 
-import backend.pirocheck.assignment.entity.AssignmentStatus;
+import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ public class AssignmentRes {
 //    private Long userId;
     private String assignmentName;
     private Long week;
-    private Long section;
+    private String day;
     private Long orderNumber;
     private AssignmentStatus submitted;
 

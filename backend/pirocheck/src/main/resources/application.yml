@@ -21,3 +21,19 @@ server:
         same-site: Lax      # CSRF 방지
       timeout: 30m          # 세션 타임아웃 30분 (30 minutes)
   address: 0.0.0.0
+
+# Swagger 설정
+springdoc:
+  packages-to-scan: backend.pirocheck
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+  swagger-ui:
+    path: /swagger-ui.html
+    disable-swagger-default-url: true
+    display-request-duration: true
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /api-docs
+  cache:
+    disabled: true

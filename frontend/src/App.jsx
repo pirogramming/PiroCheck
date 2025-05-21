@@ -6,18 +6,26 @@ import Assignment from "./pages/generation/Assignment";
 import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
 import Admin from "./pages/admin/Admin";
-import MagageStudent from "./pages/admin/ManageStudent.jsx";
+import DetailManageStudent from "./pages/admin/DetailManageStudent.jsx";
+import ManageStudent from "./pages/admin/ManageStudent.jsx";
 import ManageTask from "./pages/admin/ManageTask.jsx";
 import AttendanceCode from "./pages/admin/AttendanceCode";
 import Attendance from "./pages/generation/Attendance";
 import AdminStudentAttendance from "./pages/admin/AdminStudentAttendance";
+<<<<<<< HEAD
 import AdminStudentAssignment from "./pages/admin/AdminStudentAssignment.jsx";
+=======
+import RequireAuth from "./components/RequireAuth";
+import RequireAdmin from "./components/RequireAdmin";
+
+>>>>>>> 08242a5045ea08b68c40b107cc871f8b3c3446eb
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
+<<<<<<< HEAD
         <Route path="/home" element={<Home />} />
         <Route path="/assignment" element={<Assignment />} />
         <Route path="/attendance" element={<Attendance />} />
@@ -28,6 +36,88 @@ function App() {
         <Route path="/attendancecode" element={<AttendanceCode />} />
         <Route path="/admin/attendance/:studentId" element={<AdminStudentAttendance />} />
         <Route path="/admin/managestudent/:studentId" element={<AdminStudentAssignment />} />
+=======
+        <Route
+          path="/home"
+          element={
+            <RequireAuth>
+              <Home />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/assignment"
+          element={
+            <RequireAuth>
+              <Assignment />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/attendance"
+          element={
+            <RequireAuth>
+              <Attendance />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/deposit"
+          element={
+            <RequireAuth>
+              <Deposit />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <RequireAdmin>
+              <Admin />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/managestudent"
+          element={
+            <RequireAdmin>
+              <ManageStudent />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/managestudent/detail/:studentId"
+          element={
+            <RequireAdmin>
+              <DetailManageStudent />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/managetask"
+          element={
+            <RequireAdmin>
+              <ManageTask />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/attendancecode"
+          element={
+            <RequireAdmin>
+              <AttendanceCode />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/attendance/:studentId"
+          element={
+            <RequireAdmin>
+              <AdminStudentAttendance />
+            </RequireAdmin>
+          }
+        />
+>>>>>>> 08242a5045ea08b68c40b107cc871f8b3c3446eb
       </Routes>
     </BrowserRouter>
   );
