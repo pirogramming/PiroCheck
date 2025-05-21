@@ -32,11 +32,18 @@ const DetailManageStudent = () => {
       <Header />
       <div className={style.under_header}>
         <div className={style.student_card}>
-          <h2>{student.name}</h2>
-          <p>잔여 보증금: {student.deposit}원</p>
-          <p>보증금 방어권: {student.defence}</p>
+          <h2 className={style.student_name}>{student.name}</h2>
+          <div className={style.deposit_container}>
+            <p>
+              잔여 보증금: <p>{student.deposit}원</p>
+            </p>
+          </div>
+          <div className={style.defence_container}>
+            <p>
+              보증금 방어권: <p>{student.defence}</p>
+            </p>
+          </div>
         </div>
-
         <div className={style.assignment_list}>
           {student.assignmentTitles.map((title, idx) => (
             <button key={idx} className={style.assignment_button}>
