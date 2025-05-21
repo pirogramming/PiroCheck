@@ -18,9 +18,10 @@ public class SessionCheckFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String path = request.getRequestURI();
+        String method = request.getMethod();
 
-        // 로그인/로그아웃 요청은 세션 체크 제외
-        if (path.startsWith("/api/login") || path.startsWith("/api/logout")) {
+        // CORS preflight 요청(OPTIONS) 또는 로그인/로그아웃 요청은 세션 체크 제외
+        if ("OPTIONS".equals(method) || path.startsWith("/api/login") || path.startsWith("/api/logout")) {
             filterChain.doFilter(request, response); // 다음 필터나 컨트롤러로 넘기는 명령어
             return; // 세션 검사 안함
         }
