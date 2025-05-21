@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import style from "./DetailManageStudent.module.css";
@@ -8,6 +9,7 @@ const DetailManageStudent = () => {
   const { studentId } = useParams();
   const numericId = Number(studentId);
   const [student, setStudent] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStudent = async () => {
@@ -34,14 +36,10 @@ const DetailManageStudent = () => {
         <div className={style.student_card}>
           <h2 className={style.student_name}>{student.name}</h2>
           <div className={style.deposit_container}>
-            <p>
-              잔여 보증금: <p>{student.deposit}원</p>
-            </p>
+            잔여 보증금: <span>{student.deposit}원</span>
           </div>
           <div className={style.defence_container}>
-            <p>
-              보증금 방어권: <p>{student.defence}</p>
-            </p>
+            보증금 방어권: <span>{student.defence}</span>
           </div>
         </div>
         <button
