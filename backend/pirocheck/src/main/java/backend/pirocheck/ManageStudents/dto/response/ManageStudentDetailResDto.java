@@ -1,5 +1,6 @@
 package backend.pirocheck.ManageStudents.dto.response;
 
+import jakarta.transaction.Transactional;
 import lombok.Builder;
 import lombok.Getter;
 
