@@ -55,15 +55,18 @@ const ManageStudent = () => {
           onChange={handleChange}
         />
         <div className={style.student_list}>
-          {paginatedStudents.map((student, index) => (
-            <button
-              key={student.id || index}
-              className={style.student_button}
-              onClick={() => navigate(`/managestudent/detail/${student.id}`)}
-            >
-              {student.name} <span>&gt;</span>
-            </button>
-          ))}
+          {paginatedStudents.map((student, index) => {
+            console.log("student to show:", student);
+            return (
+              <button
+                key={student.id || index}
+                className={style.student_button}
+                onClick={() => navigate(`/managestudent/detail/${student.id}`)}
+              >
+                {student.name} <span>&gt;</span>
+              </button>
+            );
+          })}
         </div>
 
         {students.length > studentsPerPage && (

@@ -25,7 +25,7 @@ export const submitAssignmentStatus = async (userId, assignmentId, status) => {
 };
 
 export const updateAssignmentStatus = async (userId, assignmentId, status) => {
-  return api.put(`/api/admin/users/${userId}/assignments/${assignmentId}/submission`, {
+  return api.put(`/admin/users/${userId}/assignments/${assignmentId}/submission`, {
     status,
   });
 };
