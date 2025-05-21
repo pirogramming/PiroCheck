@@ -1,11 +1,33 @@
-import { useState } from "react";
 import api from "../../api/api";
 import Header from "../../components/Header";
 import style from "./AttendanceCode.module.css";
+import { useState, useEffect } from "react";
 
 const AttendanceCode = () => {
   const [code, setCode] = useState("");
 
+  useEffect(() => {
+    const expireIfNeeded = async () => {
+      try {
+        const res = await api.get("admin/attendance/active-code");
+        const activeCode = res.data.data.code;
+
+        await api.put("admin/attendance/expire", null, {
+          params: { code: activeCode },
+        });
+
+        console.log("기존 출석코드 자동 만료됨");
+      } catch (error) {
+        if (error.response?.status !== 404) {
+          alert(
+            "초기화 중 오류: " + (error.response?.data?.message || "서버 오류")
+          );
+        }
+      }
+    };
+
+    expireIfNeeded();
+  }, []);
   // 출석코드 생성
   const generateCode = async () => {
     try {
