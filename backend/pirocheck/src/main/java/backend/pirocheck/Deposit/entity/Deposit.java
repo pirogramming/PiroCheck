@@ -32,14 +32,14 @@ public class Deposit {
         this.ascentDefence = ascentDefence;
 
         int calculateAmount = 120000 - descentAssignment - descentAttendance + ascentDefence;
-        this.amount = Math.min(calculateAmount, 120000);  // 12만원 넘어가지 않도록
+        this.amount = Math.max(0, Math.min(calculateAmount, 120000));  // 0 이상 12만원 이하
     }
 
     // 방어권 업데이트
     public void updateDefence(int newAscentDefence) {
         this.ascentDefence = newAscentDefence;
         int calculateAmount = 120000 - this.descentAssignment - this.descentAttendance + newAscentDefence;
-        this.amount = Math.min(calculateAmount, 120000);
+        this.amount = Math.max(0, Math.min(calculateAmount, 120000));  // 0 이상 12만원 이하
 
     }
 
