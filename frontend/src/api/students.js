@@ -4,6 +4,7 @@ export const getStudentsByName = async (name) => {
   const res = await api.get(`/admin/managestudent`, {
     params: { name },
   });
+  console.log("💬 getStudentsByName 응답:", res.data);
   return res.data; // [{ id: ..., name: ... }]
 };
 
