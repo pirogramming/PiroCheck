@@ -56,7 +56,7 @@ const ManageStudent = () => {
         />
         <div className={style.student_list}>
           {paginatedStudents.map((student, index) => {
-            console.log("student to show:", student); // 🔍 여기 추가
+            console.log("student to show:", student);
             return (
               <button
                 key={student.id || index}
