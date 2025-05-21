@@ -152,7 +152,7 @@ const Attendance = () => {
 
       // 유저가 입력한 출석 코드 서버에 전달(서버에서 출석코드 체크)
 
-      const res = await axios.post(
+      const res = await api.post(
         "/api/attendance/mark",
 
         {
