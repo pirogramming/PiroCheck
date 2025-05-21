@@ -5,6 +5,7 @@ import DailyAttendanceCard from "../../components/AdminDailyAttendanceCard";
 import api from "../../api/api";
 import styles from "./AdminStudentAttendance.module.css";
 import AdminWeeklyAttendanceList from "../../components/AdminWeeklyAttendanceList";
+import { getStudentBasicInfo, getStudentAttendance } from "../../api/adminattendance";
 
 const AdminStudentAttendance = () => {
   const { studentId } = useParams();
@@ -13,22 +14,20 @@ const AdminStudentAttendance = () => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
-    // 1. 학생 정보 가져오기
-    api.get(`/admin/users/${studentId}`).then((res) => {
-      setStudentInfo(res.data.data);
-    });
+    const fetchData = async () => {
+      try {
+        const studentRes = await getStudentBasicInfo(studentId);
+        setStudentInfo(studentRes.data);
 
-    // 2. 주차별 출석 데이터 가공
-    api
-      .get("/admin/attendance/user", {
-        params: { userId: studentId },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const raw = res.data.data;
-        const processed = processWeeklyAttendance(raw);
+        const attendanceRes = await getStudentAttendance(studentId);
+        const processed = processWeeklyAttendance(attendanceRes.data);
         setAttendanceData(processed);
-      });
+      } catch (err) {
+        console.error("데이터 불러오기 실패:", err);
+      }
+    };
+
+    fetchData();
   }, [studentId]);
   
 /*
