@@ -5,7 +5,7 @@ import WeeklyOpenBlock from "../../components/WeeklyOpenBlock";
 import AssignmentInfoBlock from "../../components/AssignmentInfoBlock";
 import api from "../../api/api";
 import styles from "./AdminStudentAssignment.module.css";
-import { submitAssignmentStatus, updateAssignmentStatus } from "../../api/assignments";
+import { submitAssignmentStatus, updateAssignmentStatus } from "../../api/assignment";
 
 const AdminStudentAssignment = () => {
   const { studentId, week } = useParams();
