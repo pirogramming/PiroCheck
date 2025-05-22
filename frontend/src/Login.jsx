@@ -57,7 +57,14 @@ const Login = () => {
 
   return (
     <div className={styles.login_container}>
-      <div className={styles.login}>
+      <div
+        className={styles.login}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" && name && password) {
+            handleLogin();
+          }
+        }}
+      >
         <h1 className={styles.pirocheck}>PIROCHECK</h1>
 
         <InputBlock
@@ -71,7 +78,7 @@ const Login = () => {
               placeholder: "비밀번호",
             },
           ]}
-          values={[name, password]} // InputBlock props 수정에 따라 추가
+          values={[name, password]}
           onChange={handleChange}
         />
         <div className={styles.errorWrapper}>
