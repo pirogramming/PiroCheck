@@ -6,11 +6,13 @@ import Assignment from "./pages/generation/Assignment";
 import Deposit from "./pages/generation/Deposit";
 import Intro from "./Intro";
 import Admin from "./pages/admin/Admin";
+import DetailManageStudent from "./pages/admin/DetailManageStudent.jsx";
 import ManageStudent from "./pages/admin/ManageStudent.jsx";
 import ManageTask from "./pages/admin/ManageTask.jsx";
 import AttendanceCode from "./pages/admin/AttendanceCode";
 import Attendance from "./pages/generation/Attendance";
 import AdminStudentAttendance from "./pages/admin/AdminStudentAttendance";
+import AdminStudentAssignment from "./pages/admin/AdminStudentAssignment.jsx";
 import RequireAuth from "./components/RequireAuth";
 import RequireAdmin from "./components/RequireAdmin";
 
@@ -69,6 +71,14 @@ function App() {
           }
         />
         <Route
+          path="/managestudent/detail/:studentId"
+          element={
+            <RequireAdmin>
+              <DetailManageStudent />
+            </RequireAdmin>
+          }
+        />
+        <Route
           path="/managetask"
           element={
             <RequireAdmin>
@@ -89,6 +99,14 @@ function App() {
           element={
             <RequireAdmin>
               <AdminStudentAttendance />
+            </RequireAdmin>
+          }
+        />
+        <Route
+          path="/admin/assignment/:studentId"
+          element={
+            <RequireAdmin>
+              <AdminStudentAssignment />
             </RequireAdmin>
           }
         />

@@ -9,6 +9,7 @@ import backend.pirocheck.ManageStudents.dto.response.ManageStudentsListResDto;
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,7 @@ public class ManageStudentsService {
     }
 
     // 수강생 상세 조회
+    @Transactional
     public ManageStudentDetailResDto getMemberDetail(Long studentId) {
         // User 조회
         User user = userRepository.findById(studentId)
