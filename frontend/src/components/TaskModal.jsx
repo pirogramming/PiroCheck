@@ -18,15 +18,28 @@ const TaskModal = ({ weekInfo, onClose }) => {
   };
 
   const handleSave = async () => {
-    const requests = taskList.map((task, index) =>
-      api.post("/admin/assignment/signup", {
+    console.log("save clicked");
+
+    const weekNumber = parseInt(weekInfo.week.replace("주차", "")); // 주차 숫자 정보만 추출
+    const filteredTasks = taskList.filter((t) => t.trim() !== ""); // 빈 값 제거
+
+    const requests = filteredTasks.map((task, index) => {
+      console.log("sending:", {
         subject: topic,
         assignmentName: task,
-        week: parseInt(weekInfo.week),
+        week: weekNumber,
         day: day,
         orderNumber: index + 1,
-      })
-    );
+      });
+
+      return api.post("/admin/assignment/signup", {
+        subject: topic,
+        assignmentName: task,
+        week: weekNumber,
+        day: day,
+        orderNumber: index + 1,
+      });
+    });
 
     try {
       await Promise.all(requests);
