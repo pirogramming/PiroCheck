@@ -23,6 +23,7 @@ const DetailManageStudent = () => {
     const fetchStudent = async () => {
       try {
         const data = await getStudentDetail(numericId);
+        console.log("API 응답 데이터:", data); // 확인 포인트
         setStudent(data);
       } catch (err) {
         console.error("학생 상세 정보 불러오기 실패:", err);
