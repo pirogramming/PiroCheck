@@ -42,7 +42,8 @@ const TaskModal = ({ weekInfo, onClose }) => {
     });
 
     try {
-      await Promise.all(requests);
+      const response = await Promise.all(requests);
+      console.log("응답들: ", response);
       alert("과제가 저장되었습니다.");
       onClose();
     } catch (error) {
