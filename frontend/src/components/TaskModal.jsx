@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "../pages/admin/ManageTask.module.css";
+import api from "../api/api";
 
 const TaskModal = ({ weekInfo, onClose }) => {
   const [topic, setTopic] = useState("");
@@ -14,6 +15,27 @@ const TaskModal = ({ weekInfo, onClose }) => {
 
   const handleAddTask = () => {
     setTaskList([...taskList, ""]);
+  };
+
+  const handleSave = async () => {
+    const requests = taskList.map((task, index) =>
+      api.post("/admin/assignment/signup", {
+        subject: topic,
+        assignmentName: task,
+        week: parseInt(weekInfo.week),
+        day: day,
+        orderNumber: index + 1,
+      })
+    );
+
+    try {
+      await Promise.all(requests);
+      alert("과제가 저장되었습니다.");
+      onClose();
+    } catch (error) {
+      console.error("저장 오류:", error);
+      alert("과제 저장 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -52,7 +74,9 @@ const TaskModal = ({ weekInfo, onClose }) => {
           </button>
         </div>
         <div className={styles.modal_footer}>
-          <button className={styles.save_button}>save</button>
+          <button className={styles.save_button} onClick={handleSave}>
+            save
+          </button>
         </div>
       </div>
     </div>
