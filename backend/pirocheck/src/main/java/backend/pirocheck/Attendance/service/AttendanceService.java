@@ -247,4 +247,82 @@ public class AttendanceService {
                 .sorted(Comparator.comparing(UserAttendanceStatusRes::getUsername))
                 .toList();
     }
+    
+    // 특정 학생의 모든 출석 현황 조회
+    public List<UserAttendanceStatusRes> findAllByUserId(Long userId) {
+        // 해당 사용자의 모든 출석 기록 조회
+        List<Attendance> attendances = attendanceRepository.findByUserId(userId);
+        
+        // DTO 변환
+        return attendances.stream()
+                .map(attendance -> {
+                    User user = attendance.getUser();
+                    return UserAttendanceStatusRes.builder()
+                            .userId(user.getId())
+                            .username(user.getName())
+                            .date(attendance.getDate())
+                            .order(attendance.getOrder())
+                            .status(attendance.isStatus())
+                            .attendanceId(attendance.getId())
+                            .build();
+                })
+                .sorted(Comparator.comparing(UserAttendanceStatusRes::getDate).reversed()
+                        .thenComparing(UserAttendanceStatusRes::getOrder))
+                .toList();
+    }
+    
+    // 특정 사용자의 특정 출석 기록 삭제
+    @Transactional
+    public boolean deleteAttendance(Long attendanceId) {
+        Optional<Attendance> attendanceOpt = attendanceRepository.findById(attendanceId);
+        
+        if (attendanceOpt.isEmpty()) {
+            return false;
+        }
+        
+        attendanceRepository.delete(attendanceOpt.get());
+        return true;
+    }
+    
+    // 특정 사용자의 특정 날짜와 차수 출석 기록 조회
+    public UserAttendanceStatusRes findByUserIdAndDateAndOrder(Long userId, LocalDate date, int order) {
+        Optional<Attendance> attendanceOpt = attendanceRepository.findByUserIdAndDateAndOrder(userId, date, order);
+        
+        if (attendanceOpt.isEmpty()) {
+            return null;
+        }
+        
+        Attendance attendance = attendanceOpt.get();
+        User user = attendance.getUser();
+        
+        return UserAttendanceStatusRes.builder()
+                .userId(user.getId())
+                .username(user.getName())
+                .date(attendance.getDate())
+                .order(attendance.getOrder())
+                .status(attendance.isStatus())
+                .attendanceId(attendance.getId())
+                .build();
+    }
+    
+    // 특정 출석 ID로 출석 기록 조회
+    public UserAttendanceStatusRes findById(Long attendanceId) {
+        Optional<Attendance> attendanceOpt = attendanceRepository.findById(attendanceId);
+        
+        if (attendanceOpt.isEmpty()) {
+            return null;
+        }
+        
+        Attendance attendance = attendanceOpt.get();
+        User user = attendance.getUser();
+        
+        return UserAttendanceStatusRes.builder()
+                .userId(user.getId())
+                .username(user.getName())
+                .date(attendance.getDate())
+                .order(attendance.getOrder())
+                .status(attendance.isStatus())
+                .attendanceId(attendance.getId())
+                .build();
+    }
 }
