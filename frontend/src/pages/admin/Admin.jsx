@@ -9,13 +9,13 @@ const Admin = () => {
         <h1 className={styles.pirocheck}>PIROCHECK</h1>
         <button
           className={styles.button}
-          onClick={() => navigate("/magagestudent")}
+          onClick={() => navigate("/managestudent")}
         >
           <p>수강생 관리</p>
         </button>
         <button
           className={styles.button}
-          onClick={() => navigate("/magagetask")}
+          onClick={() => navigate("/managetask")}
         >
           <p>과제 관리</p>
         </button>
