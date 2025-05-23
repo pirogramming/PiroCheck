@@ -24,17 +24,17 @@ const AdminStudentAssignment = () => {
     });
 
     api
-      .get(`/admin/managestudent/{studentId}`, {
+      .get(`/admin/managestudent/${studentId}`, {
         params: { userId: studentId },
         withCredentials: true,
       })
       .then((res) => {
         const formatted = res.data.data.map((weekItem) => ({
           week: weekItem.week,
-          label: `${weekItem.week}주차 ${weekItem.title}`,
+          label: `${weekItem.week}주차 ${weekItem.subject}`,
           days: weekItem.days.map((dayItem) => ({
             day: dayItem.day,
-            subject: weekItem.title,
+            subject: weekItem.subject,
             tasks: dayItem.details.map((task) => ({
               id: task.id,
               label: task.assignmentName,
