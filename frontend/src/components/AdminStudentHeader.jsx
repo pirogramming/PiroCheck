@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./componentsCss/Header.css";
 
-const AdminStudentHeader = ({ studentName = "default", onBack }) => {
+const AdminStudentHeader = ({ studentName = "default", subtitle = "default", onBack }) => {
   const navigate = useNavigate();
   const { studentId } = useParams();
 
