@@ -8,7 +8,9 @@ import styles from "./AdminStudentAssignment.module.css";
 import {
   submitAssignmentStatus,
   updateAssignmentStatus,
-} from "../../api/assignment";
+  fetchStudentInfo,
+  fetchStudentAssignments,
+} from "../../api/assignmentAdmin";
 
 const AdminStudentAssignment = () => {
   const { studentId, week } = useParams();
@@ -18,31 +20,26 @@ const AdminStudentAssignment = () => {
   const [selectedWeekLabel, setSelectedWeekLabel] = useState(null);
 
   useEffect(() => {
-    // 기존 (오류 발생) api.get(`/admin/users/${userId}`).then((res) => {
-    api.get(`/admin/users/${studentId}`).then((res) => {
+    fetchStudentInfo(studentId).then((res) => {
       setStudentInfo(res.data.data);
     });
 
-    api
-      .get(`/admin/managestudent/${studentId}`, {
-        params: { userId: studentId },
-        withCredentials: true,
-      })
-      .then((res) => {
-        const formatted = res.data.data.map((weekItem) => ({
-          week: weekItem.week,
-          label: `${weekItem.week}주차 ${weekItem.subject}`,
-          days: weekItem.days.map((dayItem) => ({
-            day: dayItem.day,
-            subject: weekItem.subject,
-            tasks: dayItem.details.map((task) => ({
-              id: task.id,
-              label: task.assignmentName,
-              status: task.status,
-              modified: false,
-            })),
+
+    fetchStudentAssignments(studentId).then((res) => {
+      const formatted = res.data.data.map((weekItem) => ({
+        week: weekItem.week,
+        label: `${weekItem.week}주차 ${weekItem.subject}`,
+        days: weekItem.days.map((dayItem) => ({
+          day: dayItem.day,
+          subject: weekItem.subject,
+          tasks: dayItem.details.map((task) => ({
+            id: task.id,
+            label: task.assignmentName,
+            status: task.status,
+            modified: false,
           })),
-        }));
+        })),
+      }));
 
         setWeeks(formatted);
 
