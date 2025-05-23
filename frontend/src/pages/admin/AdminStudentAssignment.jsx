@@ -5,7 +5,10 @@ import WeeklyOpenBlock from "../../components/WeeklyOpenBlock";
 import AssignmentInfoBlock from "../../components/AssignmentInfoBlock";
 import api from "../../api/api";
 import styles from "./AdminStudentAssignment.module.css";
-import { submitAssignmentStatus, updateAssignmentStatus } from "../../api/assignment";
+import {
+  submitAssignmentStatus,
+  updateAssignmentStatus,
+} from "../../api/assignment";
 
 const AdminStudentAssignment = () => {
   const { studentId, week } = useParams();
@@ -15,7 +18,8 @@ const AdminStudentAssignment = () => {
   const [selectedWeekLabel, setSelectedWeekLabel] = useState(null);
 
   useEffect(() => {
-    api.get(`/admin/users/${userId}`).then((res) => {
+    // 기존 (오류 발생) api.get(`/admin/users/${userId}`).then((res) => {
+    api.get(`/admin/users/${studentId}`).then((res) => {
       setStudentInfo(res.data.data);
     });
 
@@ -63,7 +67,7 @@ const AdminStudentAssignment = () => {
     task.modified = true;
     setWeeks(updated);
   };
-/*
+  /*
   const handleSave = async (taskId, status) => {
     await api.put("/admin/assignment/status", {
       assignmentId: taskId,
@@ -71,30 +75,32 @@ const AdminStudentAssignment = () => {
     });
   };
 */
-const handleSave = async (taskId, status) => {
-  const userId = parseInt(studentId); // 문자열일 수 있으니 숫자로 변환
+  const handleSave = async (taskId, status) => {
+    const userId = parseInt(studentId); // 문자열일 수 있으니 숫자로 변환
 
-  try {
-    // PUT 요청 시도 (기존 과제 수정)
-    await updateAssignmentStatus(userId, taskId, status);
-    alert("과제 상태가 수정되었습니다.");
-  } catch (err) {
-    console.warn("PUT 실패, POST 시도");
     try {
-      // 없으면 POST 요청 (새 과제 등록)
-      await submitAssignmentStatus(userId, taskId, status);
-      alert("과제 상태가 등록되었습니다.");
+      // PUT 요청 시도 (기존 과제 수정)
+      await updateAssignmentStatus(userId, taskId, status);
+      alert("과제 상태가 수정되었습니다.");
     } catch (err) {
-      alert("상태 저장 실패");
-      console.error(err);
+      console.warn("PUT 실패, POST 시도");
+      try {
+        // 없으면 POST 요청 (새 과제 등록)
+        await submitAssignmentStatus(userId, taskId, status);
+        alert("과제 상태가 등록되었습니다.");
+      } catch (err) {
+        alert("상태 저장 실패");
+        console.error(err);
+      }
     }
-  }
-};
+  };
 
   return (
     <div className={styles.container}>
       <AdminStudentHeader
-        studentName={`${studentInfo?.name || "이름 없음"} ${selectedWeekLabel ? `- ${selectedWeekLabel}` : ""}`}
+        studentName={`${studentInfo?.name || "이름 없음"} ${
+          selectedWeekLabel ? `- ${selectedWeekLabel}` : ""
+        }`}
         onBack={() => window.history.back()}
       />
 
@@ -110,14 +116,23 @@ const handleSave = async (taskId, status) => {
             <p className={styles.weekTitle}>{weekItem.label}</p>
             {weekItem.days.map((dayItem, dayIdx) => (
               <div key={dayIdx} className={styles.dayCard}>
-                <p className={styles.dayLabel}>{dayItem.day} &nbsp; {dayItem.subject}</p>
+                <p className={styles.dayLabel}>
+                  {dayItem.day} &nbsp; {dayItem.subject}
+                </p>
                 <div className={styles.taskList}>
                   {dayItem.tasks.map((task, taskIdx) => (
                     <div key={task.id} className={styles.taskRow}>
                       <span className={styles.taskLabel}>{task.label}</span>
                       <select
                         value={task.status}
-                        onChange={(e) => handleStatusChange(weekIdx, dayIdx, taskIdx, e.target.value)}
+                        onChange={(e) =>
+                          handleStatusChange(
+                            weekIdx,
+                            dayIdx,
+                            taskIdx,
+                            e.target.value
+                          )
+                        }
                       >
                         <option value="SUCCESS">성공</option>
                         <option value="INSUFFICIENT">미흡</option>
