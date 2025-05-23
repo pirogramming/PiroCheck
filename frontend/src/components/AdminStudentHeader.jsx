@@ -17,7 +17,10 @@ const AdminStudentHeader = ({ studentName = "default", onBack }) => {
         />
       </button>
 
-      <h1 className="header-title">{studentName} 출석</h1>
+      <h1 className="header-title">
+        {studentName}
+        {subtitle && ` ${subtitle}`}
+      </h1>
 
       <button
         className="icon-button"
