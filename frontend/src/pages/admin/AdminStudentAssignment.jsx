@@ -10,7 +10,7 @@ import {
   updateAssignmentStatus,
   fetchStudentInfo,
   fetchStudentAssignments,
-} from "../../api/assignmentAdmin";
+} from "../../api/adminassignemnt";
 
 const AdminStudentAssignment = () => {
   const { studentId, week } = useParams();

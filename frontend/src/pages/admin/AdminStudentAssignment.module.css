@@ -4,7 +4,7 @@
   padding: 20px;
   font-family: "Inter", sans-serif;
   color: white;
-  background-color: #1e1e1e;
+  background-color: var(--background-black);
 }
 
 /* 과제 개요 카드 (상단 형광 카드) */
