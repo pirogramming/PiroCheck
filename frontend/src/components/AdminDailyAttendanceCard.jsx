@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./componentsCss/AdminDailyAttendanceCard.css";
 import api from "../api/api";
+import { getStudentAttendance,updateAttendanceStatus } from "../api/adminattendance";
 
 const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
   const [slots, setSlots] = useState([]);
@@ -22,12 +23,10 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
     }
       */
       try {
-        const res = await api.get("/attendance/user/date", {
-          params: { userId: studentId, date },
-          withCredentials: true,
-        });
+        const rawData = await getStudentAttendance(studentId);
+        const dayData = rawData.data.find((d) => d.date === date);
+        const rawSlots = dayData?.slots || [];
 
-        const rawSlots = res.data.data?.[0]?.slots || [];
         setSlots(rawSlots);
         setModified(Array(rawSlots.length).fill(false));
       } catch (err) {
@@ -38,9 +37,9 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
     fetchSlots();
   }, [date, studentId]);
 
-  const handleToggle = (idx) => {
+  const handleChange = (idx, newValue) => {
     const newSlots = [...slots];
-    newSlots[idx].status = !newSlots[idx].status;
+    newSlots[idx].status = newValue === "SUCCESS";
     setSlots(newSlots);
 
     const newModified = [...modified];
@@ -50,10 +49,8 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
 
   const handleSave = async (idx) => {
     try {
-      const slotId = slots[idx].id;
-      await api.put(`/attendance/slot/${slotId}`, {
-        status: slots[idx].status,
-      }, { withCredentials: true });
+      const slot = slots[idx];
+      await updateAttendanceStatus(studentId, slot.id, slot.status);
 
       const newModified = [...modified];
       newModified[idx] = false;
