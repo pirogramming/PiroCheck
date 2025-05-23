@@ -1,4 +1,4 @@
-name: Deploy Frontend & Backend
+name: Deploy Backend
 
 on:
   push:
@@ -54,7 +54,7 @@ jobs:
                -X POST \
                -d '{
                  "embeds": [{
-                   "title": "🚀 Deploy 성공!",
+                   "title": "🚀 Deploy Back 성공!",
                    "description": "**Branch**: `${{ github.ref }}`\n**Commit**: `${{ github.sha }}`\n🟢 서비스가 정상적으로 배포되었습니다!",
                    "color": 65353
                  }]
@@ -67,44 +67,9 @@ jobs:
                -X POST \
                -d '{
                  "embeds": [{
-                   "title": "❌ Deploy 실패!",
+                   "title": "❌ Deploy Back 실패!",
                    "description": "**Branch**: `${{ github.ref }}`\n**Commit**: `${{ github.sha }}`\n🔴 배포 중 오류가 발생했습니다. 로그를 확인하세요.",
                    "color": 16711680
                  }]
                }' ${{ secrets.DISCORD_WEBHOOK }}
 
-  frontend:
-    name: Deploy Frontend to S3
-    needs: backend
-    runs-on: ubuntu-22.04
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '22'
-
-      - name: Install dependencies
-        run: |
-          cd frontend
-          rm -rf node_modules package-lock.json
-          npm install
-          npm install --save-dev vite rollup
-
-      - name: Build frontend
-        run: |
-          cd frontend
-          npm run build
-
-      - name: Deploy to S3
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --delete
-        env:
-          AWS_S3_BUCKET: www.pirocheck.org
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          SOURCE_DIR: frontend/dist
