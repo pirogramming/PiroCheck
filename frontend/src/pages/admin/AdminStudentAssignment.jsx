@@ -95,9 +95,8 @@ const AdminStudentAssignment = () => {
   return (
     <div className={styles.container}>
       <AdminStudentHeader
-        studentName={`${studentInfo?.name || "이름 없음"} ${
-          selectedWeekLabel ? `- ${selectedWeekLabel}` : ""
-        }`}
+        studentName={studentInfo?.name || "이름 없음"}
+        subtitle={selectedWeekLabel ? `- ${selectedWeekLabel}` : ""}
         onBack={() => window.history.back()}
       />
 

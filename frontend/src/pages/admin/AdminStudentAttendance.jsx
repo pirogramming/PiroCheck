@@ -112,6 +112,7 @@ const AdminStudentAttendance = () => {
       {/*헤더 */}
       <AdminStudentHeader
         studentName={studentInfo?.name || "이름 없음"}
+        subtitle="출석"
         onBack={() => window.history.back()}
       />
 
