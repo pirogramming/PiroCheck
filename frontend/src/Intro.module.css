@@ -13,7 +13,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("./assets/img/logo.svg");
+  background-image: url("/assets/img/logo.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -27,7 +27,7 @@
 .intro_container {
   background-color: var(--background-black);
   color: var(--main-green);
-  font-family: 'Akira Expanded';
+  font-family: "Akira Expanded";
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   justify-content: center;

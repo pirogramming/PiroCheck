@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "../pages/admin/ManageTask.module.css";
+import api from "../api/api";
 
 const TaskModal = ({ weekInfo, onClose }) => {
   const [topic, setTopic] = useState("");
@@ -14,6 +15,41 @@ const TaskModal = ({ weekInfo, onClose }) => {
 
   const handleAddTask = () => {
     setTaskList([...taskList, ""]);
+  };
+
+  const handleSave = async () => {
+    console.log("save clicked");
+
+    const weekNumber = parseInt(weekInfo.week.replace("주차", "")); // 주차 숫자 정보만 추출
+    const filteredTasks = taskList.filter((t) => t.trim() !== ""); // 빈 값 제거
+
+    const requests = filteredTasks.map((task, index) => {
+      console.log("sending:", {
+        subject: topic,
+        assignmentName: task,
+        week: weekNumber,
+        day: day,
+        orderNumber: index + 1,
+      });
+
+      return api.post("/admin/assignment/signup", {
+        subject: topic,
+        assignmentName: task,
+        week: weekNumber,
+        day: day,
+        orderNumber: index + 1,
+      });
+    });
+
+    try {
+      const response = await Promise.all(requests);
+      console.log("응답들: ", response);
+      alert("과제가 저장되었습니다.");
+      onClose();
+    } catch (error) {
+      console.error("저장 오류:", error);
+      alert("과제 저장 중 오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -52,7 +88,9 @@ const TaskModal = ({ weekInfo, onClose }) => {
           </button>
         </div>
         <div className={styles.modal_footer}>
-          <button className={styles.save_button}>save</button>
+          <button className={styles.save_button} onClick={handleSave}>
+            save
+          </button>
         </div>
       </div>
     </div>
