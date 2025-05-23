@@ -7,7 +7,6 @@ on:
 jobs:
   frontend:
     name: Deploy Frontend to S3
-    needs: backend
     runs-on: ubuntu-22.04
 
     steps:
