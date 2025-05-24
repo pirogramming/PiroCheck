@@ -64,6 +64,7 @@ public class ManageStudentsService {
 
         // ManageStudentDetailResDto 조립
         return ManageStudentDetailResDto.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .deposit(deposit.getAmount())
                 .defence(deposit.getAscentDefence())
