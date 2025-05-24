@@ -83,7 +83,7 @@ const AdminStudentAttendance = () => {
 
       weekSlotMap.set(week, [...existing, ...statuses]);
       dateMap.set(week, [...existingDates, date]);
-      
+
     });
 
     return Array.from({ length: 5 }, (_, i) => {
