@@ -32,19 +32,19 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
         "order": 1,
         "status": true
         */
-        const dayData = rawData.find((d) => d.date === date);
-        const rawSlots = dayData
-          ? [
-              {
-                id: dayData.attendanceId,             // API 요청용 ID
-                order: dayData.order,                 // 회차 표시용
-                status: dayData.status ? "SUCCESS" : "FAILURE", 
-              },
-            ]
-          : [];
+        const rawSlots = rawData
+          .filter((d) => d.date === date) // 해당 날짜의 출석만 필터
+          .sort((a, b) => a.order - b.order) // order 순으로 정렬
+          .map((d) => ({
+            date: d.date, 
+            id: d.attendanceId,                     // 출석 ID
+            order: d.order,                         // 회차 표시용
+            status: d.status ? "SUCCESS" : "FAILURE", // 드롭다운에 맞게 변환
+          }));
 
         setSlots(rawSlots);
         setModified(Array(rawSlots.length).fill(false));
+
       } catch (err) {
         console.error("슬롯 정보 불러오기 실패:", err);
       }
