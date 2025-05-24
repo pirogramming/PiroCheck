@@ -15,17 +15,19 @@ const AdminStudentAttendance = () => {
 
   useEffect(() => {
     const id = Number(studentId);
+    
     if (!id || isNaN(id)) {
       console.warn("❗ 잘못된 studentId:", studentId);
       return;
     }
+    
     const fetchData = async () => {
       try {
         const studentRes = await getStudentBasicInfo(studentId);
-        setStudentInfo(studentRes.data);
+        setStudentInfo(studentRes);
 
         const attendanceRes = await getStudentAttendance(studentId);
-        const processed = processWeeklyAttendance(attendanceRes.data);
+        const processed = processWeeklyAttendance(attendanceRes);
         setAttendanceData(processed);
       } catch (err) {
         console.error("데이터 불러오기 실패:", err);

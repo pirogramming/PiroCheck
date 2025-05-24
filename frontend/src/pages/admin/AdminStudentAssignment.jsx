@@ -25,10 +25,11 @@ const AdminStudentAssignment = () => {
       console.warn("❗ 잘못된 studentId:", studentId);
       return;
     }
-
+    
     fetchStudentInfo(id).then((res) => {
-      setStudentInfo(res.data.data);
+      setStudentInfo(res.data);
     });
+
 
 
     fetchStudentAssignments(studentId).then((res) => {
