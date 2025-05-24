@@ -27,7 +27,15 @@ const AdminStudentAttendance = () => {
         setStudentInfo(studentRes);
 
         const attendanceRes = await getStudentAttendance(studentId);
-        const processed = processWeeklyAttendance(attendanceRes.data);
+        /*
+            "attendanceId": 1,
+            "userId": 1,
+            "username": "홍길동",
+            "date": "2023-10-20",
+            "order": 1,
+            "status": true
+       */
+        const processed = processWeeklyAttendance(attendanceRes);
         setAttendanceData(processed);
       } catch (err) {
         console.error("데이터 불러오기 실패:", err);
@@ -67,11 +75,9 @@ const AdminStudentAttendance = () => {
     const weekSlotMap = new Map();
     const dateMap = new Map(); // 추가: 날짜 저장
 
-    rawData.forEach(({ date, slots }) => {
+    rawData.forEach(({ date, order,status }) => {
       const week = getWeekFromDate(date);
-      const statuses = slots.map((s) =>
-        s.status ? "SUCCESS" : "FAILURE"
-      );
+      const statuses = status.map((s) => (s ? "SUCCESS" : "FAILURE"));
       const existing = weekSlotMap.get(week) || [];
       const existingDates = dateMap.get(week) || [];
 
