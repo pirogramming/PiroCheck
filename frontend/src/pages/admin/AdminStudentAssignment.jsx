@@ -20,12 +20,12 @@ const AdminStudentAssignment = () => {
   const [selectedWeekLabel, setSelectedWeekLabel] = useState(null);
 
   useEffect(() => {
-  
+    const id = Number(studentId);
     if (!id || isNaN(id)) {
       console.warn("❗ 잘못된 studentId:", studentId);
       return;
     }
-    const id = Number(studentId);
+    
     fetchStudentInfo(id).then((res) => {
       setStudentInfo(res.data.data);
     });
