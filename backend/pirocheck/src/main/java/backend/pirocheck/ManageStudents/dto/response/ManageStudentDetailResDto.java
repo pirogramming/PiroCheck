@@ -1,5 +1,6 @@
 package backend.pirocheck.ManageStudents.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -8,7 +9,11 @@ import java.util.List;
 
 @Getter
 @Builder
+@JsonPropertyOrder({"id", "name", "deposit", "defence", "assignmentTitles"})
 public class ManageStudentDetailResDto {
+
+    @Schema(description = "학생 ID", example = "1")
+    private Long id;
 
     @Schema(description = "수강생 이름", example = "김피로")
     private String name;
