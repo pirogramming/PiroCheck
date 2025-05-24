@@ -74,7 +74,7 @@ function App() {
           path="/managestudent/detail/:studentId"
           element={
             <RequireAdmin>
-              <DetailManageStudent />
+              {studentId && <DetailManageStudent />}
             </RequireAdmin>
           }
         />
