@@ -54,7 +54,9 @@ jobs:
                -X POST \
                -d '{
                  "embeds": [{
+
                    "title": "🚀 Deploy Back 성공!",
+
                    "description": "**Branch**: `${{ github.ref }}`\n**Commit**: `${{ github.sha }}`\n🟢 서비스가 정상적으로 배포되었습니다!",
                    "color": 65353
                  }]
@@ -67,9 +69,10 @@ jobs:
                -X POST \
                -d '{
                  "embeds": [{
+
                    "title": "❌ Deploy Back 실패!",
+
                    "description": "**Branch**: `${{ github.ref }}`\n**Commit**: `${{ github.sha }}`\n🔴 배포 중 오류가 발생했습니다. 로그를 확인하세요.",
                    "color": 16711680
                  }]
                }' ${{ secrets.DISCORD_WEBHOOK }}
-

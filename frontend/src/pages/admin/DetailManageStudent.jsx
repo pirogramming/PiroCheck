@@ -59,13 +59,13 @@ const DetailManageStudent = () => {
             출석 관리 <span>&gt;</span>
           </button>
         )}
-        {student && (
+        {student && student.id && (
           <div className={style.assignment_list}>
             {weekData.map((week, index) => (
               <button
                 key={index}
                 className={style.assignment_button}
-                onClick={() => navigate(`/admin/assignment/${student.id}`)}
+                onClick={() => navigate(`/admin/assignment/${student.id}/${index + 1}`)}
               >
                 {week.week} {week.title && `  ${week.title}`}
               </button>
