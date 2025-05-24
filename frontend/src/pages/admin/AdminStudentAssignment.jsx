@@ -14,6 +14,10 @@ import {
 
 const AdminStudentAssignment = () => {
   const { studentId, week } = useParams();
+  if (!studentId || !week) {
+    console.warn("studentId 또는 week 없음", { studentId, week });
+    return <div>잘못된 접근입니다.</div>; // 또는 로딩 UI
+  }
   const [studentInfo, setStudentInfo] = useState(null);
   const [weeks, setWeeks] = useState([]);
   const [highlightCard, setHighlightCard] = useState(null);
