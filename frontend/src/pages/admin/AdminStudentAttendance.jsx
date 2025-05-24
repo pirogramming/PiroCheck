@@ -88,8 +88,8 @@ const AdminStudentAttendance = () => {
     return Array.from({ length: 5 }, (_, i) => {
       const week = i + 1;
       const all = weekSlotMap.get(week) || [];
-      const dates = dateMap.get(week) || [];
-
+      //const dates = dateMap.get(week) || [];
+      const dates = sortedByOrder.map((r) => r.date);
       const classes = [0, 1, 2].map((classIdx) => {
         const slice = all.slice(classIdx * 3, classIdx * 3 + 3);
         const trueCount = slice.filter((s) => s === "SUCCESS").length;
@@ -116,7 +116,10 @@ const AdminStudentAttendance = () => {
       });
 
 
-      return { week, classes };
+      return {
+         week, 
+         classes
+        };
     });
   };
 
