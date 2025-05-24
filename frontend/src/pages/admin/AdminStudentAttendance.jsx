@@ -77,7 +77,7 @@ const AdminStudentAttendance = () => {
 
     rawData.forEach(({ date, order,status }) => {
       const week = getWeekFromDate(date);
-      const statuses = status.map((s) => (s ? "SUCCESS" : "FAILURE"));
+      const statuses = [status ? "SUCCESS" : "FAILURE"];
       const existing = weekSlotMap.get(week) || [];
       const existingDates = dateMap.get(week) || [];
 
