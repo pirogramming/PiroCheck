@@ -67,7 +67,7 @@ const DetailManageStudent = () => {
             출석 관리 <span>&gt;</span>
           </button>
         )}
-        {student && student.id && (
+        {student && Number.isInteger(student.id) && (
           <div className={style.assignment_list}>
             {weekData.map((week, index) => (
               <button
