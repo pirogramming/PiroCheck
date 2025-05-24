@@ -14,12 +14,13 @@ const AdminStudentAttendance = () => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
+    const id = Number(studentId);
     
     if (!id || isNaN(id)) {
       console.warn("❗ 잘못된 studentId:", studentId);
       return;
     }
-    const id = Number(studentId);
+    
     const fetchData = async () => {
       try {
         const studentRes = await getStudentBasicInfo(studentId);
