@@ -27,7 +27,7 @@ const AdminStudentAttendance = () => {
         setStudentInfo(studentRes);
 
         const attendanceRes = await getStudentAttendance(studentId);
-        const processed = processWeeklyAttendance(attendanceRes);
+        const processed = processWeeklyAttendance(attendanceRes.data);
         setAttendanceData(processed);
       } catch (err) {
         console.error("데이터 불러오기 실패:", err);

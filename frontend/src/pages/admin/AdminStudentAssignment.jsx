@@ -27,7 +27,7 @@ const AdminStudentAssignment = () => {
     }
     
     fetchStudentInfo(id).then((res) => {
-      setStudentInfo(res.data);
+      setStudentInfo(res);
     });
 
 
