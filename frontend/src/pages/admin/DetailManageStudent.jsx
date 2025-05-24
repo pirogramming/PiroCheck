@@ -20,10 +20,17 @@ const DetailManageStudent = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (!studentId || isNaN(Number(studentId))) {
+      console.warn("❗ 잘못된 studentId (DetailManageStudent):", studentId);
+      return;
+    }
+
+    const id = Number(studentId);
+
     const fetchStudent = async () => {
       try {
-        const data = await getStudentDetail(numericId);
-        console.log("API 응답 데이터:", data); // 확인 포인트
+        const data = await getStudentDetail(id);
+        console.log("API 응답 데이터:", data);
         setStudent(data);
       } catch (err) {
         console.error("학생 상세 정보 불러오기 실패:", err);
@@ -31,7 +38,8 @@ const DetailManageStudent = () => {
     };
 
     fetchStudent();
-  }, [numericId]);
+  }, [studentId]);
+
 
   if (!student) return <div>loading...</div>;
 
