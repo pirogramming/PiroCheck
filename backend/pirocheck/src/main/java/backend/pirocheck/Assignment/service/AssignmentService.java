@@ -46,7 +46,7 @@ public class AssignmentService {
             Long week = entry.getKey(); // 주차 정보
             List<AssignmentItem> assignmentList = entry.getValue(); // 주차에 해당하는 days의 list
 
-            String subject = assignmentList.get(0).getAssignment().getSubject();
+            String title = assignmentList.get(0).getAssignment().getTitle();
 
             // day를 기준으로 그룹핑
             Map<String, List<AssignmentItem>> dayGroup = assignmentList.stream()
@@ -57,6 +57,7 @@ public class AssignmentService {
             for (Map.Entry<String, List<AssignmentItem>> dayEntry : dayGroup.entrySet()) {
                 String day = dayEntry.getKey();
                 List<AssignmentItem> dayAssignmentList = dayEntry.getValue();
+                String subtitle = dayAssignmentList.get(0).getAssignment().getSubtitle();
 
                 // 세부 과제명과 과제 결과를 리스트 형태로
                 List<AssignmentDetailRes> assignmentDetailResList = dayAssignmentList.stream()
@@ -65,10 +66,10 @@ public class AssignmentService {
                                 assignmentItem.getSubmitted()
                         ))
                         .toList();
-                assignmentDayResList.add(new AssignmentDayRes(day, assignmentDetailResList));
+                assignmentDayResList.add(new AssignmentDayRes(day, subtitle, assignmentDetailResList));
             }
 
-            assignmentResponses.add(new AssignmentWeekRes(week, subject, assignmentDayResList));
+            assignmentResponses.add(new AssignmentWeekRes(week, title, assignmentDayResList));
         }
 
         return assignmentResponses;
@@ -77,7 +78,8 @@ public class AssignmentService {
     public String createAssignment(AssignmentCreateReq assignmentCreateReq) {
 
         Assignment assignment = Assignment.create(
-                assignmentCreateReq.getSubject(),
+                assignmentCreateReq.getTitle(),
+                assignmentCreateReq.getSubtitle(),
                 assignmentCreateReq.getAssignmentName(),
                 assignmentCreateReq.getWeek(),
                 assignmentCreateReq.getDay(),
@@ -113,7 +115,7 @@ public class AssignmentService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
 
-        assignment.update(req.getSubject(), req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
+        assignment.update(req.getTitle(), req.getSubtitle(), req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
         assignmentRepository.save(assignment);
 
         return assignment.getAssignmentName();
