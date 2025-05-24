@@ -64,64 +64,58 @@ const AdminStudentAttendance = () => {
   }, []);
 */
   // 날짜 기반 주차-회차 구조로 변환
-  const processWeeklyAttendance = (rawData) => {
-    const startDate = new Date("2025-06-24");
-    const getWeekFromDate = (dateStr) => {
-      const d = new Date(dateStr);
-      const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
-      return Math.floor(diffDays / 7) + 1;
-    }; 
+const processWeeklyAttendance = (rawData) => {
+  const startDate = new Date("2025-06-24");
 
-    const weekSlotMap = new Map();
-    const dateMap = new Map(); // 추가: 날짜 저장
+  const getWeekFromDate = (dateStr) => {
+    const d = new Date(dateStr);
+    const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
+    return Math.floor(diffDays / 7) + 1;
+  };
 
-    rawData.forEach(({ date, order, status }) => {
-      const week = getWeekFromDate(date);
-      const statuses = [status ? "SUCCESS" : "FAILURE"];
-      const existing = weekSlotMap.get(week) || [];
-      const existingDates = dateMap.get(week) || [];
+  // 주차별 출석 정보 묶기
+  const weekMap = new Map();
 
-      weekSlotMap.set(week, [...existing, ...statuses]);
-      dateMap.set(week, [...existingDates, date]);
+  rawData.forEach(({ date, order, status }) => {
+    const week = getWeekFromDate(date);
+    const entry = { date, order, status: status ? "SUCCESS" : "FAILURE" };
 
-    });
+    if (!weekMap.has(week)) weekMap.set(week, []);
+    weekMap.get(week).push(entry);
+  });
 
-    return Array.from({ length: 5 }, (_, i) => {
-      const week = i + 1;
-      const all = weekSlotMap.get(week) || [];
-      const dates = dateMap.get(week) || [];
-      const classes = [0, 1, 2].map((classIdx) => {
-        const slice = all.slice(classIdx * 3, classIdx * 3 + 3);
-        const trueCount = slice.filter((s) => s === "SUCCESS").length;
+  return Array.from({ length: 5 }, (_, i) => {
+    const week = i + 1;
+    const entries = (weekMap.get(week) || []).sort((a, b) => a.order - b.order);
 
-        let status;
-        switch (trueCount) {
-          case 3:
-            status = "SUCCESS";
-            break;
-          case 2:
-            status = "INSUFFICIENT";
-            break;
-          case 1:
-            status = "FAILURE";
-            break;
-          default:
-            status = "EMPTY";
-        }
+    const classes = [0, 1, 2].map((classIdx) => {
+      const slice = entries.slice(classIdx * 3, classIdx * 3 + 3);
+      const trueCount = slice.filter((e) => e.status === "SUCCESS").length;
 
-        return {
-          status,
-          date: dates[classIdx] || null,
-        };
-      });
-
+      let status;
+      switch (trueCount) {
+        case 3:
+          status = "SUCCESS";
+          break;
+        case 2:
+          status = "INSUFFICIENT";
+          break;
+        case 1:
+          status = "FAILURE";
+          break;
+        default:
+          status = "EMPTY";
+      }
 
       return {
-         week, 
-         classes
-        };
+        status,
+        date: entries[classIdx]?.date || null,
+      };
     });
-  };
+
+    return { week, classes };
+  });
+};
 
   return (
     <div className={styles.attendance_page}>
