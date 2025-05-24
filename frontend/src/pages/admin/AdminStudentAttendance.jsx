@@ -66,11 +66,18 @@ const AdminStudentAttendance = () => {
   // 날짜 기반 주차-회차 구조로 변환
 const processWeeklyAttendance = (rawData) => {
   const startDate = new Date("2025-06-24");
+  const offsetDays = [0, 2, 4];
+
 
   const getWeekFromDate = (dateStr) => {
     const d = new Date(dateStr);
     const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
     return Math.floor(diffDays / 7) + 1;
+  };
+  const getDateForClass = (week, classIdx) => {
+    const base = new Date(startDate);
+    base.setDate(base.getDate() + (week - 1) * 7 + offsetDays[classIdx]);
+    return base.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
   };
 
   // 주차별 출석 정보 묶기
@@ -87,9 +94,11 @@ const processWeeklyAttendance = (rawData) => {
   return Array.from({ length: 5 }, (_, i) => {
     const week = i + 1;
     const entries = (weekMap.get(week) || []).sort((a, b) => a.order - b.order);
-
+    
     const classes = [0, 1, 2].map((classIdx) => {
       const slice = entries.slice(classIdx * 3, classIdx * 3 + 3);
+      const fallbackDate = getDateForClass(week, classIdx);
+
       const trueCount = slice.filter((e) => e.status === "SUCCESS").length;
 
       let status;
@@ -108,8 +117,9 @@ const processWeeklyAttendance = (rawData) => {
       }
 
       return {
-        status,
-        date: entries[classIdx]?.date || null,
+        order,
+        status: entry?.status ?? "EMPTY",
+        date: entry?.date ?? fallbackDate,
       };
     });
 
@@ -132,11 +142,19 @@ const processWeeklyAttendance = (rawData) => {
         onSelectDate={(date) => setSelectedDate(date)}
       />
 
-      {/* 선택된 날짜의 상세 수정 카드 */}
+      {/* 선택된 날짜의 상세 수정 카드 
       {selectedDate && (
         <AdminDailyAttendanceCard 
           date={selectedDate}
           studentId={studentId}
+          onClose={() => setSelectedDate(null)}
+        />
+      )}*/}
+      {selectedDate && (
+        <AdminDailyAttendanceCard
+          studentId={studentId}
+          date={selectedDate.date}
+          order={selectedDate.order}
           onClose={() => setSelectedDate(null)}
         />
       )}
