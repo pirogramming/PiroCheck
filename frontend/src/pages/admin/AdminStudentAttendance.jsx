@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AdminStudentHeader from "../../components/AdminStudentHeader";
-import DailyAttendanceCard from "../../components/AdminDailyAttendanceCard";
+import AdminDailyAttendanceCard from "../../components/AdminDailyAttendanceCard";
 import api from "../../api/api";
 import styles from "./AdminStudentAttendance.module.css";
 import AdminWeeklyAttendanceList from "../../components/AdminWeeklyAttendanceList";
@@ -75,7 +75,7 @@ const AdminStudentAttendance = () => {
     const weekSlotMap = new Map();
     const dateMap = new Map(); // 추가: 날짜 저장
 
-    rawData.forEach(({ date, order,status }) => {
+    rawData.forEach(({ date, order, status }) => {
       const week = getWeekFromDate(date);
       const statuses = [status ? "SUCCESS" : "FAILURE"];
       const existing = weekSlotMap.get(week) || [];
@@ -137,7 +137,7 @@ const AdminStudentAttendance = () => {
 
       {/* 선택된 날짜의 상세 수정 카드 */}
       {selectedDate && (
-        <DailyAttendanceCard
+        <AdminDailyAttendanceCard 
           date={selectedDate}
           studentId={studentId}
           onClose={() => setSelectedDate(null)}
