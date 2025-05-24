@@ -103,7 +103,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/assignment/:studentId"
+          path="/admin/assignment/:studentId/:week"
           element={
             <RequireAdmin>
               <AdminStudentAssignment />
