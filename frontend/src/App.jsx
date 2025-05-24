@@ -74,7 +74,7 @@ function App() {
           path="/managestudent/detail/:studentId"
           element={
             <RequireAdmin>
-              {studentId && <DetailManageStudent />}
+              <DetailManageStudent />
             </RequireAdmin>
           }
         />
@@ -103,7 +103,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/assignment/:studentId"
+          path="/admin/assignment/:studentId/:week"
           element={
             <RequireAdmin>
               <AdminStudentAssignment />
