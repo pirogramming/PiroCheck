@@ -30,13 +30,14 @@ export const getStudentAttendance = async (studentId) => {
 // 학생 기본 정보 조회
 export const getStudentBasicInfo = async (studentId) => {
   try {
-    const res = await api.get(`/admin/users/${studentId}`);
+    const res = await api.get(`/admin/managestudent/${studentId}`);
     return res.data;
   } catch (error) {
     console.error("학생 기본 정보 불러오기 실패:", error);
     throw error;
   }
 };
+
 
 // 학생 출석 전체 데이터 조회 (특정 날짜와 차수 포함)
 export const getStudentAttendance = async (studentId) => {
