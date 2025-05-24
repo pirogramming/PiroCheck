@@ -18,7 +18,7 @@ const AdminStudentAssignment = () => {
   const [weeks, setWeeks] = useState([]);
   const [highlightCard, setHighlightCard] = useState(null);
   const [selectedWeekLabel, setSelectedWeekLabel] = useState(null);
-
+/*
   useEffect(() => {
     const id = Number(studentId);
     if (!id || isNaN(id)) {
@@ -28,7 +28,21 @@ const AdminStudentAssignment = () => {
 
     fetchStudentInfo(id).then((res) => {
       setStudentInfo(res.data.data);
-    });
+    });*/
+  useEffect(() => {
+    if (!studentId || isNaN(Number(studentId))) {
+      console.warn("❗ studentId가 유효하지 않음:", studentId);
+      return;
+    }
+
+    const id = Number(studentId);
+
+  fetchStudentInfo(id)
+    .then((res) => setStudentInfo(res.data))
+    .catch((err) => console.error("학생 정보 불러오기 실패:", err));
+
+  }, [studentId]);
+
 
 
     fetchStudentAssignments(studentId).then((res) => {
