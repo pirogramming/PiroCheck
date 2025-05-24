@@ -24,8 +24,24 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
       */
       try {
         const rawData = await getStudentAttendance(studentId);
-        const dayData = rawData.data.find((d) => d.date === date);
-        const rawSlots = dayData?.slots || [];
+        /*   
+        "attendanceId": 1,
+        "userId": 1,
+        "username": "홍길동",
+        "date": "2023-10-20",
+        "order": 1,
+        "status": true
+        */
+        const dayData = rawData.find((d) => d.date === date);
+        const rawSlots = dayData
+          ? [
+              {
+                id: dayData.attendanceId,             // API 요청용 ID
+                order: dayData.order,                 // 회차 표시용
+                status: dayData.status ? "SUCCESS" : "FAILURE", 
+              },
+            ]
+          : [];
 
         setSlots(rawSlots);
         setModified(Array(rawSlots.length).fill(false));
@@ -49,8 +65,12 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
 
   const handleSave = async (idx) => {
     try {
-      const slot = slots[idx];
-      await updateAttendanceStatus(studentId, slot.id, slot.status);
+
+      const slot = slots[idx]; 
+      const attendanceId = slot.id;
+      const status = slot.status === "SUCCESS"; 
+      
+      await updateAttendanceStatus(studentId, attendanceId, status);
 
       const newModified = [...modified];
       newModified[idx] = false;
