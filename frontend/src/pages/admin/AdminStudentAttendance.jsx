@@ -142,11 +142,19 @@ const processWeeklyAttendance = (rawData) => {
         onSelectDate={(date) => setSelectedDate(date)}
       />
 
-      {/* 선택된 날짜의 상세 수정 카드 */}
+      {/* 선택된 날짜의 상세 수정 카드 
       {selectedDate && (
         <AdminDailyAttendanceCard 
           date={selectedDate}
           studentId={studentId}
+          onClose={() => setSelectedDate(null)}
+        />
+      )}*/}
+      {selectedDate && (
+        <AdminDailyAttendanceCard
+          studentId={studentId}
+          date={selectedDate.date}
+          order={selectedDate.order}
           onClose={() => setSelectedDate(null)}
         />
       )}
