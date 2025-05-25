@@ -3,7 +3,7 @@ import "./componentsCss/AdminDailyAttendanceCard.css";
 import api from "../api/api";
 import { getStudentAttendance,updateAttendanceStatus } from "../api/adminattendance";
 
-const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
+const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
   const [slots, setSlots] = useState([]);
   const [modified, setModified] = useState([]);
 
@@ -42,8 +42,21 @@ const AdminDailyAttendanceCard = ({ date, studentId, onClose }) => {
             status: d.status ? "SUCCESS" : "FAILURE", // 드롭다운에 맞게 변환
           }));
 
-        setSlots(rawSlots);
-        setModified(Array(rawSlots.length).fill(false));
+        const filledSlots =
+          rawSlots.length > 0
+            ? rawSlots
+            : [1, 2, 3].map((order) => ({
+                date,
+                id: null, // 새 출석이므로 아직 id 없음
+                order,
+                status: "EMPTY",//기본값
+              }));
+
+        setSlots(filledSlots);
+        setModified(Array(filledSlots.length).fill(false));
+
+        //setSlots(rawSlots);
+        //setModified(Array(rawSlots.length).fill(false));
 
       } catch (err) {
         console.error("슬롯 정보 불러오기 실패:", err);
