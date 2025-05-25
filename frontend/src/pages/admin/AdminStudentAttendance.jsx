@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import AdminStudentHeader from "../../components/AdminStudentHeader";
-import DailyAttendanceCard from "../../components/AdminDailyAttendanceCard";
+import AdminDailyAttendanceCard from "../../components/AdminDailyAttendanceCard";
 import api from "../../api/api";
 import styles from "./AdminStudentAttendance.module.css";
 import AdminWeeklyAttendanceList from "../../components/AdminWeeklyAttendanceList";
@@ -12,7 +12,26 @@ const AdminStudentAttendance = () => {
   const [studentInfo, setStudentInfo] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const fetchData = async () => {
+    try {
+      const studentRes = await getStudentBasicInfo(studentId);
+      setStudentInfo(studentRes);
 
+      const attendanceRes = await getStudentAttendance(studentId);
+      /*
+          "attendanceId": 1,
+          "userId": 1,
+          "username": "홍길동",
+          "date": "2023-10-20",
+          "order": 1,
+          "status": true
+      */
+      const processed = processWeeklyAttendance(attendanceRes);
+      setAttendanceData(processed);
+    } catch (err) {
+      console.error("데이터 불러오기 실패:", err);
+    }
+  };
   useEffect(() => {
     const id = Number(studentId);
     
@@ -21,19 +40,6 @@ const AdminStudentAttendance = () => {
       return;
     }
     
-    const fetchData = async () => {
-      try {
-        const studentRes = await getStudentBasicInfo(studentId);
-        setStudentInfo(studentRes);
-
-        const attendanceRes = await getStudentAttendance(studentId);
-        const processed = processWeeklyAttendance(attendanceRes);
-        setAttendanceData(processed);
-      } catch (err) {
-        console.error("데이터 불러오기 실패:", err);
-      }
-    };
-
     fetchData();
   }, [studentId]);
   
@@ -56,63 +62,71 @@ const AdminStudentAttendance = () => {
   }, []);
 */
   // 날짜 기반 주차-회차 구조로 변환
-  const processWeeklyAttendance = (rawData) => {
-    const startDate = new Date("2025-06-24");
-    const getWeekFromDate = (dateStr) => {
-      const d = new Date(dateStr);
-      const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
-      return Math.floor(diffDays / 7) + 1;
-    }; 
-
-    const weekSlotMap = new Map();
-    const dateMap = new Map(); // 추가: 날짜 저장
-
-    rawData.forEach(({ date, slots }) => {
-      const week = getWeekFromDate(date);
-      const statuses = slots.map((s) =>
-        s.status ? "SUCCESS" : "FAILURE"
-      );
-      const existing = weekSlotMap.get(week) || [];
-      const existingDates = dateMap.get(week) || [];
-
-      weekSlotMap.set(week, [...existing, ...statuses]);
-      dateMap.set(week, [...existingDates, date]);
-    });
-
-    return Array.from({ length: 5 }, (_, i) => {
-      const week = i + 1;
-      const all = weekSlotMap.get(week) || [];
-      const dates = dateMap.get(week) || [];
-
-      const classes = [0, 1, 2].map((classIdx) => {
-        const slice = all.slice(classIdx * 3, classIdx * 3 + 3);
-        const trueCount = slice.filter((s) => s === "SUCCESS").length;
-
-        let status;
-        switch (trueCount) {
-          case 3:
-            status = "SUCCESS";
-            break;
-          case 2:
-            status = "INSUFFICIENT";
-            break;
-          case 1:
-            status = "FAILURE";
-            break;
-          default:
-            status = "EMPTY";
-        }
-
-        return {
-          status,
-          date: dates[classIdx] || null,
-        };
-      });
+const processWeeklyAttendance = (rawData) => {
+  const startDate = new Date("2025-06-24");
+  const offsetDays = [0, 2, 4];
 
 
-      return { week, classes };
-    });
+  const getWeekFromDate = (dateStr) => {
+    const d = new Date(dateStr);
+    const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
+    return Math.floor(diffDays / 7) + 1;
   };
+  const getDateForClass = (week, classIdx) => {
+    const base = new Date(startDate);
+    base.setDate(base.getDate() + (week - 1) * 7 + offsetDays[classIdx]);
+    return base.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
+  };
+
+  // 주차별 출석 정보 묶기
+  const weekMap = new Map();
+
+  rawData.forEach(({ date, order, status }) => {
+    const week = getWeekFromDate(date);
+    const entry = { date, order, status: status ? "SUCCESS" : "FAILURE" };
+
+    if (!weekMap.has(week)) weekMap.set(week, []);
+    weekMap.get(week).push(entry);
+  });
+
+  return Array.from({ length: 5 }, (_, i) => {
+    const week = i + 1;
+    const entries = (weekMap.get(week) || []).sort((a, b) => a.order - b.order);
+    
+    const classes = [0, 1, 2].map((classIdx) => {
+      const order = classIdx + 1;
+      const slice = entries.slice(classIdx * 3, classIdx * 3 + 3);
+      const entry = entries.find((e) => e.order === order);
+      const fallbackDate = getDateForClass(week, classIdx);
+      
+
+      const trueCount = slice.filter((e) => e.status === "SUCCESS").length;
+
+      let status;
+      switch (trueCount) {
+        case 3:
+          status = "SUCCESS";
+          break;
+        case 2:
+          status = "INSUFFICIENT";
+          break;
+        case 1:
+          status = "FAILURE";
+          break;
+        default:
+          status = "EMPTY";
+      }
+
+      return {
+        order,
+        status: entry?.status ?? "EMPTY",
+        date: entry?.date ?? fallbackDate,
+      };
+    });
+
+    return { week, classes };
+  });
+};
 
   return (
     <div className={styles.attendance_page}>
@@ -126,15 +140,25 @@ const AdminStudentAttendance = () => {
       {/* 주차별 출석 */}
       <AdminWeeklyAttendanceList
         attendanceData={attendanceData}
-        onSelectDate={(date) => setSelectedDate(date)}
+        onSelectDate={(selected) => setSelectedDate(selected)}
+        //onSelectDate={(date) => setSelectedDate(date)}
       />
 
-      {/* 선택된 날짜의 상세 수정 카드 */}
+      {/* 선택된 날짜의 상세 수정 카드 
       {selectedDate && (
-        <DailyAttendanceCard
+        <AdminDailyAttendanceCard 
           date={selectedDate}
           studentId={studentId}
           onClose={() => setSelectedDate(null)}
+        />
+      )}*/}
+      {selectedDate && (
+        <AdminDailyAttendanceCard
+          studentId={studentId}
+          date={selectedDate.date} 
+          order={selectedDate.order}
+          onClose={() => setSelectedDate(null)}
+          onRefresh={fetchData}
         />
       )}
     </div>

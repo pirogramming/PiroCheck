@@ -24,7 +24,7 @@ const AdminStudentHeader = ({ studentName = "default", subtitle = "default", onB
 
       <button
         className="icon-button"
-        onClick={() => navigate(`/admin/managestudent`)}
+        onClick={() => navigate(`/managestudent`)}
       >
         👥
       </button>

@@ -19,7 +19,16 @@ const AdminWeeklyAttendanceList = ({ attendanceData, onSelectDate }) => {
               <img key={idx} 
               src={statusImageMap[cls.status]}  
               style={{ cursor: "pointer" }}
-              onClick={() => cls.date && onSelectDate(cls.date)}
+              /*
+              onClick={() => {
+                console.log("🧪 클릭됨!", cls.date);
+                cls.date && onSelectDate(cls.date);
+              }}
+              */
+              onClick={() => {
+                console.log("🧪 클릭됨!", cls.date, cls.order);
+                if (cls.date) onSelectDate({ date: cls.date, order: cls.order });
+              }}
               />
             ))}
           </div>
