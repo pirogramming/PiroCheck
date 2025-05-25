@@ -96,6 +96,7 @@ const processWeeklyAttendance = (rawData) => {
     const entries = (weekMap.get(week) || []).sort((a, b) => a.order - b.order);
     
     const classes = [0, 1, 2].map((classIdx) => {
+      const order = classIdx + 1;
       const slice = entries.slice(classIdx * 3, classIdx * 3 + 3);
       const fallbackDate = getDateForClass(week, classIdx);
 
