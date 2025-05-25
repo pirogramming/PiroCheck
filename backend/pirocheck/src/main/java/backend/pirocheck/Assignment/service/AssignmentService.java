@@ -62,6 +62,7 @@ public class AssignmentService {
                 // 세부 과제명과 과제 결과를 리스트 형태로
                 List<AssignmentDetailRes> assignmentDetailResList = dayAssignmentList.stream()
                         .map(assignmentItem -> new AssignmentDetailRes(
+                                assignmentItem.getAssignment().getId(),
                                 assignmentItem.getAssignment().getAssignmentName(),
                                 assignmentItem.getSubmitted()
                         ))
