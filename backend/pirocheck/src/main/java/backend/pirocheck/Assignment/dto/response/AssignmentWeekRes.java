@@ -9,6 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AssignmentWeekRes {
     private Long week;
-    private String subject; // 각 주차 주제 (e.g, Git / HTML / CSS)
+    private String title; // 각 주차 주제 (e.g, Git / HTML / CSS)
     private List<AssignmentDayRes> days;
 }

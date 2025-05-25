@@ -9,5 +9,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AssignmentDayRes {
     private String day; // 화, 목, 토
+    private String subtitle;
     private List<AssignmentDetailRes> details;
 }
