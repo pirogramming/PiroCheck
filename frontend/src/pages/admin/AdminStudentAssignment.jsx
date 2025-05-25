@@ -33,7 +33,7 @@ const AdminStudentAssignment = () => {
 
 
     fetchStudentAssignments(studentId).then((res) => {
-      const formatted = res.data.data.map((weekItem) => ({
+      const formatted = res.data.map((weekItem) => ({
         week: weekItem.week,
         label: `${weekItem.week}주차 ${weekItem.subject}`,
         days: weekItem.days.map((dayItem) => ({
