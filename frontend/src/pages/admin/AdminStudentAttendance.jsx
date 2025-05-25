@@ -153,8 +153,8 @@ const processWeeklyAttendance = (rawData) => {
       {selectedDate && (
         <AdminDailyAttendanceCard
           studentId={studentId}
-          date={selectedDate.date}
-          order={selectedDate.order}
+          date={selectedDate}
+        
           onClose={() => setSelectedDate(null)}
         />
       )}
