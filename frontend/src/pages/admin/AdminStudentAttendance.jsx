@@ -160,6 +160,7 @@ const processWeeklyAttendance = (rawData) => {
           date={selectedDate.date} 
           order={selectedDate.order}
           onClose={() => setSelectedDate(null)}
+          onRefresh={fetchData}
         />
       )}
     </div>

@@ -3,7 +3,7 @@ import "./componentsCss/AdminDailyAttendanceCard.css";
 import api from "../api/api";
 import { getStudentAttendance,updateAttendanceStatus } from "../api/adminattendance";
 
-const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
+const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }) => {
   const [slots, setSlots] = useState([]);
   const [modified, setModified] = useState([]);
 
@@ -88,7 +88,7 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
       const newModified = [...modified];
       newModified[idx] = false;
       setModified(newModified);
-      
+
       console.log("📝 저장 요청", {
         id: slot.id,
         order: slot.order,
@@ -111,6 +111,8 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
         }
       }
       alert("전체 저장 완료");
+      if (onRefresh) onRefresh(); // submit 이후 새로고침
+      onClose(); 
     } catch (err) {
       console.error("전체 저장 실패:", err);
     }
@@ -124,7 +126,7 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
       </div>
       <div className="card-body">
         {slots.map((slot, idx) => (
-          <div key={slot.id} className="slot-row">
+          <div key={`${slot.date}-${slot.order}`} className="slot-row">
             <span>{idx + 1}차 출석</span>
             <select value={slot.status} onChange={(e) => handleChange(idx, e.target.value)}>
               <option value="SUCCESS">성공</option>
