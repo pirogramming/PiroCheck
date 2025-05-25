@@ -68,7 +68,7 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
 
   const handleChange = (idx, newValue) => {
     const newSlots = [...slots];
-    newSlots[idx].status = newValue === "SUCCESS";
+    newSlots[idx].status = newValue;
     setSlots(newSlots);
 
     const newModified = [...modified];
@@ -88,9 +88,18 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose }) => {
       const newModified = [...modified];
       newModified[idx] = false;
       setModified(newModified);
+      
+      console.log("📝 저장 요청", {
+        id: slot.id,
+        order: slot.order,
+        date: slot.date,
+        status: slot.status,
+      });
+
     } catch (err) {
       console.error("슬롯 저장 실패:", err);
       alert("저장 실패");
+
     }
   };
 
