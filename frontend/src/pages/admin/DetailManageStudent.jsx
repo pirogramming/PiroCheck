@@ -73,7 +73,7 @@ const DetailManageStudent = () => {
               <button
                 key={index}
                 className={style.assignment_button}
-                onClick={() => navigate(`/admin/assignment/${student.id}/${index + 1}`)}
+                onClick={() => navigate(`/admin/assignment/${student.id}/${week.week}`)}
               >
                 {week.week} {week.title && `  ${week.title}`}
               </button>

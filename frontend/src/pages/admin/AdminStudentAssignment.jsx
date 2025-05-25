@@ -38,9 +38,8 @@ const AdminStudentAssignment = () => {
         label: `${weekItem.week}주차 ${weekItem.subject}`,
         days: weekItem.days.map((dayItem) => ({
           day: dayItem.day,
-          subject: weekItem.subject,
           tasks: dayItem.details.map((task) => ({
-            //id: task.id,
+            id: task.id,
             label: task.assignmentName,
             status: task.status,
             //modified: false,
@@ -53,13 +52,14 @@ const AdminStudentAssignment = () => {
         const matched = formatted.find((w) => Number(w.week) === Number(week));
         if (matched) {
           setSelectedWeekLabel(matched.label);
+          /*
           if (matched.days.length > 0) {
             setHighlightCard({
               weekLabel: matched.label,
               day: matched.days[0].day,
               tasks: matched.days[0].tasks,
             });
-          }
+          }*/
         }
       });
   }, [studentId, week]);
@@ -80,10 +80,10 @@ const AdminStudentAssignment = () => {
   };
 */
 
-//수정 필요!!!!!!!!!!!!!!!!!!!!!! taskid 없이
+
   const handleSave = async (taskId, status) => {
     const userId = parseInt(studentId); // 문자열일 수 있으니 숫자로 변환
-
+    
     try {
       // PUT 요청 시도 (기존 과제 수정)
       await updateAssignmentStatus(userId, taskId, status);
