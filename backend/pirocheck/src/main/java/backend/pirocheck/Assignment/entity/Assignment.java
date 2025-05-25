@@ -20,7 +20,10 @@ public class Assignment {
     private Long id;
 
     // 전체 주제
-    private String subject;
+    private String title;
+
+    // 소주제
+    private String subtitle;
 
     // 과제명
     private String assignmentName;
@@ -47,9 +50,10 @@ public class Assignment {
     }
 
     // 관리자가 생성
-    public static Assignment create(String subject, String assignmentName, Long week, String day, Long orderNumber) {
+    public static Assignment create(String title, String subtitle, String assignmentName, Long week, String day, Long orderNumber) {
         return Assignment.builder()
-                .subject(subject)
+                .title(title)
+                .subtitle(subtitle)
                 .assignmentName(assignmentName)
                 .week(week)
                 .day(day)
@@ -58,8 +62,9 @@ public class Assignment {
     }
 
     // 과제 내용 업데이트
-    public void update(String subject, String assignmentName, Long week, String day, Long orderNumber) {
-        this.subject = subject;
+    public void update(String title, String subtitle, String assignmentName, Long week, String day, Long orderNumber) {
+        this.title = title;
+        this.subtitle = subtitle;
         this.assignmentName = assignmentName;
         this.week = week;
         this.day = day;

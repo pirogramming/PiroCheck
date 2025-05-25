@@ -12,10 +12,10 @@ import backend.pirocheck.Assignment.entity.AssignmentItem;
 import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Assignment.repository.AssignmentRepository;
+import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Slf4j // 로그를 찍기위해 사용
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -47,7 +46,7 @@ public class AssignmentService {
             Long week = entry.getKey(); // 주차 정보
             List<AssignmentItem> assignmentList = entry.getValue(); // 주차에 해당하는 days의 list
 
-            String subject = assignmentList.get(0).getAssignment().getSubject();
+            String title = assignmentList.get(0).getAssignment().getTitle();
 
             // day를 기준으로 그룹핑
             Map<String, List<AssignmentItem>> dayGroup = assignmentList.stream()
@@ -58,18 +57,20 @@ public class AssignmentService {
             for (Map.Entry<String, List<AssignmentItem>> dayEntry : dayGroup.entrySet()) {
                 String day = dayEntry.getKey();
                 List<AssignmentItem> dayAssignmentList = dayEntry.getValue();
+                String subtitle = dayAssignmentList.get(0).getAssignment().getSubtitle();
 
                 // 세부 과제명과 과제 결과를 리스트 형태로
                 List<AssignmentDetailRes> assignmentDetailResList = dayAssignmentList.stream()
                         .map(assignmentItem -> new AssignmentDetailRes(
+                                assignmentItem.getAssignment().getId(),
                                 assignmentItem.getAssignment().getAssignmentName(),
                                 assignmentItem.getSubmitted()
                         ))
                         .toList();
-                assignmentDayResList.add(new AssignmentDayRes(day, assignmentDetailResList));
+                assignmentDayResList.add(new AssignmentDayRes(day, subtitle, assignmentDetailResList));
             }
 
-            assignmentResponses.add(new AssignmentWeekRes(week, subject, assignmentDayResList));
+            assignmentResponses.add(new AssignmentWeekRes(week, title, assignmentDayResList));
         }
 
         return assignmentResponses;
@@ -78,7 +79,8 @@ public class AssignmentService {
     public String createAssignment(AssignmentCreateReq assignmentCreateReq) {
 
         Assignment assignment = Assignment.create(
-                assignmentCreateReq.getSubject(),
+                assignmentCreateReq.getTitle(),
+                assignmentCreateReq.getSubtitle(),
                 assignmentCreateReq.getAssignmentName(),
                 assignmentCreateReq.getWeek(),
                 assignmentCreateReq.getDay(),
@@ -87,7 +89,7 @@ public class AssignmentService {
         assignment = assignmentRepository.save(assignment);
 
         // 전체 유저에게 과제 자동 할당
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findByRole(Role.MEMBER);
 
         for (User user : users) {
 
@@ -114,7 +116,7 @@ public class AssignmentService {
         Assignment assignment = assignmentRepository.findById(assignmentId)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 과제가 없습니다."));
 
-        assignment.update(req.getSubject(), req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
+        assignment.update(req.getTitle(), req.getSubtitle(), req.getAssignmentName(), req.getWeek(), req.getDay(), req.getOrderNumber());
         assignmentRepository.save(assignment);
 
         return assignment.getAssignmentName();
@@ -122,7 +124,6 @@ public class AssignmentService {
 
     // 과제 채점 결과 저장
     public AssignmentStatus createAssignmentItem(Long userId, Long assignmentId, AssignmentItemCreateReq req) {
-        log.info("userId 요청 값: {}", userId);
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("조회된 사용자가 없습니다."));

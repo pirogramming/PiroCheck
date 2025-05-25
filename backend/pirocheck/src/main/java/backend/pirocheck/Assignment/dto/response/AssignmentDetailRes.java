@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class AssignmentDetailRes {
+    private Long id;
     private String assignmentName;
     private AssignmentStatus status;
 }

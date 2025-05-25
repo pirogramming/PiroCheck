@@ -11,9 +11,13 @@ import lombok.Getter;
 @AllArgsConstructor
 public class AssignmentCreateReq {
 
-    @Schema(description = "과제 주제", example = "Git/HTML/CSS")
-    @NotNull(message = "과제 주제는 필수입니다.")
-    private String subject;
+    @Schema(description = "전체 주제", example = "Git/HTML/CSS")
+    @NotNull(message = "전체 주제는 필수입니다.")
+    private String title;
+
+    @Schema(description = "소주제", example = "CSS 반응형, CSS 심화")
+    @NotNull(message = "소주제는 필수입니다.")
+    private String subtitle;
 
     @Schema(description = "과제명", example = "제로초 인강")
     @NotNull(message = "과제명은 필수입니다.")
