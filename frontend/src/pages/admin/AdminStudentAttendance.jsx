@@ -97,8 +97,10 @@ const processWeeklyAttendance = (rawData) => {
     
     const classes = [0, 1, 2].map((classIdx) => {
       const order = classIdx + 1;
+      const slice = entries.slice(classIdx * 3, classIdx * 3 + 3);
       const entry = entries.find((e) => e.order === order);
       const fallbackDate = getDateForClass(week, classIdx);
+      
 
       const trueCount = slice.filter((e) => e.status === "SUCCESS").length;
 
