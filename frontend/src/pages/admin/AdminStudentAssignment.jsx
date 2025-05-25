@@ -122,7 +122,7 @@ const AdminStudentAssignment = () => {
             {weekItem.days.map((dayItem, dayIdx) => (
               <div key={dayIdx} className={styles.dayCard}>
                 <p className={styles.dayLabel}>
-                  {dayItem.day} &nbsp; {dayItem.subject}
+                  {dayItem.day} &nbsp; {dayItem.subtitle}
                 </p>
                 <div className={styles.taskList}>
                   {dayItem.tasks.map((task, taskIdx) => (
