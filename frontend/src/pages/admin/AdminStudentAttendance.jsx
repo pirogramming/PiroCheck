@@ -12,7 +12,26 @@ const AdminStudentAttendance = () => {
   const [studentInfo, setStudentInfo] = useState(null);
   const [attendanceData, setAttendanceData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
+  const fetchData = async () => {
+    try {
+      const studentRes = await getStudentBasicInfo(studentId);
+      setStudentInfo(studentRes);
 
+      const attendanceRes = await getStudentAttendance(studentId);
+      /*
+          "attendanceId": 1,
+          "userId": 1,
+          "username": "홍길동",
+          "date": "2023-10-20",
+          "order": 1,
+          "status": true
+      */
+      const processed = processWeeklyAttendance(attendanceRes);
+      setAttendanceData(processed);
+    } catch (err) {
+      console.error("데이터 불러오기 실패:", err);
+    }
+  };
   useEffect(() => {
     const id = Number(studentId);
     
@@ -21,27 +40,6 @@ const AdminStudentAttendance = () => {
       return;
     }
     
-    const fetchData = async () => {
-      try {
-        const studentRes = await getStudentBasicInfo(studentId);
-        setStudentInfo(studentRes);
-
-        const attendanceRes = await getStudentAttendance(studentId);
-        /*
-            "attendanceId": 1,
-            "userId": 1,
-            "username": "홍길동",
-            "date": "2023-10-20",
-            "order": 1,
-            "status": true
-       */
-        const processed = processWeeklyAttendance(attendanceRes);
-        setAttendanceData(processed);
-      } catch (err) {
-        console.error("데이터 불러오기 실패:", err);
-      }
-    };
-
     fetchData();
   }, [studentId]);
   
