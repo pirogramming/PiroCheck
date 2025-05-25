@@ -40,17 +40,17 @@ const AdminStudentAssignment = () => {
           day: dayItem.day,
           subject: weekItem.subject,
           tasks: dayItem.details.map((task) => ({
-            id: task.id,
+            //id: task.id,
             label: task.assignmentName,
             status: task.status,
-            modified: false,
+            //modified: false,
           })),
         })),
       }));
 
         setWeeks(formatted);
 
-        const matched = formatted.find((w) => String(w.week) === String(week));
+        const matched = formatted.find((w) => Number(w.week) === Number(week));
         if (matched) {
           setSelectedWeekLabel(matched.label);
           if (matched.days.length > 0) {
@@ -79,6 +79,8 @@ const AdminStudentAssignment = () => {
     });
   };
 */
+
+//수정 필요!!!!!!!!!!!!!!!!!!!!!! taskid 없이
   const handleSave = async (taskId, status) => {
     const userId = parseInt(studentId); // 문자열일 수 있으니 숫자로 변환
 
