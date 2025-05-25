@@ -19,11 +19,11 @@ const Assignment = () => {
     fetchAssignmentsByUser(userId)
       .then((weekData) => {
         const formatted = weekData.map((weekItem) => ({
-          label: `${weekItem.week}주차 ${weekItem.subtitle}`,
+          label: `${weekItem.week}주차 ${weekItem.title}`,
           //label: `${weekItem.week}주차 ${weekItem.subject}`,
           details: weekItem.days.map((dayItem) => ({
             day: dayItem.day,
-            subject: dayItem.subject,
+            subject: dayItem.subtitle,
             //subject: weekItem.subject,
             tasks: dayItem.details.map((task) => ({
               label: task.assignmentName,
