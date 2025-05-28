@@ -41,7 +41,7 @@ const ManageTask = () => {
             </div>
           ))}
         </div>
-        <img src="assets/img/plus.svg"></img>
+        <img className={style.plus} src="assets/img/plus.svg"></img>
       </div>
       {showModal && (
         <TaskModal
