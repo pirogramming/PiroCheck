@@ -65,6 +65,9 @@ const Header = () => {
           />
         </button>
       ) : null}
+      {!showRightDeposit && !showRightMagageStudent ? (
+        <div className="balance"></div>
+      ) : null}
     </header>
   );
 };
