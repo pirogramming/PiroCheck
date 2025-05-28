@@ -23,22 +23,25 @@ const ManageTask = () => {
   const closeModal = () => setShowModal(false);
 
   return (
-    <div className={style.managetask_wrapper}>
-      <Header />
-      <div className={style.week_container}>
-        {weekData.map((week, index) => (
-          <div key={index} className={style.week_block}>
-            <button className={style.week_button}>
-              {week.week} {week.title && `  ${week.title}`}
-            </button>
-            <img
-              src="/assets/img/edit.png"
-              alt="edit"
-              className={style.edit_icon}
-              onClick={() => handleEditClick(index)}
-            />
-          </div>
-        ))}
+    <div className={style.manage_task_container}>
+      <div className={style.managetask_wrapper}>
+        <Header />
+        <div className={style.week_container}>
+          {weekData.map((week, index) => (
+            <div key={index} className={style.week_block}>
+              <button className={style.week_button}>
+                {week.week} {week.title && `  ${week.title}`}
+              </button>
+              <img
+                src="/assets/img/edit.png"
+                alt="edit"
+                className={style.edit_icon}
+                onClick={() => handleEditClick(index)}
+              />
+            </div>
+          ))}
+        </div>
+        <img src="assets/img/plus.svg"></img>
       </div>
       {showModal && (
         <TaskModal
