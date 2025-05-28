@@ -30,7 +30,7 @@ const AttendanceCode = () => {
   const generateCode = async () => {
     try {
       const res = await api.post("admin/attendance/start");
-      const newCode = res.data.data.code;
+      const newCode = res.data.code;
       setCode(newCode);
     } catch (error) {
       alert(
