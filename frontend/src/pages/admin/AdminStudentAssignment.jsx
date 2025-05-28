@@ -33,9 +33,9 @@ const AdminStudentAssignment = () => {
 
 
     fetchStudentAssignments(studentId).then((res) => {
-      const formatted = res.data.data.map((weekItem) => ({
+      const formatted = res.data.map((weekItem) => ({
         week: weekItem.week,
-        label: `${weekItem.week}주차 ${weekItem.subject}`,
+        label: `${weekItem.week}주차 ${weekItem.title}`,
         days: weekItem.days.map((dayItem) => ({
           day: dayItem.day,
           tasks: dayItem.details.map((task) => ({
@@ -122,7 +122,7 @@ const AdminStudentAssignment = () => {
             {weekItem.days.map((dayItem, dayIdx) => (
               <div key={dayIdx} className={styles.dayCard}>
                 <p className={styles.dayLabel}>
-                  {dayItem.day} &nbsp; {dayItem.subject}
+                  {dayItem.day} &nbsp; {dayItem.subtitle}
                 </p>
                 <div className={styles.taskList}>
                   {dayItem.tasks.map((task, taskIdx) => (
