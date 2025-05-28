@@ -5,9 +5,8 @@
   display: flex;
   align-items: center;
   width: 390px;
-  justify-content: flex-start;
+  justify-content: space-between;
   padding: 1rem;
-  gap: 100px;
   box-shadow: 0 2px 4px #0003;
   margin: 10px;
 }
@@ -31,4 +30,8 @@
 
 .icon-button svg {
   color: var(--main-green);
+}
+.balance {
+  width: 30px;
+  height: 30px;
 }
