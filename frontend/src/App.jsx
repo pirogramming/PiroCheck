@@ -20,7 +20,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<ManageTask />} />
         <Route path="/" element={<Intro />} />
         <Route path="/login" element={<Login />} />
         <Route
