@@ -4,6 +4,7 @@ import backend.pirocheck.Assignment.dto.request.AssignmentCreateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentItemCreateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentItemUpdateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
+import backend.pirocheck.Assignment.dto.response.AssignmentRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
 import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.service.AssignmentService;
@@ -57,6 +58,19 @@ public class AssignmentController {
             @RequestBody AssignmentCreateReq assignmentCreateReq
     ) {
         return assignmentService.createAssignment(assignmentCreateReq);
+    }
+
+    // 과제 조회 API
+    @Operation(summary = "과제 조회 API", description = "관리자가 과제를 조회합니다.")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", description = "과제 조회에 성공하였습니다."),
+                    @ApiResponse(responseCode = "400", description = "잘못된 요청입니다.")
+            }
+    )
+    @GetMapping("/admin/assignment/search")
+    public List<AssignmentRes> searchAssignment(AssignmentRes assignmentRes) {
+        return assignmentService.searchAssignment(assignmentRes);
     }
 
     // 과제 삭제 API

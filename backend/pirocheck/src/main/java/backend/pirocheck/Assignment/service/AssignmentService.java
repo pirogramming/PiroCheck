@@ -6,6 +6,7 @@ import backend.pirocheck.Assignment.dto.request.AssignmentItemUpdateReq;
 import backend.pirocheck.Assignment.dto.request.AssignmentUpdateReq;
 import backend.pirocheck.Assignment.dto.response.AssignmentDayRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentDetailRes;
+import backend.pirocheck.Assignment.dto.response.AssignmentRes;
 import backend.pirocheck.Assignment.dto.response.AssignmentWeekRes;
 import backend.pirocheck.Assignment.entity.Assignment;
 import backend.pirocheck.Assignment.entity.AssignmentItem;
@@ -76,6 +77,7 @@ public class AssignmentService {
         return assignmentResponses;
     }
 
+    // 과제 생성
     public String createAssignment(AssignmentCreateReq assignmentCreateReq) {
 
         Assignment assignment = Assignment.create(
@@ -103,6 +105,28 @@ public class AssignmentService {
         }
 
         return assignment.getAssignmentName();
+    }
+
+    // 과제 조회
+    public List<AssignmentRes> searchAssignment(AssignmentRes assignmentRes) {
+        List<Assignment> list = assignmentRepository.findAll();
+
+        List<AssignmentRes> assignmentResList = new ArrayList<>();
+
+        for (Assignment assignment : list) {
+            assignmentResList.add(new AssignmentRes(
+                            assignment.getId(),
+                            assignment.getTitle(),
+                            assignment.getSubtitle(),
+                            assignment.getAssignmentName(),
+                            assignment.getWeek(),
+                            assignment.getDay(),
+                            assignment.getOrderNumber()
+                    )
+            );
+        }
+
+        return assignmentResList;
     }
 
     // 과제 삭제
