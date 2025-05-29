@@ -1,11 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../pages/admin/ManageTask.module.css";
 import api from "../api/api";
 
-const TaskModal = ({ weekInfo, onClose }) => {
+const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
   const [topic, setTopic] = useState("");
   const [day, setDay] = useState("");
   const [taskList, setTaskList] = useState([""]);
+
+  useEffect(() => {
+    if (weekInfo?.tasks?.length > 0) {
+      const firstTask = weekInfo.tasks[0];
+      setTopic(firstTask.subtitle || "");
+      setDay(firstTask.day || "");
+      setTaskList(weekInfo.tasks.map((task) => task.assignmentName));
+    }
+  }, [weekInfo]);
 
   const handleTaskChange = (index, value) => {
     const newTasks = [...taskList];
@@ -18,33 +27,32 @@ const TaskModal = ({ weekInfo, onClose }) => {
   };
 
   const handleSave = async () => {
-    console.log("save clicked");
-
-    const weekNumber = parseInt(weekInfo.week.replace("주차", "")); // 주차 숫자 정보만 추출
-    const filteredTasks = taskList.filter((t) => t.trim() !== ""); // 빈 값 제거
+    const weekNumber = parseInt(weekInfo.week.replace("주차", ""));
+    const filteredTasks = taskList.filter((t) => t.trim() !== "");
 
     const requests = filteredTasks.map((task, index) => {
-      console.log("sending:", {
-        subject: topic,
-        assignmentName: task,
-        week: weekNumber,
-        day: day,
-        orderNumber: index + 1,
-      });
+      const existingTask = weekInfo.tasks[index];
 
-      return api.post("/admin/assignment/signup", {
-        subject: topic,
+      const payload = {
+        title: weekInfo.tasks[0]?.title || topic,
+        subtitle: topic,
         assignmentName: task,
         week: weekNumber,
         day: day,
         orderNumber: index + 1,
-      });
+      };
+
+      if (existingTask?.id) {
+        return api.put(`/admin/assignment/${existingTask.id}`, payload);
+      } else {
+        return api.post("/admin/assignment/signup", payload);
+      }
     });
 
     try {
-      const response = await Promise.all(requests);
-      console.log("응답들: ", response);
+      await Promise.all(requests);
       alert("과제가 저장되었습니다.");
+      onSubmit && onSubmit(); // 부모에게 저장 알림
       onClose();
     } catch (error) {
       console.error("저장 오류:", error);
