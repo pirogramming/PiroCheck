@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../pages/admin/ManageTask.module.css";
-import api from "../api/api";
+import { postAssignment, putAssignment } from "../api/managetask";
 
 const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
   const [topic, setTopic] = useState("");
@@ -32,7 +32,6 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
 
     const requests = filteredTasks.map((task, index) => {
       const existingTask = weekInfo.tasks[index];
-
       const payload = {
         title: weekInfo.tasks[0]?.title || topic,
         subtitle: topic,
@@ -42,17 +41,15 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
         orderNumber: index + 1,
       };
 
-      if (existingTask?.id) {
-        return api.put(`/admin/assignment/${existingTask.id}`, payload);
-      } else {
-        return api.post("/admin/assignment/signup", payload);
-      }
+      return existingTask?.id
+        ? putAssignment(existingTask.id, payload)
+        : postAssignment(payload);
     });
 
     try {
       await Promise.all(requests);
       alert("과제가 저장되었습니다.");
-      onSubmit && onSubmit(); // 부모에게 저장 알림
+      onSubmit && onSubmit();
       onClose();
     } catch (error) {
       console.error("저장 오류:", error);
