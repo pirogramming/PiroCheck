@@ -164,12 +164,12 @@ const Attendance = () => {
         }
       );
 
-      if (res.success) {
-        alert("출석이 성공적으로 처리되었습니다!");
+      if (res.data.success) {
+        alert(res.data.data.message);
         fetchAttendance(); // 서버 출석체크 전달 후 UI 반영
         fetchTodayAttendance(); // 세션별 상단 이미지 UI 반영
       } else {
-        alert(res.data.message);
+        alert(res.data.message || "출석 실패");
       }
     } catch (error) {
       console.error("출석 제출 실패:", error);
