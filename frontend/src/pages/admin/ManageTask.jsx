@@ -1,55 +1,109 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import style from "./ManageTask.module.css";
 import TaskModal from "../../components/TaskModal";
-
-const weekData = [
-  { week: "1주차", title: "Comming soon~", tasks: [] },
-  { week: "2주차", title: "Comming soon~", tasks: [] },
-  { week: "3주차", title: "Comming soon~", tasks: [] },
-  { week: "4주차", title: "Comming soon~", tasks: [] },
-  { week: "5주차", title: "Comming soon~", tasks: [] },
-];
+import { getAssignments } from "../../api/assignmentApi";
 
 const ManageTask = () => {
+  const [assignmentsByWeek, setAssignmentsByWeek] = useState([]);
   const [selectedWeekIndex, setSelectedWeekIndex] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    const fetchAssignments = async () => {
+      try {
+        const rawAssignments = await getAssignments();
+
+        const weekMap = new Map();
+        rawAssignments.forEach((task) => {
+          const week = task.week;
+          if (!weekMap.has(week)) {
+            weekMap.set(week, []);
+          }
+          weekMap.get(week).push(task);
+        });
+
+        const formatted = Array.from(weekMap.entries())
+          .sort(([a], [b]) => a - b)
+          .map(([week, tasks]) => ({
+            week: `${week}주차`,
+            title: tasks[0]?.title || "Comming soon~",
+            tasks,
+          }));
+
+        setAssignmentsByWeek(formatted);
+      } catch (err) {
+        console.error("과제 데이터 불러오기 실패:", err);
+      }
+    };
+
+    fetchAssignments();
+  }, []);
 
   const handleEditClick = (index) => {
     setSelectedWeekIndex(index);
     setShowModal(true);
   };
 
-  const closeModal = () => setShowModal(false);
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handleAddWeek = () => {
+    const nextWeekNumber = assignmentsByWeek.length + 1;
+    setAssignmentsByWeek([
+      ...assignmentsByWeek,
+      {
+        week: `${nextWeekNumber}주차`,
+        title: "Comming soon~",
+        tasks: [],
+      },
+    ]);
+  };
+
+  const handleAddTaskToWeek = (weekIndex, newTask) => {
+    const updated = [...assignmentsByWeek];
+    updated[weekIndex].tasks.push(newTask);
+    updated[weekIndex].title = newTask.title;
+    setAssignmentsByWeek(updated);
+  };
 
   return (
     <div className={style.manage_task_container}>
       <div className={style.managetask_wrapper}>
         <Header />
         <div className={style.week_container}>
-          {weekData.map((week, index) => (
+          {assignmentsByWeek.map((week, index) => (
             <div key={index} className={style.week_block}>
-              <button className={style.week_button}>
-                {week.week} {week.title && `  ${week.title}`}
-              </button>
-              <img
-                src="/assets/img/edit.png"
-                alt="edit"
-                className={style.edit_icon}
+              <button
+                className={style.week_button}
                 onClick={() => handleEditClick(index)}
-              />
+              >
+                {week.week} {week.title}
+              </button>
             </div>
           ))}
         </div>
-        <img className={style.plus} src="assets/img/plus.svg"></img>
+        <img
+          className={style.plus}
+          src="/assets/img/plus.svg"
+          onClick={handleAddWeek}
+          alt="Add"
+        />
       </div>
+
       {showModal && (
         <TaskModal
-          weekInfo={weekData[selectedWeekIndex]}
+          weekInfo={assignmentsByWeek[selectedWeekIndex]}
           onClose={closeModal}
+          onSubmit={(newTask) => {
+            handleAddTaskToWeek(selectedWeekIndex, newTask);
+            closeModal();
+          }}
         />
       )}
     </div>
   );
 };
+
 export default ManageTask;
