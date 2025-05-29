@@ -164,7 +164,7 @@ const Attendance = () => {
         }
       );
 
-      if (res.data.success) {
+      if (res.success) {
         alert("출석이 성공적으로 처리되었습니다!");
         fetchAttendance(); // 서버 출석체크 전달 후 UI 반영
         fetchTodayAttendance(); // 세션별 상단 이미지 UI 반영
