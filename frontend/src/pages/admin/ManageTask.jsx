@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import style from "./ManageTask.module.css";
 import TaskModal from "../../components/TaskModal";
-import { getAssignments } from "../../api/assignmentApi";
+import { getAssignments } from "../../api/managetask";
 
 const ManageTask = () => {
   const [assignmentsByWeek, setAssignmentsByWeek] = useState([]);
