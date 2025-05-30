@@ -25,22 +25,21 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
   const handleAddTask = () => {
     setTaskList([...taskList, ""]);
   };
-
   const handleSave = async () => {
     const weekNumber = parseInt(weekInfo.week.replace("주차", ""));
     const filteredTasks = taskList.filter((t) => t.trim() !== "");
 
-    const requests = filteredTasks.map((task, index) => {
-      const existingTask = weekInfo.tasks[index];
-      const payload = {
-        title: topic,
-        subtitle: topic,
-        assignmentName: task,
-        week: weekNumber,
-        day: day,
-        orderNumber: index + 1,
-      };
+    const newTasks = filteredTasks.map((task, index) => ({
+      title: topic,
+      subtitle: topic,
+      assignmentName: task,
+      week: weekNumber,
+      day: day,
+      orderNumber: index + 1,
+    }));
 
+    const requests = newTasks.map((payload, index) => {
+      const existingTask = weekInfo.tasks[index];
       return existingTask?.id
         ? putAssignment(existingTask.id, payload)
         : postAssignment(payload);
@@ -49,7 +48,7 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
     try {
       await Promise.all(requests);
       alert("과제가 저장되었습니다.");
-      onSubmit && onSubmit();
+      onSubmit && onSubmit(newTasks);
       onClose();
     } catch (error) {
       console.error("저장 오류:", error);
