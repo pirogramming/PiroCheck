@@ -33,7 +33,7 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
     const requests = filteredTasks.map((task, index) => {
       const existingTask = weekInfo.tasks[index];
       const payload = {
-        title: weekInfo.tasks[0]?.title || topic,
+        title: topic,
         subtitle: topic,
         assignmentName: task,
         week: weekNumber,
