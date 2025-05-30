@@ -61,10 +61,10 @@ const ManageTask = () => {
     ]);
   };
 
-  const handleAddTaskToWeek = (weekIndex, newTask) => {
+  const handleAddTaskToWeek = (weekIndex, newTasks) => {
     const updated = [...assignmentsByWeek];
-    updated[weekIndex].tasks.push(newTask);
-    updated[weekIndex].title = newTask.title;
+    updated[weekIndex].tasks = newTasks;
+    updated[weekIndex].title = newTasks[0]?.title || "Comming soon~";
     setAssignmentsByWeek(updated);
   };
 
@@ -96,8 +96,8 @@ const ManageTask = () => {
         <TaskModal
           weekInfo={assignmentsByWeek[selectedWeekIndex]}
           onClose={closeModal}
-          onSubmit={(newTask) => {
-            handleAddTaskToWeek(selectedWeekIndex, newTask);
+          onSubmit={(newTasks) => {
+            handleAddTaskToWeek(selectedWeekIndex, newTasks);
             closeModal();
           }}
         />
