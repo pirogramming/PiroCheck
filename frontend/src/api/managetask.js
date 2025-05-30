@@ -2,7 +2,7 @@ import api from "./api";
 
 // 과제 등록
 export const postAssignment = async (data) => {
-  return api.post("/admin/assignment", data);
+  return api.post("/admin/assignment/signup", data);
 };
 
 // 과제 목록 조회
