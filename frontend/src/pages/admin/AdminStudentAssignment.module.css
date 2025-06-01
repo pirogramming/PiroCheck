@@ -24,8 +24,8 @@
 
 /* 주차 구간 */
 .weekBlock {
-  border-left: 4px solid #00c851;
-  background-color: #2d2d2d;
+  /*border-left: 4px solid #00c851;
+  background-color: #2d2d2d;*/
   border-radius: 10px;
   padding: 16px;
 }
