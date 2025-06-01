@@ -66,3 +66,36 @@
 .assignment_button:focus {
   border: 1px var(--main-green) solid;
 }
+
+/* 보증금 업데이트 버튼 css 추가 */
+.defence_container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.defence_input {
+  width: 60px;
+  height: 28px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  padding-left: 8px;
+  font-size: 14px;
+  background-color: white;
+}
+
+.defence_save_btn {
+  background-color: #888;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.defence_save_btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
