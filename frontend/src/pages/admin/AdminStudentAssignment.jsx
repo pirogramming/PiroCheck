@@ -116,7 +116,9 @@ const AdminStudentAssignment = () => {
       )}
 
       <div className={styles.weekList}>
-        {weeks.map((weekItem, weekIdx) => (
+        {weeks
+        .filter((weekItem) => Number(weekItem.week) === Number(week))
+        .map((weekItem, weekIdx) => (
           <div className={styles.weekBlock} key={weekIdx}>
             <p className={styles.weekTitle}>{weekItem.label}</p>
             {weekItem.days.map((dayItem, dayIdx) => (
@@ -153,7 +155,6 @@ const AdminStudentAssignment = () => {
                     </div>
                   ))}
                 </div>
-                <button className={styles.submitBtn}>submit</button>
               </div>
             ))}
           </div>
