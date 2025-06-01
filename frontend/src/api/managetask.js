@@ -15,3 +15,8 @@ export const getAssignments = async () => {
 export const putAssignment = async (assignmentId, data) => {
   return api.put(`/admin/assignment/${assignmentId}`, data);
 };
+
+// 과제 삭제
+export const deleteAssignment = async (assignmentId) => {
+  return api.delete(`/admin/assignment/${assignmentId}`);
+};

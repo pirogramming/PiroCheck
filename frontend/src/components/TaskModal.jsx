@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import styles from "../pages/admin/ManageTask.module.css";
-import { postAssignment, putAssignment } from "../api/managetask";
+import { postAssignment, putAssignment, deleteAssignment  } from "../api/managetask";
 
 const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
   const [topic, setTopic] = useState("");
@@ -86,6 +86,46 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
     }
   };
 
+  //과제 삭제
+  const handleDeleteAssignment = async (groupIdx, assignmentIdx) => {
+  const group = taskGroups[groupIdx];
+  const assignmentId = group.ids?.[assignmentIdx];
+
+  if (!assignmentId) {
+    // 로컬에만 존재하는 입력이면 그냥 삭제
+    const updated = [...taskGroups];
+    updated[groupIdx].assignments[assignmentIdx] = "";
+    setTaskGroups(updated);
+    return;
+  }
+
+  const confirm = window.confirm("정말 이 과제를 삭제하시겠습니까?");
+  if (!confirm) return;
+
+  try {
+    await deleteAssignment(assignmentId);
+    const updated = [...taskGroups];
+    updated[groupIdx].assignments[assignmentIdx] = "";
+    updated[groupIdx].ids[assignmentIdx] = null;
+    
+    // 그룹 전체가 빈 경우 제거
+    const filtered = updated.filter(group => group.assignments.some(a => a.trim() !== ""));
+    
+    if (filtered.length === 0) {
+      alert("모든 과제가 삭제되어 주차 정보도 제거됩니다.");
+      onSubmit && onSubmit([]); // 부모에서 주차 제거
+      onClose();
+      return;
+    }
+
+    setTaskGroups(filtered);
+  } catch (err) {
+    console.error("삭제 오류:", err);
+    alert("과제 삭제 중 오류가 발생했습니다.");
+  }
+};
+
+
   return (
     <div className={styles.modal_overlay}>
       <div className={styles.modal}>
@@ -115,6 +155,7 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
               <label>과제:</label>
               <div className={styles.assignment_inputs}>
                 {group.assignments.map((assignment, i) => (
+                    <div key={i} className={styles.assignment_row}>
                   <input
                     key={i}
                     placeholder={`과제 ${i + 1}`}
@@ -123,6 +164,13 @@ const TaskModal = ({ weekInfo, onClose, onSubmit }) => {
                       handleAssignmentChange(groupIdx, i, e.target.value)
                     }
                   />
+                  <button
+                    className={styles.delete_button}
+                    onClick={() => handleDeleteAssignment(groupIdx, i)}
+                  >
+                    🗑
+                  </button>
+                  </div>
                 ))}
               </div>
             </div>
