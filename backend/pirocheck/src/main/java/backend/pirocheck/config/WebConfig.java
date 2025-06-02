@@ -15,7 +15,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "http://www.pirocheck.org",
                         "https://www.pirocheck.org"
                 ) // 프론트 배포 URL
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // 허용할 HTTP 메서드
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS") // 허용할 HTTP 메서드
                 .allowedHeaders("*")
                 .allowCredentials(true); // 세션 쿠키 주고받기 허용
     }
