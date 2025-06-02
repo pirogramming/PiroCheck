@@ -113,7 +113,9 @@ const Attendance = () => {
         withCredentials: true, // 세션 기반 인증 요청처리
       });
 
-      const slots = res.data.data?.[0]?.slots || [];
+      // api 응답 수정에 따라 업데이트
+      // 서버 응답이 순서대로 오지 않을 수 있으므로 order 기준으로 정렬
+      const slots = (res.data.data || []).sort((a, b) => a.order - b.order);
 
       const statuses = slots.map((slot) => {
         if (slot.status === true) return "success";
@@ -134,6 +136,19 @@ const Attendance = () => {
   useEffect(() => {
     fetchAttendance();
     fetchTodayAttendance();
+
+    // 10초마다 출석체크 활성화 여부 확인 및 UI 업데이트
+    const interval = setInterval(() => {
+      // 출석 미진행 상태가 하나라도 있을 때만 호출
+      setTodayStatuses((prev) => {
+        if (prev.includes("not_started")) {
+          fetchTodayAttendance();
+        }
+        return prev;
+      });
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, []);
 
   const handleChange = (index, value) => {
