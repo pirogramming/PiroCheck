@@ -34,13 +34,13 @@ const DetailManageStudent = () => {
         const data = await getStudentDetail(id);
         console.log("API 응답 데이터:", data);
         setStudent(data);
+        setDefenceInput(data.defence); // 보증금 업데이트
       } catch (err) {
         console.error("학생 상세 정보 불러오기 실패:", err);
       }
     };
 
     fetchStudent();
-    setDefenceInput(data.defenece); // 보증금 업데이트
   }, [studentId]);
 
   const handleDefenceSave = async () => {
