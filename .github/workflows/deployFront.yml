@@ -24,6 +24,9 @@ jobs:
           rm -rf node_modules package-lock.json
           npm install
           npm install --save-dev vite rollup
+          
+      - name: Clean dist
+        run: rm -rf frontend/dist
 
       - name: Build frontend
         run: |
