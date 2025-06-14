@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://api.pirocheck.org:8080/api",
+        target: "https://api.pirocheck.org/api",
         changeOrigin: true,
       },
     },
