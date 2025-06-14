@@ -64,19 +64,20 @@ const AdminStudentAssignment = () => {
       });
   }, [studentId, week]);
 
-  const handleStatusChange = (weekIdx, dayIdx, taskIdx, newStatus) => {
-    const updated = [...weeks];
-    const task = updated[weekIdx].days[dayIdx].tasks[taskIdx];
-    task.status = newStatus;
-    task.modified = true;
-    setWeeks(updated);
-  };
-  /*
-  const handleSave = async (taskId, status) => {
-    await api.put("/admin/assignment/status", {
-      assignmentId: taskId,
-      status,
-    });
+  const handleStatusChange = (taskId, newStatus) => {
+    const updatedWeeks = weeks.map((weekItem) => ({
+      ...weekItem,
+      days: weekItem.days.map((dayItem) => ({
+        ...dayItem,
+        tasks: dayItem.tasks.map((task) =>
+          task.id === taskId
+            ? { ...task, status: newStatus, modified: true }
+            : task
+        ),
+      })),
+    }));
+
+    setWeeks(updatedWeeks);
   };
 */
 
@@ -134,8 +135,6 @@ const AdminStudentAssignment = () => {
                         value={task.status}
                         onChange={(e) =>
                           handleStatusChange(
-                            weekIdx,
-                            dayIdx,
                             taskIdx,
                             e.target.value
                           )
