@@ -138,7 +138,7 @@ const DetailManageStudent = () => {
                             {state: { title: week.title }})
                 }
               >
-                {week.week} {week.title && `  ${week.title}`}
+                {week.week}주차 {week.title && `  ${week.title}`}
               </button>
             ))}
           </div>
