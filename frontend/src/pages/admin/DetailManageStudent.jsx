@@ -129,7 +129,7 @@ const DetailManageStudent = () => {
         )}
         {student && (
           <div className={style.assignment_list}>
-            {weekData.map((week, index) => (
+            {assignmentsByWeek.map((week, index) => (
               <button
                 key={index}
                 className={style.assignment_button}
