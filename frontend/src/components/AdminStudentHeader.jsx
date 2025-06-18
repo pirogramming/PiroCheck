@@ -26,7 +26,12 @@ const AdminStudentHeader = ({ studentName = "default", subtitle = "default", onB
         className="icon-button"
         onClick={() => navigate(`/managestudent`)}
       >
-        👥
+        <img
+          src="/assets/img/managestudent.svg"
+          alt="MagageStudent"
+          width={30}
+          height={30}
+        />
       </button>
     </div>
   );
