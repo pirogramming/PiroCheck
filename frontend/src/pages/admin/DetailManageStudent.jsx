@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import style from "./DetailManageStudent.module.css";
 import { getStudentDetail } from "../../api/students";
 import { updateStudentDefence } from "../../api/students"; // 보증금 방어권 수정 api
+import { getAssignments } from "../../api/managetask";
 
 /*const weekData = [
   { week: "1주차", title: "Git/HTML/CSS" },
