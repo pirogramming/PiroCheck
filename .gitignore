@@ -16,3 +16,4 @@
 .env
 *.pem
 .idea/
+et --hard HEAD~1
