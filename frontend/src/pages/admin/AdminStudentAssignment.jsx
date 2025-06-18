@@ -65,6 +65,9 @@ const AdminStudentAssignment = () => {
   }, [studentId, week]);
 
   const handleStatusChange = (weekIdx, dayIdx, taskIdx, newStatus) => {
+    const weekIdx = weeks.findIndex(w => Number(w.week) === Number(weekNum));
+    if (weekIdx === -1) return;
+    
     const updated = [...weeks];
     const task = updated[weekIdx].days[dayIdx].tasks[taskIdx];
     task.status = newStatus;
