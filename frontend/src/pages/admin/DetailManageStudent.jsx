@@ -5,14 +5,45 @@ import Header from "../../components/Header";
 import style from "./DetailManageStudent.module.css";
 import { getStudentDetail } from "../../api/students";
 import { updateStudentDefence } from "../../api/students"; // 보증금 방어권 수정 api
-
-const weekData = [
+const [assignmentsByWeek, setAssignmentsByWeek] = useState([]);
+/*const weekData = [
   { week: "1주차", title: "Git/HTML/CSS" },
   { week: "2주차", title: "JavaScript/웹 개론" },
   { week: "3주차", title: "Django CRUD/DB 개론" },
   { week: "4주차", title: "Django ORM/Ajax" },
   { week: "5주차", title: "배포/아이디어 기획" },
-];
+];*/
+
+useEffect(() => {
+  const fetchWeeks = async () => {
+    try {
+      const raw = await getAssignments(); // API에서 주차별 과제 가져오기
+
+      const weekMap = new Map();
+      raw.forEach((task) => {
+        const week = task.week;
+        if (!weekMap.has(week)) {
+          weekMap.set(week, []);
+        }
+        weekMap.get(week).push(task);
+      });
+
+      const formatted = Array.from(weekMap.entries())
+        .sort(([a], [b]) => a - b)
+        .map(([week, tasks]) => ({
+          week,
+          title: tasks[0]?.title || "제목 없음",
+        }));
+
+      setAssignmentsByWeek(formatted);
+    } catch (err) {
+      console.error("과제 주차 데이터 불러오기 실패:", err);
+    }
+  };
+
+  fetchWeeks();
+}, []);
+
 
 const DetailManageStudent = () => {
   const { studentId } = useParams();
@@ -95,12 +126,12 @@ const DetailManageStudent = () => {
         )}
         {student && (
           <div className={style.assignment_list}>
-            {weekData.map((week, index) => (
+            {assignmentsByWeek.map((week, index) => (
               <button
                 key={index}
                 className={style.assignment_button}
                 onClick={() =>
-                  navigate(`/admin/assignment/${student.id}/${index + 1}`)
+                  navigate(`/admin/assignment/${student.id}/${week.week}`)
                 }
               >
                 {week.week} {week.title && `  ${week.title}`}
