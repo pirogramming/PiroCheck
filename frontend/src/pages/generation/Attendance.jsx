@@ -14,7 +14,7 @@ const Attendance = () => {
     "not_started",
   ]);
 
-  const currentDateRef = useRef(new Date().toISOString().split("T")[0]);
+  const currentDateRef = useRef(null);
 
   const getSubImage = (count) => {
     switch (count) {
@@ -138,6 +138,11 @@ const Attendance = () => {
   };
 
   useEffect(() => {
+    if (!currentDateRef.current) {
+      currentDateRef.current = new Date().toISOString().split("T")[0];
+    }
+    console.log("currentDateRef 할당 갱신:", currentDateRef.current);
+
     fetchAttendance();
     fetchTodayAttendance();
 
@@ -222,7 +227,7 @@ const Attendance = () => {
     }
   };
 
-  console.log("📊 attendanceData: ", attendanceData);
+  console.log("attendanceData: ", attendanceData);
 
   return (
     <div className={styles.attendance_page}>
