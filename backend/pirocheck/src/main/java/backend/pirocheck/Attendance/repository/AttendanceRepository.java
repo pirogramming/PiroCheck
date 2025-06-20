@@ -20,4 +20,5 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     
     // 특정 날짜와 차수에 대한 모든 출석 기록 조회
     List<Attendance> findByDateAndOrder(LocalDate date, int order);
+
 }
