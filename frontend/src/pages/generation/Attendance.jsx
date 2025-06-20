@@ -14,6 +14,11 @@ const Attendance = () => {
     "not_started",
   ]);
 
+  // 오늘 날짜 비교용 state
+  const [currentDate, setCurrentDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
+
   const getSubImage = (count) => {
     switch (count) {
       case 3:
@@ -148,7 +153,19 @@ const Attendance = () => {
       });
     }, 10000);
 
-    return () => clearInterval(interval);
+    // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
+    const dateCheckInterval = setInterval(() => {
+      const todayStr = new Date().toISOString().split("T")[0];
+      if (todayStr !== currentDate) {
+        setCurrentDate(todayStr); // 날짜 변경 감지
+        fetchTodayAttendance(); // 새로운 날짜 기준으로 다시 가져오기
+      }
+    }, 60000); // 60초마다 확인
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(dateCheckInterval);
+    };
   }, []);
 
   const handleChange = (index, value) => {
