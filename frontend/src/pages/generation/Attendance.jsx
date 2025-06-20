@@ -111,7 +111,7 @@ const Attendance = () => {
 
       if (!userId) return;
 
-      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const today = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
       const res = await api.get(`/attendance/user/date`, {
         params: { userId, date: today },
         withCredentials: true, // 세션 기반 인증 요청처리
@@ -139,7 +139,7 @@ const Attendance = () => {
 
   useEffect(() => {
     if (!currentDateRef.current) {
-      currentDateRef.current = new Date().toISOString().split("T")[0];
+      currentDateRef.current = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
     }
     console.log("currentDateRef 할당 갱신:", currentDateRef.current);
 
@@ -159,7 +159,7 @@ const Attendance = () => {
 
     // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
     const dateCheckInterval = setInterval(() => {
-      const todayStr = new Date().toISOString().split("T")[0];
+      const todayStr = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
       console.log("dateCheckInterval 실행됨 / 현재 시간:", new Date());
       console.log(
         "currentDateRef:",
