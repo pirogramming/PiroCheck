@@ -136,6 +136,13 @@ public class AssignmentService {
     // 과제 삭제
     public String deleteAssignment(Long assignmentId) {
         assignmentRepository.deleteById(assignmentId);
+
+        // 모든 MEMBER 유저 보증금 재계산
+        List<User> members = userRepository.findByRole(Role.MEMBER);
+        for (User user : members) {
+            depositService.recalculateDeposit(user.getId());
+        }
+
         return "과제가 성공적으로 삭제되었습니다.";
     }
 
