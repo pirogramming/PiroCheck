@@ -107,6 +107,8 @@ const Attendance = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.id;
+      console.log("fetchTodayAttendance() called");
+
       if (!userId) return;
 
       const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
@@ -153,6 +155,14 @@ const Attendance = () => {
     // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
     const dateCheckInterval = setInterval(() => {
       const todayStr = new Date().toISOString().split("T")[0];
+      console.log("dateCheckInterval 실행됨 / 현재 시간:", new Date());
+      console.log(
+        "currentDateRef:",
+        currentDateRef.current,
+        "| todayStr:",
+        todayStr
+      );
+
       if (todayStr !== currentDateRef.current) {
         console.log(
           "날짜 변경 감지 / 이전:",
@@ -235,9 +245,11 @@ const Attendance = () => {
       <div className={styles.attend_img_container}>
         {todayStatuses.map((status, idx) => {
           console.log(`렌더링된 이미지 ${idx + 1}:`, getBoomImage(status));
-          <div className={styles.boom_icon} key={idx}>
-            <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
-          </div>;
+          return (
+            <div className={styles.boom_icon} key={idx}>
+              <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
+            </div>
+          );
         })}
       </div>
       <div className={styles.attend_week_container}>
