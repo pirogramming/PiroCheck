@@ -192,6 +192,8 @@ const Attendance = () => {
     }
   };
 
+  console.log("📊 attendanceData: ", attendanceData);
+
   return (
     <div className={styles.attendance_page}>
       <Header />
