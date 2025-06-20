@@ -13,6 +13,9 @@ import backend.pirocheck.Assignment.entity.AssignmentItem;
 import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Assignment.repository.AssignmentRepository;
+import backend.pirocheck.Deposit.entity.Deposit;
+import backend.pirocheck.Deposit.repository.DepositRepository;
+import backend.pirocheck.Deposit.service.DepositService;
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
@@ -33,6 +36,7 @@ public class AssignmentService {
     private final AssignmentItemRepository assignmentItemRepository;
     private final AssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
+    private final DepositService depositService;
 
     public List<AssignmentWeekRes> search(Long userId) {
 
@@ -163,6 +167,9 @@ public class AssignmentService {
 
         assignmentItemRepository.save(assignmentItem);
 
+        // 보증금 즉시 재계산
+        depositService.recalculateDeposit(userId);
+
         return assignmentItem.getSubmitted();
     }
 
@@ -177,10 +184,12 @@ public class AssignmentService {
         AssignmentItem assignmentItem = assignmentItemRepository.findByUserAndAssignment(user, assignment)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저의 과제 채점 결과가 없습니다."));
 
-        assignmentItem.update(req.getStatus()); // 상태 업데이트
 
+        assignmentItem.update(req.getStatus()); // 상태 업데이트
         assignmentItemRepository.save(assignmentItem); // 상태 저장
 
+        // 보증금 즉시 재계산
+        depositService.recalculateDeposit(userId);
         return assignmentItem.getSubmitted();
     }
 }
