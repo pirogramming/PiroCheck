@@ -125,7 +125,13 @@ public class AttendanceService {
         attendanceCode.setExpired(true);
         attendanceCodeRepository.save(attendanceCode);
 
+        // 보증금
+        List<Attendance> absents = attendanceRepository.findByDateAndOrderAndStatusFalse(
+                attendanceCode.getDate(), attendanceCode.getOrder());
 
+        for (Attendance attendance : absents) {
+            depositService.recalculateDeposit(attendance.getUser().getId());
+        }
         return "출석 코드가 성공적으로 만료되었습니다";
     }
 
