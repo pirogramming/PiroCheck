@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
 import InputBlock from "../../components/InputBlock";
 import AttendanceWeekInfo from "../../components/AttendanceWeekInfo";
@@ -14,10 +14,7 @@ const Attendance = () => {
     "not_started",
   ]);
 
-  // 오늘 날짜 비교용 state
-  const [currentDate, setCurrentDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const currentDateRef = useRef(new Date().toISOString().split("T")[0]);
 
   const getSubImage = (count) => {
     switch (count) {
@@ -156,8 +153,14 @@ const Attendance = () => {
     // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
     const dateCheckInterval = setInterval(() => {
       const todayStr = new Date().toISOString().split("T")[0];
-      if (todayStr !== currentDate) {
-        setCurrentDate(todayStr); // 날짜 변경 감지
+      if (todayStr !== currentDateRef.current) {
+        console.log(
+          "날짜 변경 감지 / 이전:",
+          currentDateRef.current,
+          "→ 현재:",
+          todayStr
+        );
+        currentDateRef.current = todayStr; // 날짜 갱신
         fetchTodayAttendance(); // 새로운 날짜 기준으로 다시 가져오기
       }
     }, 60000); // 60초마다 확인
@@ -230,11 +233,12 @@ const Attendance = () => {
         </button>
       )}
       <div className={styles.attend_img_container}>
-        {todayStatuses.map((status, idx) => (
+        {todayStatuses.map((status, idx) => {
+          console.log(`렌더링된 이미지 ${idx + 1}:`, getBoomImage(status));
           <div className={styles.boom_icon} key={idx}>
             <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
-          </div>
-        ))}
+          </div>;
+        })}
       </div>
       <div className={styles.attend_week_container}>
         {attendanceData.map(({ week, classes }) => (
