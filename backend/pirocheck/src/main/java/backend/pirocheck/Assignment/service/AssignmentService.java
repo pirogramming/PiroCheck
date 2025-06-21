@@ -99,13 +99,17 @@ public class AssignmentService {
 
         for (User user : users) {
 
-            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.INSUFFICIENT);
+            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.SUCCESS);
 
             assignment.addAssignmentItem(item);
             user.addAssignmentItem(item);
 
 //            assignmentItemRepository.save(item);
 // Cascade 설정이 되어있으므로 assignment = assignmentRepository.save(assignment); 이 코드를 실행할 때 연관된 AssignmentItem도 함께 저장 됨
+        }
+        // assignment 저장 후 모든 유저 보증금 재계산
+        for (User user : users) {
+            depositService.recalculateDeposit(user.getId());
         }
 
         return assignment.getAssignmentName();
