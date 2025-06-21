@@ -99,7 +99,7 @@ public class AssignmentService {
 
         for (User user : users) {
 
-            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.INSUFFICIENT);
+            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.SUCCESS);
 
             assignment.addAssignmentItem(item);
             user.addAssignmentItem(item);
