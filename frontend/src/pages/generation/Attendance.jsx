@@ -65,6 +65,8 @@ const Attendance = () => {
       weekSlotMap.set(week, [...existing, ...presentSlots]);
     });
 
+    console.log("주차별 출석 (weekSlotMap):", weekSlotMap);
+
     return Array.from({ length: 5 }, (_, i) => {
       const week = i + 1;
       const all9 = weekSlotMap.get(week) || []; // 총 9개의 출석 슬롯 (3번의 출석체크*주차당 3번의 세션)
@@ -95,6 +97,7 @@ const Attendance = () => {
         withCredentials: true, // 세션 기반 인증 요청처리
       });
       const rawData = res.data.data;
+      console.log("출석 rawData:", rawData);
       const weekly = processWeeklyAttendance(rawData);
       setAttendanceData(weekly);
     } catch (error) {
@@ -160,11 +163,11 @@ const Attendance = () => {
     // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
     const dateCheckInterval = setInterval(() => {
       const todayStr = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
-      console.log("dateCheckInterval 실행됨 / 현재 시간:", new Date());
+      console.log("dateCheckInterval 실행 시간:", new Date());
       console.log(
-        "currentDateRef:",
+        "현재 로드해오는 시간:",
         currentDateRef.current,
-        "| todayStr:",
+        "| 현재 날짜:",
         todayStr
       );
 
@@ -204,7 +207,6 @@ const Attendance = () => {
 
       const res = await api.post(
         "/attendance/mark",
-
         {
           userId,
           code: attendanceCode[0],
