@@ -297,8 +297,14 @@ public class AttendanceService {
         if (attendanceOpt.isEmpty()) {
             return false;
         }
-        
-        attendanceRepository.delete(attendanceOpt.get());
+
+        Attendance attendance = attendanceOpt.get(); // 변수로 저장
+        Long userId = attendance.getUser().getId();
+
+        attendanceRepository.delete(attendance);
+
+        // 출석 삭제 후 보증금 재계산
+        depositService.recalculateDeposit(userId);
         return true;
     }
     
