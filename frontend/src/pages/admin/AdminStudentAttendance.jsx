@@ -65,7 +65,7 @@ const AdminStudentAttendance = () => {
 const processWeeklyAttendance = (rawData) => {
   const startDate = new Date("2025-06-24");
   const offsetDays = [0, 2, 4];
-
+  const weekMap = new Map();
 
   const getWeekFromDate = (dateStr) => {
     const d = new Date(dateStr);
