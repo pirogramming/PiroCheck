@@ -36,7 +36,7 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }
           .filter((d) => d.date === date) // 해당 날짜의 출석만 필터
           //.sort((a, b) => a.order - b.order) // order 순으로 정렬
           .map((d) => ({
-            //date: d.date, 
+            date: d.date, 
             id: d.attendanceId,                     // 출석 ID
             //order: d.order,                         // 회차 표시용
             status: d.status ? "SUCCESS" : "FAILURE", // 드롭다운에 맞게 변환
@@ -46,7 +46,7 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }
           rawSlots.length > 0
             ? rawSlots
             : [1, 2, 3].map((order) => ({
-                //date,
+                date,
                 id: null, // 새 출석이므로 아직 id 없음
                 //order,
                 status: "EMPTY",//기본값

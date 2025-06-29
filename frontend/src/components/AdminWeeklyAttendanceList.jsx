@@ -22,7 +22,7 @@ const AdminWeeklyAttendanceList = ({ attendanceData, onSelectDate }) => {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   console.log("🧪 클릭됨!", day.date);
-                  if (day.date) onSelectDate({ date: day.date });
+                  if (day.date) onSelectDate(day.date); 
                 }}
               />
             ))}
