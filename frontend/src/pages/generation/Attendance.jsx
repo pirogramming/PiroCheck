@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Header from "../../components/Header";
 import InputBlock from "../../components/InputBlock";
 import AttendanceWeekInfo from "../../components/AttendanceWeekInfo";
@@ -13,6 +13,8 @@ const Attendance = () => {
     "not_started",
     "not_started",
   ]);
+
+  const currentDateRef = useRef(null);
 
   const getSubImage = (count) => {
     switch (count) {
@@ -63,6 +65,8 @@ const Attendance = () => {
       weekSlotMap.set(week, [...existing, ...presentSlots]);
     });
 
+    console.log("주차별 출석 (weekSlotMap):", weekSlotMap);
+
     return Array.from({ length: 5 }, (_, i) => {
       const week = i + 1;
       const all9 = weekSlotMap.get(week) || []; // 총 9개의 출석 슬롯 (3번의 출석체크*주차당 3번의 세션)
@@ -93,6 +97,7 @@ const Attendance = () => {
         withCredentials: true, // 세션 기반 인증 요청처리
       });
       const rawData = res.data.data;
+      console.log("출석 rawData:", rawData);
       const weekly = processWeeklyAttendance(rawData);
       setAttendanceData(weekly);
     } catch (error) {
@@ -105,9 +110,11 @@ const Attendance = () => {
     try {
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.id;
+      console.log("fetchTodayAttendance() called");
+
       if (!userId) return;
 
-      const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+      const today = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
       const res = await api.get(`/attendance/user/date`, {
         params: { userId, date: today },
         withCredentials: true, // 세션 기반 인증 요청처리
@@ -134,6 +141,11 @@ const Attendance = () => {
   };
 
   useEffect(() => {
+    if (!currentDateRef.current) {
+      currentDateRef.current = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
+    }
+    console.log("currentDateRef 할당 갱신:", currentDateRef.current);
+
     fetchAttendance();
     fetchTodayAttendance();
 
@@ -148,7 +160,33 @@ const Attendance = () => {
       });
     }, 10000);
 
-    return () => clearInterval(interval);
+    // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
+    const dateCheckInterval = setInterval(() => {
+      const todayStr = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
+      console.log("dateCheckInterval 실행 시간:", new Date());
+      console.log(
+        "현재 로드해오는 시간:",
+        currentDateRef.current,
+        "| 현재 날짜:",
+        todayStr
+      );
+
+      if (todayStr !== currentDateRef.current) {
+        console.log(
+          "날짜 변경 감지 / 이전:",
+          currentDateRef.current,
+          "→ 현재:",
+          todayStr
+        );
+        currentDateRef.current = todayStr; // 날짜 갱신
+        fetchTodayAttendance(); // 새로운 날짜 기준으로 다시 가져오기
+      }
+    }, 60000); // 60초마다 확인
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(dateCheckInterval);
+    };
   }, []);
 
   const handleChange = (index, value) => {
@@ -169,7 +207,6 @@ const Attendance = () => {
 
       const res = await api.post(
         "/attendance/mark",
-
         {
           userId,
           code: attendanceCode[0],
@@ -192,6 +229,8 @@ const Attendance = () => {
     }
   };
 
+  console.log("attendanceData: ", attendanceData);
+
   return (
     <div className={styles.attendance_page}>
       <Header />
@@ -211,11 +250,14 @@ const Attendance = () => {
         </button>
       )}
       <div className={styles.attend_img_container}>
-        {todayStatuses.map((status, idx) => (
-          <div className={styles.boom_icon} key={idx}>
-            <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
-          </div>
-        ))}
+        {todayStatuses.map((status, idx) => {
+          console.log(`렌더링된 이미지 ${idx + 1}:`, getBoomImage(status));
+          return (
+            <div className={styles.boom_icon} key={idx}>
+              <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
+            </div>
+          );
+        })}
       </div>
       <div className={styles.attend_week_container}>
         {attendanceData.map(({ week, classes }) => (

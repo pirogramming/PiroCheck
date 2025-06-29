@@ -13,6 +13,9 @@ import backend.pirocheck.Assignment.entity.AssignmentItem;
 import backend.pirocheck.Assignment.entity.AssignmentStatus;
 import backend.pirocheck.Assignment.repository.AssignmentItemRepository;
 import backend.pirocheck.Assignment.repository.AssignmentRepository;
+import backend.pirocheck.Deposit.entity.Deposit;
+import backend.pirocheck.Deposit.repository.DepositRepository;
+import backend.pirocheck.Deposit.service.DepositService;
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
@@ -33,6 +36,7 @@ public class AssignmentService {
     private final AssignmentItemRepository assignmentItemRepository;
     private final AssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
+    private final DepositService depositService;
 
     public List<AssignmentWeekRes> search(Long userId) {
 
@@ -95,13 +99,17 @@ public class AssignmentService {
 
         for (User user : users) {
 
-            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.INSUFFICIENT);
+            AssignmentItem item = AssignmentItem.create(user, assignment, AssignmentStatus.SUCCESS);
 
             assignment.addAssignmentItem(item);
             user.addAssignmentItem(item);
 
 //            assignmentItemRepository.save(item);
 // Cascade 설정이 되어있으므로 assignment = assignmentRepository.save(assignment); 이 코드를 실행할 때 연관된 AssignmentItem도 함께 저장 됨
+        }
+        // assignment 저장 후 모든 유저 보증금 재계산
+        for (User user : users) {
+            depositService.recalculateDeposit(user.getId());
         }
 
         return assignment.getAssignmentName();
@@ -132,6 +140,13 @@ public class AssignmentService {
     // 과제 삭제
     public String deleteAssignment(Long assignmentId) {
         assignmentRepository.deleteById(assignmentId);
+
+        // 모든 MEMBER 유저 보증금 재계산
+        List<User> members = userRepository.findByRole(Role.MEMBER);
+        for (User user : members) {
+            depositService.recalculateDeposit(user.getId());
+        }
+
         return "과제가 성공적으로 삭제되었습니다.";
     }
 
@@ -163,6 +178,9 @@ public class AssignmentService {
 
         assignmentItemRepository.save(assignmentItem);
 
+        // 보증금 즉시 재계산
+        depositService.recalculateDeposit(userId);
+
         return assignmentItem.getSubmitted();
     }
 
@@ -177,10 +195,12 @@ public class AssignmentService {
         AssignmentItem assignmentItem = assignmentItemRepository.findByUserAndAssignment(user, assignment)
                 .orElseThrow(() -> new IllegalArgumentException("해당 유저의 과제 채점 결과가 없습니다."));
 
-        assignmentItem.update(req.getStatus()); // 상태 업데이트
 
+        assignmentItem.update(req.getStatus()); // 상태 업데이트
         assignmentItemRepository.save(assignmentItem); // 상태 저장
 
+        // 보증금 즉시 재계산
+        depositService.recalculateDeposit(userId);
         return assignmentItem.getSubmitted();
     }
 }
