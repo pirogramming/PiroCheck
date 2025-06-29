@@ -43,6 +43,6 @@ body{
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow: hidden;
+  overflow: scroll;
   background-color: #000000;
 }
