@@ -11,24 +11,19 @@ const statusImageMap = {
 const AdminWeeklyAttendanceList = ({ attendanceData, onSelectDate }) => {
   return (
     <div className="weekly-container">
-      {attendanceData.map(({ week, classes }) => (
+      {attendanceData.map(({ week, days}) => (
         <div key={week} className="eachWeekInfo" /*onClick={() => onSelectWeek(week)}*/>
           <p className="weekInfo">{week}주차</p>
           <div className="coin_img_container">
-            {classes.map((cls, idx) => (
-              <img key={idx} 
-              src={statusImageMap[cls.status]}  
-              style={{ cursor: "pointer" }}
-              /*
-              onClick={() => {
-                console.log("🧪 클릭됨!", cls.date);
-                cls.date && onSelectDate(cls.date);
-              }}
-              */
-              onClick={() => {
-                console.log("🧪 클릭됨!", cls.date, cls.order);
-                if (cls.date) onSelectDate({ date: cls.date, order: cls.order });
-              }}
+            {days.map((day, idx) => (
+              <img
+                key={idx}
+                src={statusImageMap[day.status]}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  console.log("🧪 클릭됨!", day.date);
+                  if (day.date) onSelectDate({ date: day.date });
+                }}
               />
             ))}
           </div>

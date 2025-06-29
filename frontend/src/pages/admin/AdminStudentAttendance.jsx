@@ -65,30 +65,30 @@ const AdminStudentAttendance = () => {
 const processWeeklyAttendance = (rawData) => {
   const startDate = new Date("2025-06-24");
   const offsetDays = [0, 2, 4];
-  const weekMap = new Map();
+
 
   const getWeekFromDate = (dateStr) => {
     const d = new Date(dateStr);
     const diffDays = Math.floor((d - startDate) / (1000 * 60 * 60 * 24));
     return Math.floor(diffDays / 7) + 1;
   };
+  const getDateForClass = (week, classIdx) => {
+    const base = new Date(startDate);
+    base.setDate(base.getDate() + (week - 1) * 7 + offsetDays[classIdx]);
+    return base.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
+  };
 
   const dateMap = new Map();
-  
   rawData.forEach(({ date, status }) => {
     const week = getWeekFromDate(date);
     const dayKey = `${week}-${date}`;
     if (!dateMap.has(dayKey)) dateMap.set(dayKey, []);
     dateMap.get(dayKey).push(status);
   });
-  /*
-  const getDateForClass = (week, classIdx) => {
-    const base = new Date(startDate);
-    base.setDate(base.getDate() + (week - 1) * 7 + offsetDays[classIdx]);
-    return base.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
-  };
-*/
+
   // 주차별 출석 정보 묶기
+  const weekMap = new Map();
+
 
   dateMap.forEach((statusList, key) => {
     const [week, date] = key.split("-");
@@ -112,11 +112,46 @@ const processWeeklyAttendance = (rawData) => {
     if (!weekMap.has(week)) weekMap.set(week, []);
     weekMap.get(week).push({ date, status });
   });
+
   return Array.from({ length: 5 }, (_, i) => {
     const week = i + 1;
     const days = (weekMap.get(String(week)) || []).sort((a, b) =>
       a.date.localeCompare(b.date)
     );
+    /*
+    const entries = (weekMap.get(week) || []).sort((a, b) => a.order - b.order);
+    
+    const classes = [0, 1, 2].map((classIdx) => {
+      const order = classIdx + 1;
+      const slice = entries.slice(classIdx * 3, classIdx * 3 + 3);
+      const entry = entries.find((e) => e.order === order);
+      const fallbackDate = getDateForClass(week, classIdx);
+      
+
+      const trueCount = slice.filter((e) => e.status === "SUCCESS").length;
+
+      let status;
+      switch (trueCount) {
+        case 3:
+          status = "SUCCESS";
+          break;
+        case 2:
+          status = "INSUFFICIENT";
+          break;
+        case 1:
+          status = "FAILURE";
+          break;
+        default:
+          status = "EMPTY";
+      }
+
+      return {
+        order,
+        status: entry?.status ?? "EMPTY",
+        date: entry?.date ?? fallbackDate,
+      };
+    });
+*/
     return { week, days };
   });
 };
