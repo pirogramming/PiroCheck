@@ -34,11 +34,11 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }
         */
         const rawSlots = rawData
           .filter((d) => d.date === date) // 해당 날짜의 출석만 필터
-          .sort((a, b) => a.order - b.order) // order 순으로 정렬
+          //.sort((a, b) => a.order - b.order) // order 순으로 정렬
           .map((d) => ({
-            date: d.date, 
+            //date: d.date, 
             id: d.attendanceId,                     // 출석 ID
-            order: d.order,                         // 회차 표시용
+            //order: d.order,                         // 회차 표시용
             status: d.status ? "SUCCESS" : "FAILURE", // 드롭다운에 맞게 변환
           }));
 
@@ -46,9 +46,9 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }
           rawSlots.length > 0
             ? rawSlots
             : [1, 2, 3].map((order) => ({
-                date,
+                //date,
                 id: null, // 새 출석이므로 아직 id 없음
-                order,
+                //order,
                 status: "EMPTY",//기본값
               }));
 
@@ -63,9 +63,9 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }
       }
     };
 
-    fetchSlots();
+    if (date) fetchSlots();
   }, [date, studentId]);
-
+ 
   const handleChange = (idx, newValue) => {
     const newSlots = [...slots];
     newSlots[idx].status = newValue;
@@ -126,7 +126,7 @@ const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }
       </div>
       <div className="card-body">
         {slots.map((slot, idx) => (
-          <div key={`${slot.date}-${slot.order}`} className="slot-row">
+          <div key={slot.id || `${date}-${idx}`} className="slot-row">
             <span>{idx + 1}차 출석</span>
             <select value={slot.status} onChange={(e) => handleChange(idx, e.target.value)}>
               <option value="SUCCESS">성공</option>
