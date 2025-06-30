@@ -46,6 +46,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 .modal {
   background-color: #333;
@@ -111,6 +113,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 .plus {
   cursor: pointer;

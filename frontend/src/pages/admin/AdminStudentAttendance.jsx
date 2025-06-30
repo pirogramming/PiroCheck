@@ -78,19 +78,47 @@ const processWeeklyAttendance = (rawData) => {
     return base.toISOString().split("T")[0]; // 'YYYY-MM-DD' 형식
   };
 
+  const dateMap = new Map();
+  rawData.forEach(({ date, status }) => {
+    const week = getWeekFromDate(date);
+    const dayKey = `${week}|${date}`;
+    if (!dateMap.has(dayKey)) dateMap.set(dayKey, []);
+    dateMap.get(dayKey).push(status);
+  });
+
   // 주차별 출석 정보 묶기
   const weekMap = new Map();
 
-  rawData.forEach(({ date, order, status }) => {
-    const week = getWeekFromDate(date);
-    const entry = { date, order, status: status ? "SUCCESS" : "FAILURE" };
+
+  dateMap.forEach((statusList, key) => {
+    const [week, date] = key.split("|");
+    const trueCount = statusList.filter(Boolean).length;
+
+    let status = "EMPTY";
+    switch (trueCount) {
+      case 3:
+        status = "SUCCESS";
+        break;
+      case 2:
+        status = "INSUFFICIENT";
+        break;
+      case 1:
+        status = "FAILURE";
+        break;
+      default:
+        status = "EMPTY";
+    }
 
     if (!weekMap.has(week)) weekMap.set(week, []);
-    weekMap.get(week).push(entry);
+    weekMap.get(week).push({ date, status });
   });
 
   return Array.from({ length: 5 }, (_, i) => {
     const week = i + 1;
+    const days = (weekMap.get(String(week)) || []).sort((a, b) =>
+      a.date.localeCompare(b.date)
+    );
+    /*
     const entries = (weekMap.get(week) || []).sort((a, b) => a.order - b.order);
     
     const classes = [0, 1, 2].map((classIdx) => {
@@ -123,8 +151,8 @@ const processWeeklyAttendance = (rawData) => {
         date: entry?.date ?? fallbackDate,
       };
     });
-
-    return { week, classes };
+*/
+    return { week, days };
   });
 };
 
@@ -140,8 +168,8 @@ const processWeeklyAttendance = (rawData) => {
       {/* 주차별 출석 */}
       <AdminWeeklyAttendanceList
         attendanceData={attendanceData}
-        onSelectDate={(selected) => setSelectedDate(selected)}
-        //onSelectDate={(date) => setSelectedDate(date)}
+        //onSelectDate={(selected) => setSelectedDate(selected)}
+        onSelectDate={(date) => setSelectedDate(date)}
       />
 
       {/* 선택된 날짜의 상세 수정 카드 
@@ -155,8 +183,8 @@ const processWeeklyAttendance = (rawData) => {
       {selectedDate && (
         <AdminDailyAttendanceCard
           studentId={studentId}
-          date={selectedDate.date} 
-          order={selectedDate.order}
+          date={selectedDate} 
+          //order={selectedDate.order}
           onClose={() => setSelectedDate(null)}
           onRefresh={fetchData}
         />

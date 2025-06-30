@@ -1,5 +1,8 @@
 package backend.pirocheck.Attendance.service;
 
+import backend.pirocheck.Deposit.entity.Deposit;
+import backend.pirocheck.Deposit.repository.DepositRepository;
+import backend.pirocheck.Deposit.service.DepositService;
 import backend.pirocheck.User.entity.Role;
 import backend.pirocheck.User.entity.User;
 import backend.pirocheck.User.repository.UserRepository;
@@ -30,6 +33,7 @@ public class AttendanceService {
     private final AttendanceRepository attendanceRepository;
     private final AttendanceCodeRepository attendanceCodeRepository;
     private final UserRepository userRepository;
+    private final DepositService depositService;
 
     // 출석코드 생성 함수
     @Transactional
@@ -121,6 +125,13 @@ public class AttendanceService {
         attendanceCode.setExpired(true);
         attendanceCodeRepository.save(attendanceCode);
 
+        // 보증금
+        List<Attendance> absents = attendanceRepository.findByDateAndOrderAndStatusFalse(
+                attendanceCode.getDate(), attendanceCode.getOrder());
+
+        for (Attendance attendance : absents) {
+            depositService.recalculateDeposit(attendance.getUser().getId());
+        }
         return "출석 코드가 성공적으로 만료되었습니다";
     }
 
@@ -170,6 +181,9 @@ public class AttendanceService {
         
         attendance.setStatus(true);
         attendanceRepository.save(attendance);
+
+        //보증금 재계산
+        depositService.recalculateDeposit(userId);
 
         return AttendanceMarkResponse.success();
     }
@@ -223,6 +237,10 @@ public class AttendanceService {
         Attendance attendance = attendanceOpt.get();
         attendance.setStatus(status);
         attendanceRepository.save(attendance);
+
+        // 출석 변경 → 보증금 재계산
+        depositService.recalculateDeposit(attendance.getUser().getId());
+
         return true;
     }
 
@@ -279,8 +297,14 @@ public class AttendanceService {
         if (attendanceOpt.isEmpty()) {
             return false;
         }
-        
-        attendanceRepository.delete(attendanceOpt.get());
+
+        Attendance attendance = attendanceOpt.get(); // 변수로 저장
+        Long userId = attendance.getUser().getId();
+
+        attendanceRepository.delete(attendance);
+
+        // 출석 삭제 후 보증금 재계산
+        depositService.recalculateDeposit(userId);
         return true;
     }
     

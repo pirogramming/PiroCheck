@@ -64,7 +64,7 @@ const AdminStudentAssignment = () => {
       });
   }, [studentId, week]);
 
-  const handleStatusChange = (weekIdx, dayIdx, taskIdx, newStatus) => {
+  const handleStatusChange = (weekNum, dayIdx, taskIdx, newStatus) => {
     const weekIdx = weeks.findIndex(w => Number(w.week) === Number(weekNum));
     if (weekIdx === -1) return;
     
@@ -137,7 +137,7 @@ const AdminStudentAssignment = () => {
                         value={task.status}
                         onChange={(e) =>
                           handleStatusChange(
-                            weekIdx,
+                            weekItem.week, 
                             dayIdx,
                             taskIdx,
                             e.target.value
