@@ -81,7 +81,7 @@ const processWeeklyAttendance = (rawData) => {
   const dateMap = new Map();
   rawData.forEach(({ date, status }) => {
     const week = getWeekFromDate(date);
-    const dayKey = `${week}-${date}`;
+    const dayKey = `${week}|${date}`;
     if (!dateMap.has(dayKey)) dateMap.set(dayKey, []);
     dateMap.get(dayKey).push(status);
   });
@@ -91,7 +91,7 @@ const processWeeklyAttendance = (rawData) => {
 
 
   dateMap.forEach((statusList, key) => {
-    const [week, date] = key.split("-");
+    const [week, date] = key.split("|");
     const trueCount = statusList.filter(Boolean).length;
 
     let status = "EMPTY";
