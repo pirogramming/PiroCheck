@@ -168,8 +168,8 @@ const processWeeklyAttendance = (rawData) => {
       {/* 주차별 출석 */}
       <AdminWeeklyAttendanceList
         attendanceData={attendanceData}
-        onSelectDate={(selected) => setSelectedDate(selected)}
-        //onSelectDate={(date) => setSelectedDate(date)}
+        //onSelectDate={(selected) => setSelectedDate(selected)}
+        onSelectDate={(date) => setSelectedDate(date)}
       />
 
       {/* 선택된 날짜의 상세 수정 카드 
@@ -183,7 +183,7 @@ const processWeeklyAttendance = (rawData) => {
       {selectedDate && (
         <AdminDailyAttendanceCard
           studentId={studentId}
-          date={selectedDate.date} 
+          date={selectedDate} 
           //order={selectedDate.order}
           onClose={() => setSelectedDate(null)}
           onRefresh={fetchData}

@@ -3,7 +3,7 @@ import "./componentsCss/AdminDailyAttendanceCard.css";
 import api from "../api/api";
 import { getStudentAttendance,updateAttendanceStatus } from "../api/adminattendance";
 
-const AdminDailyAttendanceCard = ({ date,  order,studentId, onClose, onRefresh }) => {
+const AdminDailyAttendanceCard = ({ date, studentId, onClose, onRefresh }) => {
   const [slots, setSlots] = useState([]);
   const [modified, setModified] = useState([]);
 
