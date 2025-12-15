@@ -22,7 +22,7 @@ public class DepositInitRunner implements CommandLineRunner {
                 // 보증금 레코드가 없으면 새로 생성
                 Deposit deposit = Deposit.builder()
                         .user(user)
-                        .amount(120000)
+                        .amount(100000)
                         .descentAssignment(0)
                         .descentAttendance(0)
                         .ascentDefence(0)
