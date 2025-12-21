@@ -43,7 +43,7 @@ const Attendance = () => {
 
   // 날짜 기반 주차 계산
   const getWeekFromDate = (dateStr) => {
-    const startDate = new Date("2025-06-24"); // 세션 시작일
+    const startDate = new Date("2025-12-21"); // 세션 시작일
     const currentDate = new Date(dateStr);
 
     // 두 날짜 사이 일수 차이 계산
