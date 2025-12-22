@@ -17,6 +17,7 @@ const Attendance = () => {
   const currentDateRef = useRef(null);
 
   const getSubImage = (count) => {
+    // ✅ 절대 경로(/) 사용으로 이미지 엑박 해결
     switch (count) {
       case 3:
         return "/assets/img/full_coin_green.png";
@@ -31,6 +32,7 @@ const Attendance = () => {
 
   // 세션별 상단 이미지 handling
   const getBoomImage = (status) => {
+    // ✅ 절대 경로(/) 사용
     switch (status) {
       case "success":
         return "/assets/img/boom-fill-green.png";
@@ -41,10 +43,13 @@ const Attendance = () => {
     }
   };
 
-  // 날짜 기반 주차 계산
+  // 날짜 기반 주차 계산 (0시 기준 초기화로 오차 제거)
   const getWeekFromDate = (dateStr) => {
     const startDate = new Date("2025-12-21"); // 세션 시작일
+    startDate.setHours(0, 0, 0, 0);
+    
     const currentDate = new Date(dateStr);
+    currentDate.setHours(0, 0, 0, 0);
 
     // 두 날짜 사이 일수 차이 계산
     const diffTime = currentDate.getTime() - startDate.getTime();
@@ -54,50 +59,66 @@ const Attendance = () => {
     return Math.floor(diffDays / 7) + 1;
   };
 
+  // ✅ 화/목/토 요일별 데이터 매핑 로직 적용
   const processWeeklyAttendance = (rawData) => {
-    const weekSlotMap = new Map();
-    // { weekNum: [boolean, boolean, ...] }
+    // 화(0), 목(1), 토(2) 인덱스 반환 함수
+    const getDayIndex = (dateStr) => {
+      const day = new Date(dateStr).getDay();
+      if (day === 2) return 0; // 화
+      if (day === 4) return 1; // 목
+      if (day === 6) return 2; // 토
+      return -1;
+    };
+
+    // 5주차 x 3세션 빈 데이터 생성
+    const weeklyData = Array.from({ length: 5 }, (_, i) => ({
+      week: i + 1,
+      classes: [
+        { count: 0, image: getSubImage(0) }, // 화
+        { count: 0, image: getSubImage(0) }, // 목
+        { count: 0, image: getSubImage(0) }  // 토
+      ]
+    }));
+
+    if (!rawData || !Array.isArray(rawData)) return weeklyData;
 
     rawData.forEach(({ date, slots }) => {
-      const week = getWeekFromDate(date); // 날짜 기준 주차 계산
-      const presentSlots = slots.map((slot) => slot.status); // T/F 목록 생성
-      const existing = weekSlotMap.get(week) || [];
-      weekSlotMap.set(week, [...existing, ...presentSlots]);
-    });
+      const week = getWeekFromDate(date);
+      const dayIdx = getDayIndex(date);
 
-    console.log("주차별 출석 (weekSlotMap):", weekSlotMap);
+      // 유효한 주차(1~5)이고, 화/목/토 세션인 경우만 처리
+      if (week >= 1 && week <= 5 && dayIdx !== -1) {
+        
+        // ✅ DB의 "t"(문자열)와 true(불리언) 모두 출석으로 인정
+        const presentCount = slots.filter(
+          (slot) => slot.status === true || slot.status === "t"
+        ).length;
 
-    return Array.from({ length: 5 }, (_, i) => {
-      const week = i + 1;
-      const all9 = weekSlotMap.get(week) || []; // 총 9개의 출석 슬롯 (3번의 출석체크*주차당 3번의 세션)
-
-      const classes = [0, 1, 2].map((classIdx) => {
-        // 0,1,2 -> 세션당 3번의 출석체크
-        const slice = all9.slice(classIdx * 3, classIdx * 3 + 3);
-        const count = slice.filter(Boolean).length; // 출석 성공(True) 카운트
-        return {
-          image: getSubImage(count),
-          count,
+        weeklyData[week - 1].classes[dayIdx] = {
+          count: presentCount,
+          image: getSubImage(presentCount),
         };
-      });
-
-      return { week, classes }; // week: 1, classes: [ {image, count}, ... ]
+      }
     });
+
+    return weeklyData;
   };
 
+  // 주간 출석 정보 가져오기
   const fetchAttendance = async () => {
     try {
+      // ✅ [배포용] 실제 로그인 유저 ID 사용
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.id;
+      
       if (!userId) return;
 
-      // 유저 전체 출석 데이터 불러오기
       const res = await api.get(`/attendance/user`, {
         params: { userId },
-        withCredentials: true, // 세션 기반 인증 요청처리
+        withCredentials: true, 
       });
+      
       const rawData = res.data.data;
-      console.log("출석 rawData:", rawData);
       const weekly = processWeeklyAttendance(rawData);
       setAttendanceData(weekly);
     } catch (error) {
@@ -105,31 +126,30 @@ const Attendance = () => {
     }
   };
 
-  // 세션별 출석체크(총 3번) 진행 정보 불러오기
+  // 오늘 세션(3회) 출석 정보 가져오기
   const fetchTodayAttendance = async () => {
     try {
+      // ✅ [배포용] 실제 로그인 유저 ID 사용
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.id;
-      console.log("fetchTodayAttendance() called");
 
       if (!userId) return;
 
-      const today = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
+      const today = new Date().toLocaleDateString("sv-SE"); 
       const res = await api.get(`/attendance/user/date`, {
         params: { userId, date: today },
-        withCredentials: true, // 세션 기반 인증 요청처리
+        withCredentials: true, 
       });
 
-      // api 응답 수정에 따라 업데이트
-      // 서버 응답이 순서대로 오지 않을 수 있으므로 order 기준으로 정렬
       const slots = (res.data.data || []).sort((a, b) => a.order - b.order);
 
       const statuses = slots.map((slot) => {
-        if (slot.status === true) return "success";
+        // ✅ DB 데이터 타입 호환성(t/true) 체크
+        if (slot.status === true || slot.status === "t") return "success";
         else return "fail";
       });
 
-      // 출석체크 진행안된 것 처리
+      // 아직 진행되지 않은 출석체크 처리
       while (statuses.length < 3) {
         statuses.push("not_started");
       }
@@ -142,16 +162,14 @@ const Attendance = () => {
 
   useEffect(() => {
     if (!currentDateRef.current) {
-      currentDateRef.current = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
+      currentDateRef.current = new Date().toLocaleDateString("sv-SE"); 
     }
-    console.log("currentDateRef 할당 갱신:", currentDateRef.current);
 
     fetchAttendance();
     fetchTodayAttendance();
 
-    // 10초마다 출석체크 활성화 여부 확인 및 UI 업데이트
+    // 10초마다 상태 갱신 (미진행 건이 있을 때만)
     const interval = setInterval(() => {
-      // 출석 미진행 상태가 하나라도 있을 때만 호출
       setTodayStatuses((prev) => {
         if (prev.includes("not_started")) {
           fetchTodayAttendance();
@@ -160,28 +178,15 @@ const Attendance = () => {
       });
     }, 10000);
 
-    // 매 분마다 현재 날짜를 확인해서 달라졌으면 상태 업데이트
+    // 1분마다 날짜 변경 체크
     const dateCheckInterval = setInterval(() => {
-      const todayStr = new Date().toLocaleDateString("sv-SE"); // → KST(한국 시간 기준)
-      console.log("dateCheckInterval 실행 시간:", new Date());
-      console.log(
-        "현재 로드해오는 시간:",
-        currentDateRef.current,
-        "| 현재 날짜:",
-        todayStr
-      );
-
+      const todayStr = new Date().toLocaleDateString("sv-SE"); 
+      
       if (todayStr !== currentDateRef.current) {
-        console.log(
-          "날짜 변경 감지 / 이전:",
-          currentDateRef.current,
-          "→ 현재:",
-          todayStr
-        );
-        currentDateRef.current = todayStr; // 날짜 갱신
-        fetchTodayAttendance(); // 새로운 날짜 기준으로 다시 가져오기
+        currentDateRef.current = todayStr; 
+        fetchTodayAttendance(); 
       }
-    }, 60000); // 60초마다 확인
+    }, 60000); 
 
     return () => {
       clearInterval(interval);
@@ -190,20 +195,20 @@ const Attendance = () => {
   }, []);
 
   const handleChange = (index, value) => {
-    // 숫자만 입력 허용
     if (/^\d*$/.test(value)) {
       const userCodes = [...attendanceCode];
       userCodes[index] = value;
       setAttendanceCode(userCodes);
     }
   };
+  
   const handleSubmit = async () => {
     try {
+      // ✅ [배포용] 실제 로그인 유저 ID 사용
       const user = JSON.parse(localStorage.getItem("user"));
       const userId = user?.id;
+      
       if (!userId) return;
-
-      // 유저가 입력한 출석 코드 서버에 전달(서버에서 출석코드 체크)
 
       const res = await api.post(
         "/attendance/mark",
@@ -212,14 +217,14 @@ const Attendance = () => {
           code: attendanceCode[0],
         },
         {
-          withCredentials: true, // 세션 기반 인증 요청처리
+          withCredentials: true, 
         }
       );
 
       if (res.data.success) {
         alert(res.data.data.message);
-        fetchAttendance(); // 서버 출석체크 전달 후 UI 반영
-        fetchTodayAttendance(); // 세션별 상단 이미지 UI 반영
+        fetchAttendance(); // 주간 데이터 갱신
+        fetchTodayAttendance(); // 오늘 상단 데이터 갱신
       } else {
         alert(res.data.message || "출석 실패");
       }
@@ -228,8 +233,6 @@ const Attendance = () => {
       alert("출석 제출 중 오류 발생!");
     }
   };
-
-  console.log("attendanceData: ", attendanceData);
 
   return (
     <div className={styles.attendance_page}>
@@ -251,7 +254,6 @@ const Attendance = () => {
       )}
       <div className={styles.attend_img_container}>
         {todayStatuses.map((status, idx) => {
-          console.log(`렌더링된 이미지 ${idx + 1}:`, getBoomImage(status));
           return (
             <div className={styles.boom_icon} key={idx}>
               <img src={getBoomImage(status)} alt={`attendance-${idx}`} />
