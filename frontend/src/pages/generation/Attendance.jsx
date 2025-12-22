@@ -45,7 +45,7 @@ const Attendance = () => {
 
   // 날짜 기반 주차 계산 (0시 기준 초기화로 오차 제거)
   const getWeekFromDate = (dateStr) => {
-    const startDate = new Date("2025-12-21"); // 세션 시작일
+    const startDate = new Date("2025-12-23"); // 세션 시작일
     startDate.setHours(0, 0, 0, 0);
     
     const currentDate = new Date(dateStr);
