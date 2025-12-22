@@ -63,11 +63,14 @@ const Attendance = () => {
   const processWeeklyAttendance = (rawData) => {
     // 화(0), 목(1), 토(2) 인덱스 반환 함수
     const getDayIndex = (dateStr) => {
-      const day = new Date(dateStr).getDay();
-      if (day === 2) return 0; // 화
-      if (day === 4) return 1; // 목
-      if (day === 6) return 2; // 토
-      return -1;
+
+      //임시 테스트 확인용
+      return 0;
+      // const day = new Date(dateStr).getDay();
+      // if (day === 2) return 0; // 화
+      // if (day === 4) return 1; // 목
+      // if (day === 6) return 2; // 토
+      // return -1;
     };
 
     // 5주차 x 3세션 빈 데이터 생성
